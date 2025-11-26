@@ -1,1 +1,110 @@
-<p>home works!</p>
+<div class="min-h-screen bg-app-bg text-app-text">
+  <div class="max-w-5xl mx-auto px-4 py-10 md:py-12">
+    <!-- Header -->
+    <header class="mb-10">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2">Computational Algebra Problem Solver</h1>
+      <p class="text-app-muted max-w-2xl">
+        Alege una dintre problemele de mai jos pentru a explora algoritmi de algebră liniară, teoria
+        numerelor, teoria codurilor și valori proprii.
+        exacte.
+      </p>
+    </header>
+
+    <!-- Problem cards grid -->
+    <section class="grid gap-6 md:grid-cols-2">
+      <!-- Problem 2 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 2</p>
+            <h2 class="text-lg font-semibold">
+              Decompoziție în matrice simetrică și antisimetrică
+            </h2>
+          </div>
+          <span class="difficulty-easy">Ușor</span>
+        </div>
+        <p class="text-sm text-app-muted">
+          Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și
+          o matrice antisimetrică.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/matrix-decomposition" class="btn-primary"> Deschide problema 2 </a>
+        </div>
+      </article>
+
+      <!-- Problem 6 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 6</p>
+            <h2 class="text-lg font-semibold">Ordin și idempotent în (ℤₙ, ·)</h2>
+          </div>
+          <span class="difficulty-easy">Ușor</span>
+        </div>
+        <p class="text-sm text-app-muted">
+          Fiind dat (ℤₙ, ·), calculați ordinul unui element și verificați dacă este idempotent în
+          raport cu înmulțirea modulo n.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/zn-order-idempotent" class="btn-primary"> Deschide problema 6 </a>
+        </div>
+      </article>
+
+      <!-- Problem 5 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-app-muted mb-1">Mediu · Problema 5</p>
+            <h2 class="text-lg font-semibold">Rang și inversă prin metoda lui Gauss</h2>
+          </div>
+          <span class="difficulty-medium">Mediu</span>
+        </div>
+        <p class="text-sm text-app-muted">
+          Calculați rangul unei matrici prin metoda lui Gauss și, dacă este posibil, inversa
+          acesteia prin metoda Gauss–Jordan.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/gauss-rank-inverse" class="btn-primary"> Deschide problema 5 </a>
+        </div>
+      </article>
+
+      <!-- Problem 11 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-app-muted mb-1">Mediu · Problema 11</p>
+            <h2 class="text-lg font-semibold">Verificare cuvinte de cod cu matricea de control</h2>
+          </div>
+          <span class="difficulty-medium">Mediu</span>
+        </div>
+        <p class="text-sm text-app-muted">
+          Se citește matricea de control a unui cod și o mulțime de cuvinte. Afișați-le pe cele care
+          sunt cuvinte ale codului (sindrom nul).
+        </p>
+        <div class="mt-3">
+          <a routerLink="/code-parity-check" class="btn-primary"> Deschide problema 11 </a>
+        </div>
+      </article>
+
+      <!-- Problem 12 -->
+      <article class="problem-card md:col-span-2">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-app-muted mb-1">Greu · Problema 12</p>
+            <h2 class="text-lg font-semibold">
+              Polinom caracteristic și valori proprii (2×2, 3×3)
+            </h2>
+          </div>
+          <span class="difficulty-hard">Grea</span>
+        </div>
+        <p class="text-sm text-app-muted">
+          Calculați polinomul caracteristic și valorile proprii asociate unei matrici de ordinul 2
+          sau 3, afișând atât polinomul, cât și rădăcinile sale.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/eigen-values" class="btn-primary"> Deschide problema 12 </a>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>
