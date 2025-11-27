@@ -8,6 +8,12 @@
            bg-app-primary text-slate-950 hover:bg-sky-300 transition-colors duration-150;
   }
 
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold
+           bg-app-surfaceAlt text-app-text border border-app-border
+           hover:bg-app-surface transition-colors duration-150;
+  }
+
   .problem-card {
     @apply bg-app-surface border border-app-border rounded-2xl p-5 flex flex-col gap-3 shadow-lg shadow-black/30;
   }
