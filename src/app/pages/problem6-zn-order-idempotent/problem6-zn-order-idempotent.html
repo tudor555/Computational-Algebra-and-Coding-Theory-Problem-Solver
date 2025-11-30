@@ -1,1 +1,193 @@
-<p>problem6-zn-order-idempotent works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 6 – Ordin și idempotent în (ℤₙ, ·)
+    </h1>
+
+    <p class="text-app-muted text-sm md:text-base max-w-3xl mx-auto text-center mb-10">
+      Fiind dat grupul (ℤₙ, ·) al resturilor modulo <span class="font-mono">n</span> în raport cu
+      înmulțirea, se cere să se calculeze ordinul unui element <span class="font-mono">a</span> și
+      să se verifice dacă acesta este idempotent (<span class="font-mono">a² ≡ a (mod n)</span>).
+    </p>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu datele: modulul n și elementul a</h2>
+
+      <div class="flex flex-col md:flex-row gap-4 mb-4">
+        <!-- Modulus input -->
+        <div>
+          <label class="block text-sm text-app-muted mb-1">
+            Modulul <span class="font-mono">n</span>
+          </label>
+          <input
+            type="number"
+            min="2"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-xs text-app-muted mt-1">
+            n ≥ 2. Recomandat valori nu foarte mari pentru a vedea pașii.
+          </p>
+        </div>
+
+        <!-- Element input -->
+        <div>
+          <label class="block text-sm text-app-muted mb-1">
+            Elementul <span class="font-mono">a</span>
+          </label>
+          <input
+            type="number"
+            [value]="element"
+            (input)="onElementChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-xs text-app-muted mt-1">a poate fi orice întreg; se va lucra modulo n.</p>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" (click)="onCompute()">
+        Calculează ordinul și verifică idempotent
+      </button>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+      <p class="text-sm text-red-400 mt-3">
+        {{ errorMessage }}
+      </p>
+      }
+    </section>
+
+    <!-- Results -->
+    @if (computationResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultate pentru a în (ℤₙ, ·)</h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm text-app-muted"
+      >
+        <p class="mb-2">
+          Ordinul unui element <span class="font-mono">a</span> în grupul (ℤₙ, ·) este cel mai mic
+          număr natural nenul <span class="font-mono">k</span> astfel încât
+          <span class="font-mono">aᵏ ≡ 1 (mod n)</span>.
+        </p>
+
+        <p class="mb-2">
+          Elementul <span class="font-mono">a</span> este idempotent modulo
+          <span class="font-mono">n</span> dacă: <span class="font-mono">a² ≡ a (mod n)</span>,
+          adică <span class="font-mono">a · a ≡ a</span>.
+        </p>
+
+        <p class="mt-2">
+          Pentru a calcula ordinul, înmulțim pe rând:
+          <span class="font-mono">a, a², a³, ...</span> modulo <span class="font-mono">n</span> până
+          obținem <span class="font-mono">1</span>, dacă acest lucru se întâmplă.
+        </p>
+      </div>
+
+      <!-- Basic info about gcd and unit status -->
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+          <p class="mb-1">
+            <span class="font-mono">n = {{ computationResult.modulus }}</span
+            >,
+            <span class="font-mono">a = {{ computationResult.element }}</span>
+          </p>
+          <p class="mb-1">
+            Valoarea normalizată a lui a modulo n:
+            <span class="font-mono"> ā = {{ computationResult.normalizedElement }} </span>
+          </p>
+          <p class="mb-1">
+            <span class="font-mono"> gcd(a, n) = {{ computationResult.gcdWithModulus }} </span>
+          </p>
+          <p class="mt-1">
+            @if (computationResult.isUnit) {
+            <span> Elementul a este inversabil în (ℤₙ, ·), deci are ordin bine definit. </span>
+            } @else {
+            <span>
+              Elementul a nu este inversabil în (ℤₙ, ·), deci ordinul său în grup nu este definit.
+            </span>
+            }
+          </p>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+          <h3 class="font-semibold mb-2">Ordinul și idempotentul</h3>
+
+          @if (computationResult.isUnit && computationResult.order !== null) {
+          <p class="mb-1">
+            Ordinul lui <span class="font-mono">a</span> în (ℤₙ, ·) este:
+            <span class="font-mono">ord(a) = {{ computationResult.order }}</span
+            >.
+          </p>
+          } @else if (computationResult.isUnit && computationResult.order === null) {
+          <p class="mb-1">
+            Nu a fost găsit un ordin în limita pașilor calculați (probabil n este prea mare).
+          </p>
+          } @else {
+          <p class="mb-1">
+            Deoarece <span class="font-mono">a</span> nu este unitate, nu are ordin în grupul (ℤₙ,
+            ·).
+          </p>
+          } @if (isIdempotentResult === true) {
+          <p class="mt-2 text-emerald-300">
+            Elementul <span class="font-mono">a</span> este idempotent: a² ≡ a (mod n).
+          </p>
+          } @else if (isIdempotentResult === false) {
+          <p class="mt-2 text-red-300">
+            Elementul <span class="font-mono">a</span> nu este idempotent: a² ≢ a (mod n).
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Table of powers a^k mod n -->
+      @if (computationResult.steps.length > 0) {
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+        <h3 class="font-semibold mb-3">Pașii calculați pentru puterile lui a modulo n</h3>
+
+        <div class="overflow-auto">
+          <table class="min-w-full border-collapse text-xs md:text-sm">
+            <thead>
+              <tr class="border-b border-app-border">
+                <th class="text-left py-2 pr-4 font-semibold text-app-muted">k</th>
+                <th class="text-left py-2 pr-4 font-semibold text-app-muted">aᵏ (mod n)</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (step of computationResult.steps; track $index) {
+              <tr class="border-b border-app-border/40 last:border-b-0">
+                <td class="py-1 pr-4 font-mono">
+                  {{ step.exponent }}
+                </td>
+                <td class="py-1 pr-4 font-mono">
+                  {{ step.value }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <p class="mt-3 text-xs text-app-muted">
+          Observă la ce exponent k se obține pentru prima dată valoarea 1 – acesta este ordinul lui
+          a, dacă există.
+        </p>
+      </div>
+      }
+    </section>
+    }
+  </div>
+</div>
