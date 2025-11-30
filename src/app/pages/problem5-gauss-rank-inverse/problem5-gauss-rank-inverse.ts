@@ -81,7 +81,7 @@ export class Problem5GaussRankInverse {
     this.initializeMatrix();
   }
 
-  // Initialize the matrix with zeros based on the current row and column count.
+  // Initialize the matrix with zeros based on the current row and column count
   initializeMatrix(): void {
     this.matrix = Array.from({ length: this.rowCount }, () => Array(this.columnCount).fill(0));
     this.errorMessage = null;
@@ -135,7 +135,7 @@ export class Problem5GaussRankInverse {
     this.matrix[rowIndex][columnIndex] = Number.isNaN(value) ? 0 : value;
   }
 
-  // Compute rank and, if applicable, inverse using Gaussian elimination.
+  // Compute rank and, if applicable, inverse using Gaussian elimination
   onCompute(): void {
     this.errorMessage = null;
     this.computationResult = null;
