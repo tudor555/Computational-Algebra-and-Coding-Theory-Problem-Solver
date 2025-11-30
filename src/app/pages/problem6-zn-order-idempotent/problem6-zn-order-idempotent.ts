@@ -18,7 +18,7 @@ export class Problem6ZnOrderIdempotent {
 
   constructor(private modularGroupService: ModularGroup) {}
 
-  // Handle changes in the modulus input field.
+  // Handle changes in the modulus input field
   onModulusChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const value = Number(input.value);
@@ -26,7 +26,7 @@ export class Problem6ZnOrderIdempotent {
     this.modulus = Number.isNaN(value) ? 0 : value;
   }
 
-  // Handle changes in the element input field.
+  // Handle changes in the element input field
   onElementChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const value = Number(input.value);
@@ -34,7 +34,7 @@ export class Problem6ZnOrderIdempotent {
     this.element = Number.isNaN(value) ? 0 : value;
   }
 
-  // Run the computations: order and idempotent check.
+  // Run the computations: order and idempotent check
   onCompute(): void {
     this.errorMessage = null;
     this.computationResult = null;

@@ -19,7 +19,7 @@ export interface OrderComputationResult {
   providedIn: 'root',
 })
 export class ModularGroup {
-  // Normalize a number modulo n to the range [0, n - 1].
+  // Normalize a number modulo n to the range [0, n - 1]
   normalizeMod(element: number, modulus: number): number {
     if (modulus <= 0) {
       throw new Error('Modulus must be a positive integer.');
@@ -29,7 +29,7 @@ export class ModularGroup {
     return remainder < 0 ? remainder + modulus : remainder;
   }
 
-  // Compute gcd(first, second) using the Euclidean algorithm.
+  // Compute gcd(first, second) using the Euclidean algorithm
   gcd(first: number, second: number): number {
     let dividend = Math.abs(first);
     let divisor = Math.abs(second);
@@ -43,18 +43,18 @@ export class ModularGroup {
     return dividend;
   }
 
-  // Check whether a is a unit in Z_n (i.e., gcd(a, n) = 1).
+  // Check whether a is a unit in Z_n (i.e., gcd(a, n) = 1)
   isUnitInZn(element: number, modulus: number): boolean {
     return this.gcd(element, modulus) === 1;
   }
 
-  // Compute the multiplicative order of `element` in (Z_modulus, ·), if it exists.
+  // Compute the multiplicative order of `element` in (Z_modulus, ·), if it exists
   //
   // We work in the group of units modulo `modulus`.
   // The order of element is the smallest positive integer k such that:
   //   element^k ≡ 1 (mod modulus).
   //
-  // To avoid infinite loops for bad or large inputs, we use a configurable `maxSteps` limit.
+  // To avoid infinite loops for bad or large inputs, we use a configurable `maxSteps` limit
   computeOrderInZn(
     element: number,
     modulus: number,
@@ -70,7 +70,7 @@ export class ModularGroup {
 
     const steps: PowerStep[] = [];
 
-    // If the element is not invertible, its order in the multiplicative group is not defined.
+    // If the element is not invertible, its order in the multiplicative group is not defined
     if (!isUnit) {
       return {
         modulus,
@@ -107,12 +107,12 @@ export class ModularGroup {
     };
   }
 
-  // Check whether `element` is idempotent modulo `modulus`.
+  // Check whether `element` is idempotent modulo `modulus`
   //
   // An element is idempotent if:
   //   element^2 ≡ element (mod modulus)
   // which is equivalent to:
-  //   element * element ≡ element (mod modulus).
+  //   element * element ≡ element (mod modulus)
   isIdempotent(element: number, modulus: number): boolean {
     if (modulus <= 0) {
       throw new Error('Modulus must be a positive integer.');
