@@ -1,1 +1,288 @@
-<p>problem11-code-parity-check works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 11 – Verificare cuvinte de cod cu matricea de control
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Se citește matricea de control <span class="font-mono">H</span> a unui cod și o mulțime de
+      cuvinte de lungime <span class="font-mono">n</span>. Pentru fiecare cuvânt
+      <span class="font-mono">v</span> se calculează sindromul
+      <span class="font-mono">s = H · vᵀ</span> (modulo <span class="font-mono">q</span>). Cuvintele
+      pentru care sindromul este nul sunt cuvinte de cod.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+
+      <p class="text-app-muted text-m mb-3">
+        Poți alege rapid o matrice de control și un set de cuvinte pentru a demonstra
+        funcționalitatea. Poți apoi modifica manual valorile.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-s md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea de control H și cuvintele</h2>
+
+      <!-- Basic parameters -->
+      <div class="grid gap-4 md:grid-cols-3 mb-4">
+        <!-- Modulus q -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            Modulul <span class="font-mono">q</span>
+          </label>
+          <input
+            type="number"
+            min="2"
+            max="10"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-24 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">
+            În mod uzual pentru coduri binare se folosește q = 2.
+          </p>
+        </div>
+
+        <!-- Rows of H -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Numărul de linii ale lui H </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="parityRowCount"
+            (input)="onParityRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Columns of H / length of words -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            Numărul de coloane ale lui H (lungimea cuvintelor)
+          </label>
+          <input
+            type="number"
+            min="2"
+            max="12"
+            [value]="parityColumnCount"
+            (input)="onParityColumnCountChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+      </div>
+
+      <!-- Number of words -->
+      <div class="mb-4">
+        <label class="block text-m text-app-muted mb-1"> Numărul de cuvinte de verificat </label>
+        <input
+          type="number"
+          min="1"
+          max="12"
+          [value]="wordCount"
+          (input)="onWordCountChange($event)"
+          class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+        />
+      </div>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <!-- Parity-check matrix input -->
+      <div class="mb-6">
+        <h3 class="text-m font-semibold mb-2">
+          Matricea de control H (dimensiune {{ parityRowCount }} × {{ parityColumnCount }})
+        </h3>
+
+        <div
+          class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+        >
+          <span class="text-app-muted text-m mr-1">H =</span>
+          <div class="inline-block">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of parityCheckMatrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                  <td class="p-1">
+                    <input
+                      type="number"
+                      class="w-14 md:w-16 rounded-md bg-app-bg border border-app-border px-2 py-1 m text-center focus:outline-none focus:ring-1 focus:ring-app-primary"
+                      [value]="parityCheckMatrix[i][j]"
+                      (input)="onParityCellChange(i, j, $event)"
+                    />
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Words input -->
+      <div class="mb-4">
+        <h3 class="text-m font-semibold mb-2">
+          Cuvintele de verificat (fiecare de lungime {{ parityColumnCount }})
+        </h3>
+
+        <div class="space-y-2">
+          @for (word of words; track $index; let wordIndex = $index) {
+          <div class="flex items-center gap-2">
+            <span class="text-s text-app-muted w-12"> v{{ wordIndex + 1 }} = </span>
+            <div class="inline-block">
+              <table class="border-collapse">
+                <tbody>
+                  <tr>
+                    @for (symbol of word; track $index; let symbolIndex = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-12 md:w-14 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-center focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="words[wordIndex][symbolIndex]"
+                        (input)="onWordCellChange(wordIndex, symbolIndex, $event)"
+                      />
+                    </td>
+                    }
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary mt-2" (click)="onValidate()">
+        Calculează sindroamele și validează cuvintele
+      </button>
+    </section>
+
+    <!-- Results -->
+    @if (validationResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultatele verificării cu matricea de control</h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">
+          Pentru fiecare cuvânt <span class="font-mono">v</span>, calculăm sindromul
+          <span class="font-mono">s = H · vᵀ</span> (modulo <span class="font-mono">q</span>). Dacă
+          <span class="font-mono">s = 0</span>, atunci <span class="font-mono">v</span> este cuvânt
+          de cod.
+        </p>
+        <p class="mb-2">
+          Matricea de control <span class="font-mono">H</span> caracterizează toate ecuațiile
+          liniare pe care trebuie să le satisfacă un cuvânt valid.
+        </p>
+        <p>Sindromul nenul indică faptul că au apărut erori sau că vectorul nu aparține codului.</p>
+      </div>
+
+      <!-- Summary of valid / invalid words -->
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">Cuvinte de cod (sindrom nul)</h3>
+
+          @if (validationResult.validWords.length > 0) {
+          <ul class="list-disc pl-5 space-y-1">
+            @for (word of validationResult.validWords; track $index) {
+            <li class="font-mono">
+              {{ word.join(' ') }}
+            </li>
+            }
+          </ul>
+          } @else {
+          <p class="text-app-muted">Niciunul dintre cuvintele introduse nu este cuvânt de cod.</p>
+          }
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">Cuvinte care nu sunt de cod (sindrom nenul)</h3>
+
+          @if (validationResult.invalidWords.length > 0) {
+          <ul class="list-disc pl-5 space-y-1">
+            @for (word of validationResult.invalidWords; track $index) {
+            <li class="font-mono">
+              {{ word.join(' ') }}
+            </li>
+            }
+          </ul>
+          } @else {
+          <p class="text-app-muted">Toate cuvintele introduse sunt cuvinte de cod.</p>
+          }
+        </div>
+      </div>
+
+      <!-- Table of syndromes -->
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+        <h3 class="font-semibold mb-3">Sindroamele asociate fiecărui cuvânt</h3>
+
+        <div class="overflow-auto">
+          <table class="min-w-full border-collapse text-s md:text-m">
+            <thead>
+              <tr class="border-b border-app-border">
+                <th class="text-left py-2 pr-4 font-semibold text-app-muted">Cuvânt</th>
+                <th class="text-left py-2 pr-4 font-semibold text-app-muted">Sindrom s = H · vᵀ</th>
+                <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                  Este cuvânt de cod?
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (word of validationResult.words; track $index; let i = $index) {
+              <tr class="border-b border-app-border/40 last:border-b-0">
+                <td class="py-1 pr-4 font-mono">
+                  {{ word.join(' ') }}
+                </td>
+                <td class="py-1 pr-4 font-mono">
+                  {{ validationResult.syndromes[i].join(' ') }}
+                </td>
+                <td class="py-1 pr-4">
+                  @if (isZeroSyndrome(validationResult.syndromes[i])) {
+                  <span class="text-emerald-300 text-s md:text-m"> Da (sindrom nul) </span>
+                  } @else {
+                  <span class="text-red-300 text-s md:text-m"> Nu (sindrom nenul) </span>
+                  }
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    }
+  </div>
+</div>
