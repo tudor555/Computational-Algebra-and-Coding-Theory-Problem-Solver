@@ -1,1 +1,159 @@
-<p>problem12-eigenvalues works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 12 – Polinom caracteristic și valori proprii (2×2, 3×3)
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Pentru o matrice pătratică <span class="font-mono">A</span> de ordin 2 sau 3, se cere să se
+      determine polinomul caracteristic <span class="font-mono">p(λ) = det(λI − A)</span> și
+      valorile proprii (rădăcinile acestui polinom). Mai jos poți alege dimensiunea matricei și
+      introduce coeficienții.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+
+      <p class="text-app-muted text-m mb-3">
+        Alege rapid o matrice pentru a demonstra funcționalitatea. Poți modifica valorile ulterior.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-xs md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea și alege dimensiunea</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Size selector -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Dimensiunea matricei </label>
+          <select
+            [ngModel]="size"
+            (ngModelChange)="onSizeChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          >
+            <option [ngValue]="2">2 × 2</option>
+            <option [ngValue]="3">3 × 3</option>
+          </select>
+          <p class="text-s text-app-muted mt-1">
+            Problema se referă doar la matrici de ordinul 2 sau 3.
+          </p>
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          Calculează polinomul și valorile proprii
+        </button>
+      </div>
+
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+              <tr>
+                @for (value of row; track $index; let j = $index) {
+                <td class="p-1">
+                  <input
+                    type="number"
+                    class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                    [value]="matrix[i][j]"
+                    (input)="onCellChange(i, j, $event)"
+                  />
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultatele pentru matricea A</h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">
+          Polinomul caracteristic al unei matrici <span class="font-mono">A</span> este
+          <span class="font-mono">p(λ) = det(λI − A)</span>. Valorile proprii sunt rădăcinile
+          acestui polinom.
+        </p>
+        <p class="mb-2">
+          Pentru matrici 2×2, polinomul caracteristic are forma:
+          <span class="font-mono">p(λ) = λ² − tr(A) λ + det(A)</span>.
+        </p>
+        <p>
+          Pentru matrici 3×3, polinomul caracteristic este un polinom cubic, iar valorile proprii
+          reale se obțin numeric ca rădăcini reale ale acestei cubicii.
+        </p>
+      </div>
+
+      <!-- Polynomial display -->
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m mb-6">
+        <p class="mb-1">
+          Dimensiune:
+          <span class="font-mono"> {{ result.size }} × {{ result.size }} </span>
+        </p>
+        <p class="mb-1">Polinomul caracteristic:</p>
+        <p class="font-mono text-base">p(λ) = {{ result.formattedPolynomial }}</p>
+      </div>
+
+      <!-- Eigenvalues -->
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+        <h3 class="font-semibold mb-2">Valorile proprii (reale)</h3>
+
+        @if (result.hasRealEigenvalues && result.eigenvalues.length > 0) {
+        <p class="mb-2">Matricea are următoarele valori proprii reale (aproximate):</p>
+        <ul class="list-disc pl-5 space-y-1">
+          @for (lambda of result.eigenvalues; track $index) {
+          <li class="font-mono">λ ≈ {{ lambda | number : '1.4-4' }}</li>
+          }
+        </ul>
+        } @else {
+        <p class="text-app-muted">
+          Nu au fost găsite valori proprii reale (rădăcini reale) pentru polinomul caracteristic.
+        </p>
+        }
+      </div>
+    </section>
+    }
+  </div>
+</div>
