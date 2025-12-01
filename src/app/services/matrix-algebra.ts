@@ -15,6 +15,14 @@ export interface RankAndInverseResult {
   inverse: Matrix | null;
 }
 
+export interface CharacteristicPolynomialResult {
+  size: 2 | 3;
+  coefficients: number[]; // [a_n, a_{n-1}, ..., a_0] for p(λ) = a_n λ^n + ... + a_0
+  formattedPolynomial: string;
+  eigenvalues: number[]; // only real eigenvalues
+  hasRealEigenvalues: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -33,11 +41,11 @@ export class MatrixAlgebra {
 
     return { symmetric, skewSymmetric };
   }
-  
-  // Compute the row echelon form of a matrix using Gaussian elimination.
-  // Returns the row echelon form and the rank.
+
+  // Compute the row echelon form of a matrix using Gaussian elimination
+  // Returns the row echelon form and the rank
   //
-  // NOTE: This does not modify the original matrix; it works on a cloned copy.
+  // NOTE: This does not modify the original matrix; it works on a cloned copy
   toRowEchelonForm(matrix: Matrix): { rowEchelonForm: Matrix; rank: number } {
     const rowCount = this.getRowCount(matrix);
     const columnCount = this.getColumnCount(matrix);
@@ -99,16 +107,16 @@ export class MatrixAlgebra {
     };
   }
 
-  // Compute the rank of a matrix using Gaussian elimination.
+  // Compute the rank of a matrix using Gaussian elimination
   computeRank(matrix: Matrix): number {
     const { rank } = this.toRowEchelonForm(matrix);
     return rank;
   }
 
-  // Compute the inverse of a square matrix using Gauss–Jordan elimination.
-  // If the matrix is not square or not invertible, returns null.
+  // Compute the inverse of a square matrix using Gauss–Jordan elimination
+  // If the matrix is not square or not invertible, returns null
   //
-  // The algorithm works on the augmented matrix [A | I] and reduces it to [I | A^{-1}].
+  // The algorithm works on the augmented matrix [A | I] and reduces it to [I | A^{-1}]
   computeInverseGauss(matrix: Matrix): Matrix | null {
     if (!this.isSquare(matrix)) {
       return null;
@@ -200,6 +208,25 @@ export class MatrixAlgebra {
       hasInverse,
       inverse,
     };
+  }
+
+  // Compute the characteristic polynomial and real eigenvalues of a 2×2 or 3×3 matrix.
+  computeCharacteristicPolynomialAndEigenvalues(matrix: Matrix): CharacteristicPolynomialResult {
+    if (!this.isSquare(matrix)) {
+      throw new Error('Matrix must be square (2×2 or 3×3).');
+    }
+
+    const size = matrix.length;
+
+    if (size === 2) {
+      return this.computeCharacteristicPolynomial2x2(matrix);
+    }
+
+    if (size === 3) {
+      return this.computeCharacteristicPolynomial3x3(matrix);
+    }
+
+    throw new Error('This method only supports matrices of size 2×2 or 3×3.');
   }
 
   // Get the number of rows in a matrix
@@ -299,5 +326,249 @@ export class MatrixAlgebra {
     matrix[targetRowIndex] = targetRow.map(
       (value, columnIndex) => value + factor * sourceRow[columnIndex]
     );
+  }
+
+  // Format a polynomial as a readable string (e.g., λ³ - 2λ² + λ - 5)
+  private formatPolynomial(coefficients: number[]): string {
+    // coefficients: [a_n, ..., a_0]
+    const degree = coefficients.length - 1;
+    const terms: string[] = [];
+
+    for (let index = 0; index < coefficients.length; index++) {
+      const coefficient = coefficients[index];
+      const power = degree - index;
+
+      if (Math.abs(coefficient) < 1e-12) {
+        continue;
+      }
+
+      const isFirstTerm = terms.length === 0;
+      const sign = coefficient < 0 ? ' - ' : isFirstTerm ? '' : ' + ';
+      const absoluteValue = Math.abs(coefficient);
+
+      let term = '';
+
+      // Coefficient part
+      if (power === 0 || absoluteValue !== 1) {
+        term += absoluteValue.toFixed(2).replace(/\.00$/, '');
+      }
+
+      // Variable part
+      if (power >= 1) {
+        term += term ? '·' : ''; // if we already added a coefficient, add a dot
+        term += 'λ';
+        if (power > 1) {
+          term += power === 2 ? '²' : `^${power}`;
+        }
+      }
+
+      terms.push((isFirstTerm ? (coefficient < 0 ? '-' : '') : sign) + term);
+    }
+
+    if (terms.length === 0) {
+      return '0';
+    }
+
+    return terms.join('');
+  }
+
+  // Compute characteristic polynomial and eigenvalues for a 2×2 matrix
+  private computeCharacteristicPolynomial2x2(matrix: Matrix): CharacteristicPolynomialResult {
+    if (matrix.length !== 2 || matrix[0].length !== 2) {
+      throw new Error('Matrix must be 2×2 for this computation.');
+    }
+
+    const a = matrix[0][0];
+    const b = matrix[0][1];
+    const c = matrix[1][0];
+    const d = matrix[1][1];
+
+    const trace = a + d;
+    const determinant = a * d - b * c;
+
+    // p(λ) = λ² - tr(A) λ + det(A)
+    const coefficients = [1, -trace, determinant];
+    const formattedPolynomial = this.formatPolynomial(coefficients);
+
+    // Quadratic formula: λ = (tr ± sqrt(tr² - 4 det)) / 2
+    const discriminant = trace * trace - 4 * determinant;
+
+    const eigenvalues: number[] = [];
+    let hasRealEigenvalues = true;
+
+    if (discriminant < 0) {
+      hasRealEigenvalues = false;
+    } else {
+      const sqrtDiscriminant = Math.sqrt(discriminant);
+      const lambda1 = (trace + sqrtDiscriminant) / 2;
+      const lambda2 = (trace - sqrtDiscriminant) / 2;
+      eigenvalues.push(lambda1, lambda2);
+    }
+
+    return {
+      size: 2,
+      coefficients,
+      formattedPolynomial,
+      eigenvalues,
+      hasRealEigenvalues,
+    };
+  }
+
+  // Compute determinant of a 3×3 matrix
+  private determinant3x3(matrix: Matrix): number {
+    if (matrix.length !== 3 || matrix[0].length !== 3) {
+      throw new Error('Matrix must be 3×3 to compute determinant3x3.');
+    }
+
+    const m = matrix;
+    return (
+      m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+      m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+      m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
+    );
+  }
+
+  // Compute trace of a matrix
+  private trace(matrix: Matrix): number {
+    let sum = 0;
+    const size = matrix.length;
+    for (let index = 0; index < size; index++) {
+      sum += matrix[index][index];
+    }
+    return sum;
+  }
+
+  // Compute trace of A²
+  private traceOfSquare(matrix: Matrix): number {
+    // Compute A^2 and then trace(A^2)
+    const size = matrix.length;
+    const result: Matrix = Array.from({ length: size }, () => Array(size).fill(0));
+
+    for (let row = 0; row < size; row++) {
+      for (let column = 0; column < size; column++) {
+        let sum = 0;
+        for (let k = 0; k < size; k++) {
+          sum += matrix[row][k] * matrix[k][column];
+        }
+        result[row][column] = sum;
+      }
+    }
+
+    return this.trace(result);
+  }
+
+  // Compute characteristic polynomial and eigenvalues for a 3×3 matrix
+  private computeCharacteristicPolynomial3x3(matrix: Matrix): CharacteristicPolynomialResult {
+    if (matrix.length !== 3 || matrix[0].length !== 3) {
+      throw new Error('Matrix must be 3×3 for this computation.');
+    }
+
+    const traceA = this.trace(matrix);
+    const traceA2 = this.traceOfSquare(matrix);
+    const determinantA = this.determinant3x3(matrix);
+
+    // p(λ) = λ³ - tr(A) λ² + 1/2 (tr(A)² - tr(A²)) λ - det(A)
+    const coefficientLambda3 = 1;
+    const coefficientLambda2 = -traceA;
+    const coefficientLambda1 = 0.5 * (traceA * traceA - traceA2);
+    const coefficientLambda0 = -determinantA;
+
+    const coefficients = [
+      coefficientLambda3,
+      coefficientLambda2,
+      coefficientLambda1,
+      coefficientLambda0,
+    ];
+
+    const formattedPolynomial = this.formatPolynomial(coefficients);
+
+    const eigenvalues = this.findRealRootsOfCubic(coefficients);
+    const hasRealEigenvalues = eigenvalues.length > 0;
+
+    return {
+      size: 3,
+      coefficients,
+      formattedPolynomial,
+      eigenvalues,
+      hasRealEigenvalues,
+    };
+  }
+
+  // Evaluate a cubic polynomial p(x) = a x³ + b x² + c x + d
+  private evaluateCubic(coefficients: number[], x: number): number {
+    const [a, b, c, d] = coefficients;
+    return ((a * x + b) * x + c) * x + d;
+  }
+
+  // Find real roots of a cubic polynomial a x³ + b x² + c x + d using a simple numeric approach (scanning + bisection)
+  // This method is not meant to be a high-performance solver, but it is sufficient for educational purposes and small matrices
+  private findRealRootsOfCubic(coefficients: number[]): number[] {
+    const [a, b, c, d] = coefficients;
+    if (Math.abs(a) < 1e-12) {
+      // Not truly cubic; in practice this should not happen for 3×3 char polynomials.
+      return [];
+    }
+
+    const radius = 1 + Math.max(Math.abs(b / a), Math.abs(c / a), Math.abs(d / a));
+
+    const start = -radius;
+    const end = radius;
+    const steps = 200;
+    const stepSize = (end - start) / steps;
+
+    const roots: number[] = [];
+    const tolerance = 1e-6;
+
+    let previousX = start;
+    let previousValue = this.evaluateCubic(coefficients, previousX);
+
+    for (let index = 1; index <= steps; index++) {
+      const currentX = start + index * stepSize;
+      const currentValue = this.evaluateCubic(coefficients, currentX);
+
+      if (Math.abs(currentValue) < tolerance) {
+        // Close enough to zero: treat as root
+        roots.push(currentX);
+      }
+
+      if (previousValue * currentValue < 0) {
+        // Sign change -> root in (previousX, currentX)
+        let left = previousX;
+        let right = currentX;
+        let mid = 0;
+
+        for (let iteration = 0; iteration < 40; iteration++) {
+          mid = 0.5 * (left + right);
+          const midValue = this.evaluateCubic(coefficients, mid);
+
+          if (Math.abs(midValue) < tolerance) {
+            break;
+          }
+
+          if (previousValue * midValue < 0) {
+            right = mid;
+            currentValue; // just to respect structure; will be overwritten next
+          } else {
+            left = mid;
+            previousValue = midValue;
+          }
+        }
+
+        roots.push(mid);
+      }
+
+      previousX = currentX;
+      previousValue = currentValue;
+    }
+
+    // Merge very close roots (due to numeric noise)
+    const uniqueRoots: number[] = [];
+    for (const root of roots) {
+      if (!uniqueRoots.some((existing) => Math.abs(existing - root) < 1e-4)) {
+        uniqueRoots.push(root);
+      }
+    }
+
+    return uniqueRoots.sort((x, y) => x - y);
   }
 }
