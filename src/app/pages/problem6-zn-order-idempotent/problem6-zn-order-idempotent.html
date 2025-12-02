@@ -14,7 +14,7 @@
       Problema 6 – Ordin și idempotent în (ℤₙ, ·)
     </h1>
 
-    <p class="text-app-muted text-sm md:text-base max-w-3xl mx-auto text-center mb-10">
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
       Fiind dat grupul (ℤₙ, ·) al resturilor modulo <span class="font-mono">n</span> în raport cu
       înmulțirea, se cere să se calculeze ordinul unui element <span class="font-mono">a</span> și
       să se verifice dacă acesta este idempotent (<span class="font-mono">a² ≡ a (mod n)</span>).
@@ -27,7 +27,7 @@
       <div class="flex flex-col md:flex-row gap-4 mb-4">
         <!-- Modulus input -->
         <div>
-          <label class="block text-sm text-app-muted mb-1">
+          <label class="block text-m text-app-muted mb-1">
             Modulul <span class="font-mono">n</span>
           </label>
           <input
@@ -35,25 +35,25 @@
             min="2"
             [value]="modulus"
             (input)="onModulusChange($event)"
-            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-app-primary"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
           />
-          <p class="text-xs text-app-muted mt-1">
+          <p class="text-s text-app-muted mt-1">
             n ≥ 2. Recomandat valori nu foarte mari pentru a vedea pașii.
           </p>
         </div>
 
         <!-- Element input -->
         <div>
-          <label class="block text-sm text-app-muted mb-1">
+          <label class="block text-m text-app-muted mb-1">
             Elementul <span class="font-mono">a</span>
           </label>
           <input
             type="number"
             [value]="element"
             (input)="onElementChange($event)"
-            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-app-primary"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
           />
-          <p class="text-xs text-app-muted mt-1">a poate fi orice întreg; se va lucra modulo n.</p>
+          <p class="text-s text-app-muted mt-1">a poate fi orice întreg; se va lucra modulo n.</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@
 
       <!-- Error message -->
       @if (errorMessage) {
-      <p class="text-sm text-red-400 mt-3">
+      <p class="text-m text-red-400 mt-3">
         {{ errorMessage }}
       </p>
       }
@@ -76,7 +76,7 @@
 
       <!-- Explanation block -->
       <div
-        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm text-app-muted"
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
       >
         <p class="mb-2">
           Ordinul unui element <span class="font-mono">a</span> în grupul (ℤₙ, ·) este cel mai mic
@@ -99,7 +99,7 @@
 
       <!-- Basic info about gcd and unit status -->
       <div class="grid gap-4 md:grid-cols-2 mb-6">
-        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
           <p class="mb-1">
             <span class="font-mono">n = {{ computationResult.modulus }}</span
             >,
@@ -123,7 +123,7 @@
           </p>
         </div>
 
-        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
           <h3 class="font-semibold mb-2">Ordinul și idempotentul</h3>
 
           @if (computationResult.isUnit && computationResult.order !== null) {
@@ -155,11 +155,11 @@
 
       <!-- Table of powers a^k mod n -->
       @if (computationResult.steps.length > 0) {
-      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-sm">
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
         <h3 class="font-semibold mb-3">Pașii calculați pentru puterile lui a modulo n</h3>
 
         <div class="overflow-auto">
-          <table class="min-w-full border-collapse text-xs md:text-sm">
+          <table class="min-w-full border-collapse text-s md:text-m">
             <thead>
               <tr class="border-b border-app-border">
                 <th class="text-left py-2 pr-4 font-semibold text-app-muted">k</th>
@@ -181,7 +181,7 @@
           </table>
         </div>
 
-        <p class="mt-3 text-xs text-app-muted">
+        <p class="mt-3 text-s text-app-muted">
           Observă la ce exponent k se obține pentru prima dată valoarea 1 – acesta este ordinul lui
           a, dacă există.
         </p>

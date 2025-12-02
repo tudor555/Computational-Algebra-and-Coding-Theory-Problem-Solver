@@ -32,7 +32,7 @@
         @for (preset of presets; track $index) {
         <button
           type="button"
-          class="btn-secondary text-xs md:text-m"
+          class="btn-secondary text-s md:text-m"
           (click)="onApplyPreset(preset)"
         >
           {{ preset.label }}
@@ -56,7 +56,7 @@
             (input)="onSizeChange($event)"
             class="w-24 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
           />
-          <p class="text-xs text-app-muted mt-1">Pentru claritate, limita este 6 × 6.</p>
+          <p class="text-s text-app-muted mt-1">Pentru claritate, limita este 6 × 6.</p>
         </div>
 
         <button type="button" class="btn-primary" (click)="onDecompose()">
