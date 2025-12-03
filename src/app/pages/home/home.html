@@ -27,8 +27,26 @@
       </div>
     </header>
 
-    <!-- Problem cards grid -->
+    <!-- Problem cards -->
     <section class="grid gap-6 md:grid-cols-2">
+      <!-- Problem 1 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 1</p>
+            <h2 class="text-lg font-semibold">Matrice triunghiulare</h2>
+          </div>
+          <span class="difficulty-easy">Ușor</span>
+        </div>
+        <p class="text-m text-app-muted">
+          Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă
+          produsul a două matrici triunghiulare este tot matrice triunghiulară.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/triangular-matrices" class="btn-primary"> Deschide problema 1 </a>
+        </div>
+      </article>
+
       <!-- Problem 2 -->
       <article class="problem-card">
         <div class="flex items-start justify-between gap-3">
@@ -67,6 +85,9 @@
         </div>
       </article>
 
+      <!-- EMPTY SPACER (to keep grid symmetry) -->
+      <div class="hidden md:block"></div>
+
       <!-- Problem 5 -->
       <article class="problem-card">
         <div class="flex items-start justify-between gap-3">
@@ -104,7 +125,7 @@
       </article>
 
       <!-- Problem 12 -->
-      <article class="problem-card md:col-span-2">
+      <article class="problem-card">
         <div class="flex items-start justify-between gap-3">
           <div>
             <p class="text-s uppercase tracking-wide text-app-muted mb-1">Greu · Problema 12</p>
@@ -120,6 +141,27 @@
         </p>
         <div class="mt-3">
           <a routerLink="/eigen-values" class="btn-primary"> Deschide problema 12 </a>
+        </div>
+      </article>
+
+      <!-- Problem 14 -->
+      <article class="problem-card">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Greu · Problema 14</p>
+            <h2 class="text-lg font-semibold">
+              Algoritmul lui Euclid, combinație liniară și fracție continuă
+            </h2>
+          </div>
+          <span class="difficulty-hard">Greu</span>
+        </div>
+        <p class="text-m text-app-muted">
+          Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b),
+          scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui
+          a/b.
+        </p>
+        <div class="mt-3">
+          <a routerLink="/euclid-continued-fraction" class="btn-primary"> Deschide problema 14 </a>
         </div>
       </article>
     </section>
