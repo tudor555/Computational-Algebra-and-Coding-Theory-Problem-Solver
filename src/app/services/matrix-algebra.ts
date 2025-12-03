@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export type Matrix = number[][];
+export type TriangularType = 'none' | 'upper' | 'lower' | 'both';
 
 export interface MatrixDecompositionResult {
   symmetric: Matrix;
@@ -229,6 +230,26 @@ export class MatrixAlgebra {
     throw new Error('This method only supports matrices of size 2×2 or 3×3.');
   }
 
+  // Classify a matrix as upper / lower / both (diagonal) / none
+  classifyTriangular(matrix: Matrix, tolerance = 1e-10): TriangularType {
+    const isUpper = this.isUpperTriangular(matrix, tolerance);
+    const isLower = this.isLowerTriangular(matrix, tolerance);
+
+    if (isUpper && isLower) {
+      return 'both'; // essentially diagonal
+    }
+
+    if (isUpper) {
+      return 'upper';
+    }
+
+    if (isLower) {
+      return 'lower';
+    }
+
+    return 'none';
+  }
+
   // Get the number of rows in a matrix
   getRowCount(matrix: Matrix): number {
     return matrix.length;
@@ -285,6 +306,79 @@ export class MatrixAlgebra {
   // Multiply a matrix by a scalar
   multiplyByScalar(A: Matrix, scalar: number): Matrix {
     return A.map((row) => row.map((value) => value * scalar));
+  }
+
+  // Multiply two matrices A (m × n) and B (n × p)
+  multiplyMatrices(matrixA: Matrix, matrixB: Matrix): Matrix {
+    const rowCountA = matrixA.length;
+    const columnCountA = rowCountA > 0 ? matrixA[0].length : 0;
+
+    const rowCountB = matrixB.length;
+    const columnCountB = rowCountB > 0 ? matrixB[0].length : 0;
+
+    if (columnCountA === 0 || rowCountB === 0 || columnCountA !== rowCountB) {
+      throw new Error('Matrix dimensions are not compatible for multiplication.');
+    }
+
+    const result: Matrix = Array.from({ length: rowCountA }, () => Array(columnCountB).fill(0));
+
+    for (let row = 0; row < rowCountA; row++) {
+      for (let column = 0; column < columnCountB; column++) {
+        let sum = 0;
+        for (let k = 0; k < columnCountA; k++) {
+          sum += matrixA[row][k] * matrixB[k][column];
+        }
+        result[row][column] = sum;
+      }
+    }
+
+    return result;
+  }
+
+  // Check if a matrix is upper triangular (values below the main diagonal are zero)
+  isUpperTriangular(matrix: Matrix, tolerance = 1e-10): boolean {
+    const rowCount = matrix.length;
+    if (rowCount === 0) {
+      return false;
+    }
+
+    const columnCount = matrix[0].length;
+    if (rowCount !== columnCount) {
+      return false;
+    }
+
+    for (let row = 0; row < rowCount; row++) {
+      for (let column = 0; column < row; column++) {
+        if (Math.abs(matrix[row][column]) > tolerance) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  // Check if a matrix is lower triangular (values above the main diagonal are zero)
+  isLowerTriangular(matrix: Matrix, tolerance = 1e-10): boolean {
+    const rowCount = matrix.length;
+    if (rowCount === 0) {
+      return false;
+    }
+
+    const columnCount = matrix[0].length;
+    if (rowCount !== columnCount) {
+      return false;
+    }
+
+    for (let row = 0; row < rowCount; row++) {
+      for (let column = row + 1; column < columnCount; column++) {
+        if (Math.abs(matrix[row][column]) > tolerance) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   // Ensure that two matrices have the same dimensions
