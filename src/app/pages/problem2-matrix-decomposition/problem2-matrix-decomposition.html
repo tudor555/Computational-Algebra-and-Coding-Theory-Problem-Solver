@@ -1,0 +1,202 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Page title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 2 – Decompoziție în matrice simetrică și antisimetrică
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o
+      matrice antisimetrică. Mai jos poți introduce o matrice pătratică sau poți alege un exemplu
+      predefinit, iar aplicația va calcula componentele ei.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <p class="text-m text-app-muted mb-3">
+        Poți alege rapid una dintre matricile de mai jos pentru a vedea cum funcționează
+        decompoziția. Poți apoi modifica valorile manual.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-s md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Dimensiunea matricii (n × n) </label>
+          <input
+            type="number"
+            min="1"
+            max="6"
+            [value]="size"
+            (input)="onSizeChange($event)"
+            class="w-24 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">Pentru claritate, limita este 6 × 6.</p>
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onDecompose()">
+          Calculează decompoziția
+        </button>
+      </div>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+              <tr>
+                @for (value of row; track $index; let j = $index) {
+                <td class="p-1">
+                  <input
+                    type="number"
+                    class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                    [value]="matrix[i][j]"
+                    (input)="onCellChange(i, j, $event)"
+                  />
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results section: S + K = A -->
+    @if (decompositionResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultat: A = S + K</h2>
+
+      <!-- Explanation of the decomposition -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">Decompoziția se obține folosind formulele standard din algebra liniară:</p>
+
+        <ul class="list-disc pl-6 space-y-1">
+          <li>
+            Componenta simetrică <strong>S</strong> se calculează ca:
+            <span class="font-mono text-app-text">S = (A + Aᵀ) / 2</span>
+          </li>
+
+          <li>
+            Componenta antisimetrică <strong>K</strong> se calculează ca:
+            <span class="font-mono text-app-text">K = (A − Aᵀ) / 2</span>
+          </li>
+        </ul>
+
+        <p class="mt-3">
+          Observație: orice matrice pătratică se poate scrie în mod unic ca sumă între o matrice
+          simetrică și una antisimetrică, deoarece:
+          <span class="font-mono text-app-text">A = S + K</span>.
+        </p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row items-center gap-6 overflow-auto">
+        <!-- Symmetric matrix S -->
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-m text-app-muted">Matricea simetrică S</span>
+          <div class="inline-block bg-app-surfaceAlt rounded-xl p-3 border border-app-border">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of decompositionResult!.symmetric; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Plus sign -->
+        <div class="text-3xl font-bold text-app-muted">+</div>
+
+        <!-- Skew-symmetric matrix K -->
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-m text-app-muted">Matricea antisimetrică K</span>
+          <div class="inline-block bg-app-surfaceAlt rounded-xl p-3 border border-app-border">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of decompositionResult!.skewSymmetric; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Equal sign -->
+        <div class="text-3xl font-bold text-app-muted">=</div>
+
+        <!-- Original matrix A -->
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-m text-app-muted">Matricea inițială A</span>
+          <div class="inline-block bg-app-surfaceAlt rounded-xl p-3 border border-app-border">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of matrix; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    }
+  </div>
+</div>

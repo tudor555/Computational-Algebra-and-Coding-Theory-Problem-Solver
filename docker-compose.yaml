@@ -1,0 +1,19 @@
+networks:
+  algebra-network:
+    driver: bridge
+
+services:
+  computational-algebra:
+    build:
+      context: .
+    container_name: computational-algebra
+    restart: unless-stopped
+    ports: 
+      - "4200:4200"
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Helps with live reloading inside Docker
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - algebra-network

@@ -1,0 +1,260 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 1 – Matrice triunghiulare
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă
+      produsul a două matrici triunghiulare este tot matrice triunghiulară. Introdu mai jos două
+      matrici pătratice A și B sau folosește exemplele predefinite.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <p class="text-app-muted text-m mb-3">
+        Poți alege rapid o pereche de matrici pentru a observa cum se comportă inversa și produsul
+        în cazul matricilor triunghiulare.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-s md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input section -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricile A și B</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Size selector -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Dimensiunea matricilor (n × n) </label>
+          <input
+            type="number"
+            min="1"
+            max="6"
+            [value]="size"
+            (input)="onSizeChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">
+            Matricile A și B sunt pătratice și au aceeași dimensiune.
+          </p>
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onAnalyze()">
+          Verifică inversa și produsul
+        </button>
+      </div>
+
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <!-- Matrix inputs -->
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- Matrix A -->
+        <div>
+          <h3 class="text-m font-semibold mb-2">Matricea A</h3>
+          <div
+            class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+          >
+            <span class="text-app-muted text-m mr-1">A =</span>
+            <div class="inline-block">
+              <table class="border-collapse">
+                <tbody>
+                  @for (row of matrixA; track $index; let i = $index) {
+                  <tr>
+                    @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrixA[i][j]"
+                        (input)="onCellChangeA(i, j, $event)"
+                      />
+                    </td>
+                    }
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matrix B -->
+        <div>
+          <h3 class="text-m font-semibold mb-2">Matricea B</h3>
+          <div
+            class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+          >
+            <span class="text-app-muted text-m mr-1">B =</span>
+            <div class="inline-block">
+              <table class="border-collapse">
+                <tbody>
+                  @for (row of matrixB; track $index; let i = $index) {
+                  <tr>
+                    @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrixB[i][j]"
+                        (input)="onCellChangeB(i, j, $event)"
+                      />
+                    </td>
+                    }
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (analysisResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultatele verificării matricilor triunghiulare</h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">
+          O matrice se numește triunghiulară superioară dacă toate elementele de sub diagonala
+          principală sunt zero, respectiv triunghiulară inferioară dacă toate elementele de deasupra
+          diagonalei principale sunt zero.
+        </p>
+        <p class="mb-2">
+          Inversa unei matrici triunghiulare inversabile este tot o matrice triunghiulară de același
+          tip. Produsul a două matrici triunghiulare de același tip (superioare sau inferioare) este
+          la rândul lui triunghiular de același tip.
+        </p>
+      </div>
+
+      <!-- Classification summary -->
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">Matricea A</h3>
+          <p class="mb-1">
+            Tip:
+            <span class="font-mono">
+              {{ getTriangularLabel(analysisResult.matrixAType) }}
+            </span>
+          </p>
+          <p class="mb-1">
+            Inversă: @if (analysisResult.inverseExists && analysisResult.inverseMatrixAType) {
+            <span class="font-mono">
+              există și este {{ getTriangularLabel(analysisResult.inverseMatrixAType) }}.
+            </span>
+            } @else {
+            <span class="font-mono"> nu există (matricea nu este inversabilă). </span>
+            }
+          </p>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">Matricea B și produsul A·B</h3>
+          <p class="mb-1">
+            Tipul lui B:
+            <span class="font-mono">
+              {{ getTriangularLabel(analysisResult.matrixBType) }}
+            </span>
+          </p>
+
+          <p class="mb-1">
+            Tipul produsului C = A · B: @if (analysisResult.productMatrix &&
+            analysisResult.productMatrixType) {
+            <span class="font-mono">
+              {{ getTriangularLabel(analysisResult.productMatrixType) }}.
+            </span>
+            } @else {
+            <span class="font-mono"> nu a putut fi calculat (dimensiuni incompatibile). </span>
+            }
+          </p>
+        </div>
+      </div>
+
+      <!-- Inverse matrix display -->
+      @if (analysisResult.inverseExists && analysisResult.inverseMatrixA) {
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m mb-6">
+        <h3 class="font-semibold mb-3">Inversa matricii A</h3>
+        <div
+          class="inline-flex items-center gap-2 bg-app-bg rounded-xl px-4 py-3 border border-app-border"
+        >
+          <span class="text-app-muted text-m mr-1">A⁻¹ =</span>
+          <div class="inline-block">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of analysisResult.inverseMatrixA; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- Product matrix display -->
+      @if (analysisResult.productMatrix) {
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+        <h3 class="font-semibold mb-3">Produsul C = A · B</h3>
+        <div
+          class="inline-flex items-center gap-2 bg-app-bg rounded-xl px-4 py-3 border border-app-border"
+        >
+          <span class="text-app-muted text-m mr-1">C =</span>
+          <div class="inline-block">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of analysisResult.productMatrix; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      }
+    </section>
+    }
+  </div>
+</div>
