@@ -1,0 +1,239 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 14 – Algoritmul lui Euclid, combinație liniară și fracție continuă
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b),
+      scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b.
+      Introdu mai jos valorile pentru a și b sau folosește un exemplu predefinit.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <p class="text-app-muted text-m mb-3">
+        Alege rapid o pereche (a, b) pentru a vedea cum funcționează algoritmul lui Euclid,
+        combinația liniară și fracția continuă asociată lui a/b.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-s md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu valorile pentru a și b</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Valoarea lui a </label>
+          <input
+            type="number"
+            min="0"
+            [value]="inputA"
+            (input)="onInputAChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Valoarea lui b </label>
+          <input
+            type="number"
+            min="0"
+            [value]="inputB"
+            (input)="onInputBChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+        <p class="text-s text-app-muted mt-1">
+          Pentru fracția continuă a/b, b trebuie să fie nenul.
+        </p>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">Calculează</button>
+      </div>
+
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+    </section>
+
+    <!-- Results -->
+    @if (gcdResult || extendedResult || continuedFractionResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">
+        Rezultatele algoritmului lui Euclid și ale fracției continue
+      </h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">
+          Algoritmul lui Euclid calculează cmmdc(a, b) prin împărțiri succesive:
+          <span class="font-mono">a = q₀·b + r₀</span>, apoi
+          <span class="font-mono">b = q₁·r₀ + r₁</span> ș.a.m.d., până când restul devine zero.
+        </p>
+        <p class="mb-2">
+          Varianta extinsă a algoritmului lui Euclid determină coeficienți întregi x și y astfel
+          încât
+          <span class="font-mono">a·x + b·y = d</span>, unde
+          <span class="font-mono">d = cmmdc(a, b)</span> (identitatea lui Bézout).
+        </p>
+        <p>
+          Fracția continuă asociată lui <span class="font-mono">a/b</span> se obține din
+          coeficienții de la împărțirile succesive și se notează de forma
+          <span class="font-mono">[q₀; q₁, q₂, …]</span>.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- GCD and steps -->
+        @if (gcdResult) {
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">cmmdc(a, b) prin algoritmul lui Euclid</h3>
+
+          <p class="mb-1">
+            a = <span class="font-mono">{{ gcdResult.a }}</span
+            >, b = <span class="font-mono">{{ gcdResult.b }}</span>
+          </p>
+          <p class="mb-2">
+            cmmdc(a, b) = <span class="font-mono">{{ gcdResult.gcd }}</span>
+          </p>
+
+          <h4 class="font-semibold mb-2">Pașii algoritmului:</h4>
+          <div class="overflow-auto max-h-64">
+            <table class="min-w-full text-s border-collapse">
+              <thead class="text-app-muted">
+                <tr>
+                  <th class="text-left pr-3 pb-1">Pas</th>
+                  <th class="text-left pr-3 pb-1">Împărțire</th>
+                  <th class="text-left pr-3 pb-1">q</th>
+                  <th class="text-left pr-3 pb-1">r</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (step of gcdResult.steps; track $index; let i = $index) {
+                <tr>
+                  <td class="pr-3 py-0.5 align-top">
+                    {{ i + 1 }}
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    {{ step.dividend }} = {{ step.divisor }} · {{ step.quotient }} +
+                    {{ step.remainder }}
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    {{ step.quotient }}
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    {{ step.remainder }}
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+
+        <!-- Extended Euclid and linear combination -->
+        @if (extendedResult) {
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">
+            Combinație liniară a·x + b·y = d (algoritmul lui Euclid extins)
+          </h3>
+
+          <p class="mb-1">
+            d = cmmdc(a, b) =
+            <span class="font-mono">{{ extendedResult.gcd }}</span>
+          </p>
+          <p class="mb-2">O combinație liniară este:</p>
+          <p class="font-mono mb-3">
+            {{ formatLinearCombination(extendedResult) }}
+          </p>
+
+          <h4 class="font-semibold mb-2">Pași (s, t, resturi):</h4>
+          <div class="overflow-auto max-h-64">
+            <table class="min-w-full text-s border-collapse">
+              <thead class="text-app-muted">
+                <tr>
+                  <th class="text-left pr-3 pb-1">Pas</th>
+                  <th class="text-left pr-3 pb-1">q</th>
+                  <th class="text-left pr-3 pb-1">resturi</th>
+                  <th class="text-left pr-3 pb-1">s</th>
+                  <th class="text-left pr-3 pb-1">t</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (step of extendedResult.steps; track $index; let i = $index) {
+                <tr>
+                  <td class="pr-3 py-0.5 align-top">
+                    {{ i + 1 }}
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    {{ step.quotient }}
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    ({{ step.remainderPrevious }}, {{ step.remainderCurrent }})
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    ({{ step.coefficientSPrevious }}, {{ step.coefficientSCurrent }})
+                  </td>
+                  <td class="pr-3 py-0.5 align-top font-mono">
+                    ({{ step.coefficientTPrevious }}, {{ step.coefficientTCurrent }})
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Continued fraction -->
+      @if (continuedFractionResult) {
+      <div class="mt-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+        <h3 class="font-semibold mb-2">Fracția continuă asociată lui a/b</h3>
+        <p class="mb-1">
+          a/b =
+          <span class="font-mono">
+            {{ continuedFractionResult.numerator }}/{{ continuedFractionResult.denominator }}
+          </span>
+        </p>
+        <p class="mb-2">Dezvoltarea în fracție continuă:</p>
+        <p class="font-mono mb-1">
+          {{ formatContinuedFraction(continuedFractionResult) }}
+        </p>
+        <p class="text-s text-app-muted">
+          Lista coeficienților este: [{{ continuedFractionResult.quotients.join(', ') }}].
+        </p>
+      </div>
+      }
+    </section>
+    }
+  </div>
+</div>

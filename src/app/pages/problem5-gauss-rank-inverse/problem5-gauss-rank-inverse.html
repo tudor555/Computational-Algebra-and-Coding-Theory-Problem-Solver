@@ -1,0 +1,224 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 5 – Rang și inversă prin metoda lui Gauss
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Calculați rangul unei matrici prin metoda lui Gauss și, dacă matricea este pătratică și
+      inversabilă, determinați inversa acesteia folosind metoda Gauss–Jordan pe matricea augmentată
+      <span class="font-mono">[A | I]</span>.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+
+      <p class="text-app-muted text-m mb-3">
+        Alege rapid o matrice pentru testarea rangului, formei escalonate sau a inversei.
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+        <button
+          type="button"
+          class="btn-secondary text-s md:text-m"
+          (click)="onApplyPreset(preset)"
+        >
+          {{ preset.label }}
+        </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Row count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Numărul de linii </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="rowCount"
+            (input)="onRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Column count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Numărul de coloane </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="columnCount"
+            (input)="onColumnCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          Aplică metoda lui Gauss
+        </button>
+      </div>
+
+      @if (errorMessage) {
+      <p class="text-m text-red-400 mb-3">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+              <tr>
+                @for (value of row; track $index; let j = $index) {
+                <td class="p-1">
+                  <input
+                    type="number"
+                    class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                    [value]="matrix[i][j]"
+                    (input)="onCellChange(i, j, $event)"
+                  />
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (computationResult) {
+    <section class="problem-card">
+      <h2 class="text-lg font-semibold mb-3">Rezultatele metodei lui Gauss</h2>
+
+      <!-- Explanation block -->
+      <div
+        class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+      >
+        <p class="mb-2">
+          Metoda lui Gauss transformă matricea <span class="font-mono">A</span> într-o formă
+          escalonată prin operații elementare pe linii. Rangul este numărul de linii nenule din
+          forma escalonată.
+        </p>
+        <p class="mb-2">
+          Pentru a calcula inversa unei matrici pătratice, construim matricea augmentată
+          <span class="font-mono">[A | I]</span> și aplicăm metoda Gauss–Jordan până obținem
+          <span class="font-mono">[I | A⁻¹]</span>, dacă aceasta există.
+        </p>
+        <p>
+          Dacă matricea nu este pătratică sau determinatul este zero, inversa nu există și se spune
+          că matricea este singulară.
+        </p>
+      </div>
+
+      <!-- Rank and square/invertible info -->
+      <div class="grid gap-4 md:grid-cols-2 mb-6">
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <p class="mb-1">
+            Rangul matricei A este:
+            <span class="font-mono">rang(A) = {{ computationResult.rank }}</span>
+          </p>
+          <p class="mb-1">
+            Dimensiune:
+            <span class="font-mono"> {{ rowCount }} × {{ columnCount }} </span>
+          </p>
+          <p class="mt-1">
+            @if (computationResult.isSquare) {
+            <span>Matricea este pătratică.</span>
+            } @else {
+            <span>Matricea nu este pătratică, deci nu poate avea inversă clasică.</span>
+            }
+          </p>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">Inversa matricei A</h3>
+
+          @if (computationResult.isSquare && computationResult.hasInverse &&
+          computationResult.inverse) {
+          <p class="mb-3">
+            Matricea este inversabilă. Mai jos este afișată inversa
+            <span class="font-mono">A⁻¹</span>.
+          </p>
+
+          <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of computationResult.inverse; track $index) {
+                <tr>
+                  @for (value of row; track $index) {
+                  <td class="px-3 py-1 text-right text-m">
+                    {{ value | number : '1.2-2' }}
+                  </td>
+                  }
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          } @else if (computationResult.isSquare && !computationResult.hasInverse) {
+          <p class="text-red-300">
+            Matricea este pătratică dar nu este inversabilă (este singulară).
+          </p>
+          } @else {
+          <p class="text-app-muted">
+            Deoarece matricea nu este pătratică, inversa nu este definită.
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- Row echelon form -->
+      <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+        <h3 class="font-semibold mb-3">Forma escalonată a lui A (rezultatul metodei lui Gauss)</h3>
+
+        <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of computationResult.rowEchelonForm; track $index) {
+              <tr>
+                @for (value of row; track $index) {
+                <td class="px-3 py-1 text-right text-m">
+                  {{ value | number : '1.2-2' }}
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <p class="mt-3 text-s text-app-muted">
+          Liniile nenule din forma escalonată corespund liniilor independente liniar, iar numărul
+          lor este exact rangul matricei.
+        </p>
+      </div>
+    </section>
+    }
+  </div>
+</div>
