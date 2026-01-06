@@ -3,10 +3,40 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  ArrowLeft,
+  BadgeAlert,
+  BookOpen,
+  Calculator,
+  ChevronRight,
+  Github,
+  House,
+  Info,
+  Languages,
+  LayoutGrid,
+} from 'lucide-angular/src/icons';
+import { LUCIDE_ICONS, LucideIconProvider } from 'lucide-angular';
+
+const lucideIcons = {
+  ArrowLeft,
+  House,
+  LayoutGrid,
+  Calculator,
+  Languages,
+  Github,
+  Info,
+  BadgeAlert,
+  BookOpen,
+  ChevronRight,
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay())
-  ]
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+
+    // Lucide icons – global registration
+    { provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(lucideIcons) },
+  ],
 };
