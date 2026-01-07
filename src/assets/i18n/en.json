@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "home": "Home",
+    "problems": "Problems",
+    "language": "EN",
+    "repo": "GitHub",
+    "problemsHint": "Jump directly to a problem"
+  },
+  "footer": {
+    "title": "Computational Algebra Problem Solver",
+    "tagline": "© {{year}} · Turning matrices into obedience since v1.0",
+    "home": "Home",
+    "github": "GitHub"
+  }
+}
