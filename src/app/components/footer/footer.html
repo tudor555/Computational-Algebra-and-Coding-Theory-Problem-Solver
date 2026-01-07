@@ -4,9 +4,9 @@
   >
     <!-- Left: text -->
     <div>
-      <p class="text-base font-semibold">Computational Algebra Problem Solver</p>
+      <p class="text-base font-semibold">{{ 'footer.title' | t }}</p>
       <p class="text-sm text-app-muted">
-        © {{ currentYear }} · Turning matrices into obedience since v1.0
+        {{ 'footer.tagline' | t : { year: currentYear } }}
       </p>
     </div>
 
@@ -17,7 +17,7 @@
         class="inline-flex items-center gap-2 text-base text-app-muted hover:text-app-text transition"
       >
         <lucide-icon name="house" class="w-4 h-4"></lucide-icon>
-        <span>Acasă</span>
+        <span>{{ 'footer.home' | t }}</span>
       </a>
 
       <a
@@ -27,7 +27,7 @@
         class="inline-flex items-center gap-2 text-base text-app-muted hover:text-app-text transition"
       >
         <lucide-icon name="github" class="w-4 h-4"></lucide-icon>
-        <span>GitHub</span>
+        <span>{{ 'footer.github' | t }}</span>
       </a>
     </div>
   </div>
