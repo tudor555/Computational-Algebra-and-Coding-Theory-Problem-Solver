@@ -29,7 +29,7 @@
         class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
       >
         <lucide-icon name="house" class="w-4 h-4"></lucide-icon>
-        <span class="hidden sm:inline">Acasă</span>
+        <span class="hidden sm:inline">{{ 'nav.home' | t }}</span>
       </a>
 
       <!-- Problems dropdown -->
@@ -42,7 +42,7 @@
           aria-haspopup="menu"
         >
           <lucide-icon name="layout-grid" class="w-4 h-4"></lucide-icon>
-          <span class="hidden sm:inline">Probleme</span>
+          <span class="hidden sm:inline">{{ 'nav.problems' | t }}</span>
           <lucide-icon
             name="chevron-right"
             class="w-4 h-4 opacity-80 transition-transform duration-200"
@@ -57,7 +57,7 @@
           role="menu"
         >
           <div class="px-3 py-2 text-sm text-app-muted border-b border-app-border">
-            Navighează direct către o problemă
+            {{ 'nav.problemsHint' | t }}
           </div>
 
           <div class="max-h-80 overflow-auto">
@@ -80,15 +80,60 @@
         }
       </div>
 
-      <!-- Language -->
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
-        title="Schimbă limba (v1.1)"
-      >
-        <lucide-icon name="languages" class="w-4 h-4"></lucide-icon>
-        <span class="hidden sm:inline">RO</span>
-      </button>
+      <!-- Language dropdown -->
+      <div class="relative" data-language-menu (click)="$event.stopPropagation()">
+        <button
+          type="button"
+          (click)="toggleLanguageMenu($event)"
+          class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
+          [attr.aria-expanded]="isLanguageOpen"
+          aria-haspopup="menu"
+        >
+          <lucide-icon name="languages" class="w-4 h-4"></lucide-icon>
+
+          <span class="hidden sm:inline">
+            {{ currentLanguage.toUpperCase() }}
+          </span>
+
+          <lucide-icon
+            name="chevron-right"
+            class="w-4 h-4 opacity-80 transition-transform duration-200"
+            [class.rotate-90]="!isLanguageOpen"
+            [class.rotate-270]="isLanguageOpen"
+          ></lucide-icon>
+        </button>
+
+        @if (isLanguageOpen) {
+        <div
+          class="absolute right-0 mt-2 w-44 rounded-xl border border-app-border bg-app-bg shadow-xl overflow-hidden"
+          role="menu"
+        >
+          <button
+            type="button"
+            (click)="selectLanguage('ro', $event)"
+            class="w-full text-left px-3 py-2 hover:bg-app-surfaceAlt transition flex items-center justify-between"
+            role="menuitem"
+          >
+            <span class="text-sm">Română</span>
+            @if (currentLanguage === 'ro') {
+            <span class="text-xs text-app-muted">✓</span>
+            }
+          </button>
+
+          <button
+            type="button"
+            (click)="selectLanguage('en', $event)"
+            class="w-full text-left px-3 py-2 hover:bg-app-surfaceAlt transition flex items-center justify-between"
+            role="menuitem"
+          >
+            <span class="text-sm">English</span>
+            @if (currentLanguage === 'en') {
+            <span class="text-xs text-app-muted">✓</span>
+            }
+          </button>
+        </div>
+        }
+      </div>
 
       <!-- GitHub -->
       <a
@@ -99,7 +144,7 @@
         title="GitHub"
       >
         <lucide-icon name="github" class="w-4 h-4"></lucide-icon>
-        <span class="hidden sm:inline">Repo</span>
+        <span class="hidden sm:inline">{{ 'nav.repo' | t }}</span>
       </a>
     </div>
   </div>
