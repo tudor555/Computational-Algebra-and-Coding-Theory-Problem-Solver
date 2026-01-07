@@ -1,1 +1,106 @@
-<p>navbar works!</p>
+<nav class="border-b border-app-border bg-app-bg/80 backdrop-blur">
+  <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+    <!-- Left: brand -->
+    <a routerLink="/home" class="flex items-center gap-3 group">
+      <div
+        class="w-10 h-10 rounded-xl bg-app-surfaceAlt border border-app-border/60 flex items-center justify-center overflow-hidden"
+      >
+        <img
+          src="assets/images/logo-computational-algebra.png"
+          alt="Logo"
+          class="w-7 h-7 object-contain"
+        />
+      </div>
+
+      <div class="leading-tight">
+        <p class="font-semibold text-base md:text-base group-hover:text-app-primary transition">
+          Computational Algebra
+        </p>
+        <p class="text-sm text-app-muted">Problem Solver</p>
+      </div>
+    </a>
+
+    <!-- Right: navigation -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <!-- Home -->
+      <a
+        routerLink="/home"
+        routerLinkActive="bg-app-surfaceAlt border-app-border text-app-text"
+        class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
+      >
+        <lucide-icon name="house" class="w-4 h-4"></lucide-icon>
+        <span class="hidden sm:inline">Acasă</span>
+      </a>
+
+      <!-- Problems dropdown -->
+      <div class="relative" data-problems-menu>
+        <button
+          type="button"
+          (click)="toggleProblemsMenu()"
+          class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
+          [attr.aria-expanded]="isProblemsOpen"
+          aria-haspopup="menu"
+        >
+          <lucide-icon name="layout-grid" class="w-4 h-4"></lucide-icon>
+          <span class="hidden sm:inline">Probleme</span>
+          <lucide-icon
+            name="chevron-right"
+            class="w-4 h-4 opacity-80 transition-transform duration-200"
+            [class.rotate-90]="!isProblemsOpen"
+            [class.rotate-270]="isProblemsOpen"
+          ></lucide-icon>
+        </button>
+
+        @if (isProblemsOpen) {
+        <div
+          class="absolute right-0 mt-2 w-80 rounded-xl border border-app-border bg-app-bg shadow-xl overflow-hidden"
+          role="menu"
+        >
+          <div class="px-3 py-2 text-sm text-app-muted border-b border-app-border">
+            Navighează direct către o problemă
+          </div>
+
+          <div class="max-h-80 overflow-auto">
+            @for (item of problems; track $index) {
+            <a
+              [routerLink]="item.route"
+              (click)="closeProblemsMenu()"
+              class="flex items-start justify-between gap-3 px-3 py-2 hover:bg-app-surfaceAlt transition"
+              role="menuitem"
+            >
+              <div class="min-w-0">
+                <p class="text-base font-medium truncate">{{ item.label }}</p>
+                <p class="text-sm text-app-muted">{{ item.difficulty }}</p>
+              </div>
+              <lucide-icon name="chevron-right" class="w-4 h-4 text-app-muted mt-0.5"></lucide-icon>
+            </a>
+            }
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Language -->
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
+        title="Schimbă limba (v1.1)"
+      >
+        <lucide-icon name="languages" class="w-4 h-4"></lucide-icon>
+        <span class="hidden sm:inline">RO</span>
+      </button>
+
+      <!-- GitHub -->
+      <a
+        [href]="githubRepoUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-lg border border-transparent px-3 py-2 text-base text-app-muted hover:text-app-text hover:bg-app-surfaceAlt transition"
+        title="GitHub"
+      >
+        <lucide-icon name="github" class="w-4 h-4"></lucide-icon>
+        <span class="hidden sm:inline">Repo</span>
+      </a>
+    </div>
+  </div>
+</nav>
