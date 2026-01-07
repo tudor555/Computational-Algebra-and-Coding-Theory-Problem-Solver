@@ -1,5 +1,12 @@
-<!-- Routed Component -->
-<router-outlet></router-outlet>
+<div class="min-h-screen bg-app-bg text-app-text flex flex-col">
+  <!-- Navbar Component -->
+  <app-navbar></app-navbar>
 
-<!-- Footer Component -->
-<app-footer></app-footer>
+  <main class="flex-1">
+    <!-- Routed Component -->
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer Component -->
+  <app-footer></app-footer>
+</div>
