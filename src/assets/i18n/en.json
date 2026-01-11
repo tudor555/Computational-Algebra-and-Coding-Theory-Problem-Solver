@@ -11,5 +11,46 @@
     "tagline": "© {{year}} · Turning matrices into obedience since v1.0",
     "home": "Home",
     "github": "GitHub"
+  },
+  "home": {
+    "title": "Computational Algebra Problem Solver",
+    "subtitle": "Choose one of the problems below to explore linear algebra, number theory, coding theory, and eigenvalues. Clean interface, clear explanations, accurate computations.",
+    "sections": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "problemTitle": "Problem {{number}}",
+    "openProblem": "Open problem {{number}}",
+    "problems": {
+      "problem1": {
+        "title": "Triangular matrices",
+        "description": "Verify whether the inverse of a triangular matrix is also triangular. Verify whether the product of two triangular matrices is also triangular."
+      },
+      "problem2": {
+        "title": "Decomposition into symmetric and skew-symmetric matrices",
+        "description": "Show that any matrix can be written uniquely as the sum of a symmetric matrix and a skew-symmetric matrix."
+      },
+      "problem5": {
+        "title": "Rank and inverse using Gauss method",
+        "description": "Compute the rank of a matrix using Gaussian elimination and, if possible, compute its inverse using the Gauss–Jordan method."
+      },
+      "problem6": {
+        "title": "Order and idempotent element in (ℤₙ, ·)",
+        "description": "Given (ℤₙ, ·), compute the order of an element and check whether it is idempotent modulo n."
+      },
+      "problem11": {
+        "title": "Codeword validation using parity-check matrix",
+        "description": "Read a parity-check matrix and a set of words. Display the ones that are codewords (zero syndrome)."
+      },
+      "problem12": {
+        "title": "Characteristic polynomial and eigenvalues (2×2, 3×3)",
+        "description": "Compute the characteristic polynomial and the eigenvalues of a 2×2 or 3×3 matrix, displaying both the polynomial and its roots."
+      },
+      "problem14": {
+        "title": "Euclidean algorithm, linear combination, and continued fraction",
+        "description": "Using Euclid’s algorithm, compute gcd(d) for two natural numbers (a,b), write a linear combination of (a,b,d), and display the continued fraction of a/b."
+      }
+    }
   }
 }

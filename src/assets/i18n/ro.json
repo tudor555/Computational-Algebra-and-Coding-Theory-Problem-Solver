@@ -11,5 +11,46 @@
     "tagline": "© {{year}} · Turning matrices into obedience since v1.0",
     "home": "Acasă",
     "github": "GitHub"
+  },
+  "home": {
+    "title": "Computational Algebra Problem Solver",
+    "subtitle": "Alege una dintre problemele de mai jos pentru a explora algoritmi de algebră liniară, teoria numerelor, teoria codurilor și valori proprii. Interfață curată, explicații clare, calcule exacte.",
+    "sections": {
+      "easy": "Ușor",
+      "medium": "Mediu",
+      "hard": "Greu"
+    },
+    "problemTitle": "Problema {{number}}",
+    "openProblem": "Deschide problema {{number}}",
+    "problems": {
+      "problem1": {
+        "title": "Matrice triunghiulare",
+        "description": "Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă produsul a două matrici triunghiulare este tot matrice triunghiulară."
+      },
+      "problem2": {
+        "title": "Decompoziție în matrice simetrică și antisimetrică",
+        "description": "Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o matrice antisimetrică."
+      },
+      "problem5": {
+        "title": "Rang și inversă prin metoda lui Gauss",
+        "description": "Calculați rangul unei matrici prin metoda lui Gauss și, dacă este posibil, inversa acesteia prin metoda Gauss–Jordan."
+      },
+      "problem6": {
+        "title": "Ordin și idempotent în (ℤₙ, ·)",
+        "description": "Fiind dat (ℤₙ, ·), calculați ordinul unui element și verificați dacă este idempotent în raport cu înmulțirea modulo n."
+      },
+      "problem11": {
+        "title": "Verificare cuvinte de cod cu matricea de control",
+        "description": "Se citește matricea de control a unui cod și o mulțime de cuvinte. Afișați-le pe cele care sunt cuvinte ale codului (sindrom nul)."
+      },
+      "problem12": {
+        "title": "Polinom caracteristic și valori proprii (2×2, 3×3)",
+        "description": "Calculați polinomul caracteristic și valorile proprii asociate unei matrici de ordinul 2 sau 3, afișând atât polinomul, cât și rădăcinile sale."
+      },
+      "problem14": {
+        "title": "Algoritmul lui Euclid, combinație liniară și fracție continuă",
+        "description": "Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b), scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b."
+      }
+    }
   }
 }
