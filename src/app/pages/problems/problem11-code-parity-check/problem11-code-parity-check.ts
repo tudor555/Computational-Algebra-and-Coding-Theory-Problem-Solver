@@ -5,7 +5,7 @@ import {
   CodingTheory,
   Matrix,
   Vector,
-} from '../../services/coding-theory';
+} from '../../../services/coding-theory';
 
 interface ParityCheckPreset {
   id: string;

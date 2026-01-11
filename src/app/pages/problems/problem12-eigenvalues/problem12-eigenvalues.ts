@@ -6,7 +6,7 @@ import {
   CharacteristicPolynomialResult,
   Matrix,
   MatrixAlgebra,
-} from '../../services/matrix-algebra';
+} from '../../../services/matrix-algebra';
 
 interface EigenPreset {
   id: string;

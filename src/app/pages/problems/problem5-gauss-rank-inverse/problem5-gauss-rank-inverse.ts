@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Matrix, MatrixAlgebra, RankAndInverseResult } from '../../services/matrix-algebra';
+import { Matrix, MatrixAlgebra, RankAndInverseResult } from '../../../services/matrix-algebra';
 
 interface MatrixPreset {
   id: string;

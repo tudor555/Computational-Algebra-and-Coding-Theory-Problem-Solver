@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ModularGroup, OrderComputationResult } from '../../services/modular-group';
+import { ModularGroup, OrderComputationResult } from '../../../services/modular-group';
 
 @Component({
   selector: 'app-problem6-zn-order-idempotent',

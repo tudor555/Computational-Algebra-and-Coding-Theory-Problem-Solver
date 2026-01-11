@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Matrix, MatrixAlgebra, MatrixDecompositionResult } from '../../services/matrix-algebra';
+import { Matrix, MatrixAlgebra, MatrixDecompositionResult } from '../../../services/matrix-algebra';
 
 interface MatrixPreset {
   id: string;

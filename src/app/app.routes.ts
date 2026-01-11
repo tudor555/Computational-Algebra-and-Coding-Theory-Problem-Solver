@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
-import { Problem1TriangularMatrices } from './pages/problem1-triangular-matrices/problem1-triangular-matrices';
-import { Problem2MatrixDecomposition } from './pages/problem2-matrix-decomposition/problem2-matrix-decomposition';
-import { Problem5GaussRankInverse } from './pages/problem5-gauss-rank-inverse/problem5-gauss-rank-inverse';
-import { Problem6ZnOrderIdempotent } from './pages/problem6-zn-order-idempotent/problem6-zn-order-idempotent';
-import { Problem11CodeParityCheck } from './pages/problem11-code-parity-check/problem11-code-parity-check';
-import { Problem12Eigenvalues } from './pages/problem12-eigenvalues/problem12-eigenvalues';
-import { Problem14EuclidContinuedFraction } from './pages/problem14-euclid-continued-fraction/problem14-euclid-continued-fraction';
+import { Problem1TriangularMatrices } from './pages/problems/problem1-triangular-matrices/problem1-triangular-matrices';
+import { Problem2MatrixDecomposition } from './pages/problems/problem2-matrix-decomposition/problem2-matrix-decomposition';
+import { Problem5GaussRankInverse } from './pages/problems/problem5-gauss-rank-inverse/problem5-gauss-rank-inverse';
+import { Problem6ZnOrderIdempotent } from './pages/problems/problem6-zn-order-idempotent/problem6-zn-order-idempotent';
+import { Problem11CodeParityCheck } from './pages/problems/problem11-code-parity-check/problem11-code-parity-check';
+import { Problem12Eigenvalues } from './pages/problems/problem12-eigenvalues/problem12-eigenvalues';
+import { Problem14EuclidContinuedFraction } from './pages/problems/problem14-euclid-continued-fraction/problem14-euclid-continued-fraction';
 import { NotFound } from './pages/not-found/not-found';
 
 export const routes: Routes = [

@@ -5,7 +5,7 @@ import {
   ExtendedEuclidResult,
   GcdResult,
   NumberTheory,
-} from '../../services/number-theory';
+} from '../../../services/number-theory';
 
 interface EuclidPreset {
   id: string;
