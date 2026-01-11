@@ -16,154 +16,121 @@
 
         <!-- TITLE + SUBTITLE -->
         <div class="text-center md:text-left max-w-2xl">
-          <h1 class="text-3xl md:text-4xl font-bold mb-2">Computational Algebra Problem Solver</h1>
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ 'home.title' | t }}</h1>
 
           <p class="text-app-muted text-m md:text-base">
-            Alege una dintre problemele de mai jos pentru a explora algoritmi de algebră liniară,
-            teoria numerelor, teoria codurilor și valori proprii. Interfață curată, explicații
-            clare, calcule exacte.
+            {{ 'home.subtitle' | t }}
           </p>
         </div>
       </div>
     </header>
 
-    <!-- Problem cards -->
-    <section class="grid gap-6 md:grid-cols-2">
-      <!-- Problem 1 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 1</p>
-            <h2 class="text-lg font-semibold">Matrice triunghiulare</h2>
-          </div>
-          <span class="difficulty-easy">Ușor</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă
-          produsul a două matrici triunghiulare este tot matrice triunghiulară.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/triangular-matrices" class="btn-primary"> Deschide problema 1 </a>
-        </div>
-      </article>
+    <!-- EASY -->
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <span class="difficulty-easy text-xl">{{ 'home.sections.easy' | t }}</span>
+      </div>
 
-      <!-- Problem 2 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 2</p>
-            <h2 class="text-lg font-semibold">
-              Decompoziție în matrice simetrică și antisimetrică
-            </h2>
+      <div class="grid gap-6" [ngClass]="gridClass">
+        @for (problem of easyProblems; track trackByProblemId($index, problem)) {
+        <article class="problem-card">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                {{ 'home.sections.easy' | t }} ·
+                {{ 'home.problemTitle' | t : { number: problem.number } }}
+              </p>
+              <h3 class="text-lg font-semibold">
+                {{ 'home.problems.' + problem.id + '.title' | t }}
+              </h3>
+            </div>
+            <span class="difficulty-easy">{{ 'home.sections.easy' | t }}</span>
           </div>
-          <span class="difficulty-easy">Ușor</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și
-          o matrice antisimetrică.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/matrix-decomposition" class="btn-primary"> Deschide problema 2 </a>
-        </div>
-      </article>
 
-      <!-- Problem 6 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Ușor · Problema 6</p>
-            <h2 class="text-lg font-semibold">Ordin și idempotent în (ℤₙ, ·)</h2>
+          <p class="text-sm text-app-muted">
+            {{ 'home.problems.' + problem.id + '.description' | t }}
+          </p>
+
+          <div class="mt-3">
+            <a [routerLink]="problem.route" class="btn-primary">
+              {{ 'home.openProblem' | t : { number: problem.number } }}
+            </a>
           </div>
-          <span class="difficulty-easy">Ușor</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Fiind dat (ℤₙ, ·), calculați ordinul unui element și verificați dacă este idempotent în
-          raport cu înmulțirea modulo n.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/zn-order-idempotent" class="btn-primary"> Deschide problema 6 </a>
-        </div>
-      </article>
+        </article>
+        }
+      </div>
+    </section>
 
-      <!-- EMPTY SPACER (to keep grid symmetry) -->
-      <div class="hidden md:block"></div>
+    <!-- MEDIUM -->
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <span class="difficulty-medium text-xl">{{ 'home.sections.medium' | t }}</span>
+      </div>
 
-      <!-- Problem 5 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Mediu · Problema 5</p>
-            <h2 class="text-lg font-semibold">Rang și inversă prin metoda lui Gauss</h2>
+      <div class="grid gap-6" [ngClass]="gridClass">
+        @for (problem of mediumProblems; track trackByProblemId($index, problem)) {
+        <article class="problem-card">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                {{ 'home.sections.medium' | t }} ·
+                {{ 'home.problemTitle' | t : { number: problem.number } }}
+              </p>
+              <h3 class="text-lg font-semibold">
+                {{ 'home.problems.' + problem.id + '.title' | t }}
+              </h3>
+            </div>
+            <span class="difficulty-medium">{{ 'home.sections.medium' | t }}</span>
           </div>
-          <span class="difficulty-medium">Mediu</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Calculați rangul unei matrici prin metoda lui Gauss și, dacă este posibil, inversa
-          acesteia prin metoda Gauss–Jordan.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/gauss-rank-inverse" class="btn-primary"> Deschide problema 5 </a>
-        </div>
-      </article>
 
-      <!-- Problem 11 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Mediu · Problema 11</p>
-            <h2 class="text-lg font-semibold">Verificare cuvinte de cod cu matricea de control</h2>
-          </div>
-          <span class="difficulty-medium">Mediu</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Se citește matricea de control a unui cod și o mulțime de cuvinte. Afișați-le pe cele care
-          sunt cuvinte ale codului (sindrom nul).
-        </p>
-        <div class="mt-3">
-          <a routerLink="/code-parity-check" class="btn-primary"> Deschide problema 11 </a>
-        </div>
-      </article>
+          <p class="text-sm text-app-muted">
+            {{ 'home.problems.' + problem.id + '.description' | t }}
+          </p>
 
-      <!-- Problem 12 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Greu · Problema 12</p>
-            <h2 class="text-lg font-semibold">
-              Polinom caracteristic și valori proprii (2×2, 3×3)
-            </h2>
+          <div class="mt-3">
+            <a [routerLink]="problem.route" class="btn-primary">
+              {{ 'home.openProblem' | t : { number: problem.number } }}
+            </a>
           </div>
-          <span class="difficulty-hard">Greu</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Calculați polinomul caracteristic și valorile proprii asociate unei matrici de ordinul 2
-          sau 3, afișând atât polinomul, cât și rădăcinile sale.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/eigen-values" class="btn-primary"> Deschide problema 12 </a>
-        </div>
-      </article>
+        </article>
+        }
+      </div>
+    </section>
 
-      <!-- Problem 14 -->
-      <article class="problem-card">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-s uppercase tracking-wide text-app-muted mb-1">Greu · Problema 14</p>
-            <h2 class="text-lg font-semibold">
-              Algoritmul lui Euclid, combinație liniară și fracție continuă
-            </h2>
+    <!-- HARD -->
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <span class="difficulty-hard text-xl">{{ 'home.sections.hard' | t }}</span>
+      </div>
+
+      <div class="grid gap-6" [ngClass]="gridClass">
+        @for (problem of hardProblems; track trackByProblemId($index, problem)) {
+        <article class="problem-card">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                {{ 'home.sections.hard' | t }} ·
+                {{ 'home.problemTitle' | t : { number: problem.number } }}
+              </p>
+              <h3 class="text-lg font-semibold">
+                {{ 'home.problems.' + problem.id + '.title' | t }}
+              </h3>
+            </div>
+            <span class="difficulty-hard">{{ 'home.sections.hard' | t }}</span>
           </div>
-          <span class="difficulty-hard">Greu</span>
-        </div>
-        <p class="text-m text-app-muted">
-          Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b),
-          scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui
-          a/b.
-        </p>
-        <div class="mt-3">
-          <a routerLink="/euclid-continued-fraction" class="btn-primary"> Deschide problema 14 </a>
-        </div>
-      </article>
+
+          <p class="text-sm text-app-muted">
+            {{ 'home.problems.' + problem.id + '.description' | t }}
+          </p>
+
+          <div class="mt-3">
+            <a [routerLink]="problem.route" class="btn-primary">
+              {{ 'home.openProblem' | t : { number: problem.number } }}
+            </a>
+          </div>
+        </article>
+        }
+      </div>
     </section>
   </div>
 </div>
