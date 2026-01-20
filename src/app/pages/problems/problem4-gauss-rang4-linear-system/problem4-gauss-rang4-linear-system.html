@@ -1,1 +1,221 @@
-<p>problem4-gauss-rang4-linear-system works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 4 – Sistem liniar 4×4 prin metoda lui Gauss
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind eliminarea Gauss (pe
+      matricea augmentată <span class="font-mono">[A | b]</span>). În funcție de ranguri, sistemul
+      poate avea soluție unică, infinit de soluții sau nici o soluție.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+
+      <p class="text-app-muted text-m mb-3">
+        Alege rapid un sistem 4×4 (soluție unică / infinit de soluții / fără soluție).
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu sistemul</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          Aplică metoda lui Gauss
+        </button>
+
+        <button type="button" class="btn-secondary" (click)="initialize()">Resetează</button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage }}
+        </p>
+      }
+
+      <!-- Augmented matrix input -->
+      <div
+        class="inline-flex items-start gap-3 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mt-2">[A | b] =</span>
+
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of A; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="A[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+
+                  <!-- Separator -->
+                  <td class="px-2 text-app-muted">|</td>
+
+                  <!-- b column -->
+                  <td class="p-1">
+                    <input
+                      type="number"
+                      class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                      [value]="b[i]"
+                      (input)="onBChange(i, $event)"
+                    />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">Rezultatele metodei lui Gauss</h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            Construim matricea augmentată <span class="font-mono">[A | b]</span> și aplicăm operații
+            elementare pe linii (schimb de linii, înmulțire cu scalar nenul, adunarea unui multiplu
+            al unei linii la alta) pentru a ajunge la o formă escalonată redusă (Gauss–Jordan).
+          </p>
+          <p class="mb-2">
+            Dacă <span class="font-mono">rang([A|b]) &gt; rang(A)</span>, sistemul este inconsistent
+            (fără soluție). Dacă <span class="font-mono">rang([A|b]) = rang(A) = 4</span>, soluția
+            este unică. Dacă <span class="font-mono">rang([A|b]) = rang(A) &lt; 4</span>, există
+            infinit de soluții.
+          </p>
+        </div>
+
+        <!-- Rank info -->
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-1">
+              <span class="font-semibold">rang(A)</span> =
+              <span class="font-mono">{{ result.rankA }}</span>
+            </p>
+            <p class="mb-1">
+              <span class="font-semibold">rang([A|b])</span> =
+              <span class="font-mono">{{ result.rankAugmented }}</span>
+            </p>
+
+            <div class="mt-3">
+              @if (!result.hasSolution) {
+                <p class="text-red-300 font-semibold">Sistem fără soluție (inconsistent).</p>
+              } @else if (result.hasUniqueSolution && result.solution) {
+                <p class="text-green-300 font-semibold">Sistem cu soluție unică.</p>
+              } @else {
+                <p class="text-amber-300 font-semibold">Sistem cu infinit de soluții.</p>
+              }
+            </div>
+          </div>
+
+          <!-- Solution -->
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">Soluția</h3>
+
+            @if (!result.hasSolution) {
+              <p class="text-app-muted">
+                Sistemul este inconsistent: apare o ecuație de forma
+                <span class="font-mono">0 = c</span> cu <span class="font-mono">c ≠ 0</span>.
+              </p>
+            } @else if (result.hasUniqueSolution && result.solution) {
+              <p class="mb-3 text-app-muted">
+                Din forma escalonată redusă citim direct valorile necunoscutelor:
+              </p>
+
+              <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+                <table class="border-collapse">
+                  <tbody>
+                    @for (value of result.solution; track $index; let k = $index) {
+                      <tr>
+                        <td class="px-3 py-1 text-m text-app-muted font-mono">x{{ k + 1 }}</td>
+                        <td class="px-3 py-1 text-m text-app-muted">=</td>
+                        <td class="px-3 py-1 text-right text-m font-mono">
+                          {{ value | number: '1.4-4' }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <p class="text-app-muted">
+                Sistem consistent, dar rangul este mai mic decât numărul de necunoscute → există
+                variabile libere, deci infinit de soluții.
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Augmented row echelon form -->
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-3">Forma obținută pentru matricea augmentată [A | b]</h3>
+
+          <div
+            class="inline-block bg-app-bg rounded-xl p-3 border border-app-border overflow-x-auto max-w-full"
+          >
+            <table class="border-collapse">
+              <tbody>
+                @for (row of result.augmentedRowEchelonForm; track $index) {
+                  <tr>
+                    @for (value of row; track $index; let j = $index) {
+                      <td class="px-3 py-1 text-right text-m font-mono">
+                        {{ value | number: '1.2-2' }}
+                      </td>
+
+                      @if (j === 3) {
+                        <td class="px-2 text-app-muted font-mono">|</td>
+                      }
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="mt-3 text-s text-app-muted">
+            Ultima coloană corespunde lui <span class="font-mono">b</span>. Separatorul
+            <span class="font-mono">|</span> este doar vizual.
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</div>
