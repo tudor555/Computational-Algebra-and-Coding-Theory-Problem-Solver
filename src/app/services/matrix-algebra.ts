@@ -24,6 +24,16 @@ export interface CharacteristicPolynomialResult {
   hasRealEigenvalues: boolean;
 }
 
+export interface LinearSystemSolutionResult {
+  augmentedRowEchelonForm: Matrix;
+  rankA: number;
+  rankAugmented: number;
+  hasSolution: boolean;
+  hasUniqueSolution: boolean;
+  hasInfiniteSolutions: boolean;
+  solution: number[] | null; // when unique
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -208,6 +218,146 @@ export class MatrixAlgebra {
       isSquare,
       hasInverse,
       inverse,
+    };
+  }
+
+  // Solve a linear system A x = b using Gauss–Jordan elimination on the augmented matrix [A | b].
+  // Returns rank(A), rank([A|b]), consistency, and the unique solution if it exists.
+  solveLinearSystemGaussJordan(A: Matrix, b: number[]): LinearSystemSolutionResult {
+    const rowCount = this.getRowCount(A);
+    const columnCount = this.getColumnCount(A);
+
+    if (rowCount === 0 || columnCount === 0) {
+      throw new Error('Matrix A must be non-empty.');
+    }
+
+    if (b.length !== rowCount) {
+      throw new Error('Vector b must have the same number of rows as matrix A.');
+    }
+
+    // Build augmented matrix [A | b]
+    const augmented: Matrix = A.map((row, rowIndex) => [...row, b[rowIndex]]);
+    const totalColumns = columnCount + 1;
+
+    const tolerance = 1e-12;
+
+    let pivotRow = 0;
+
+    for (let pivotColumn = 0; pivotColumn < columnCount && pivotRow < rowCount; pivotColumn++) {
+      // Find a pivot row with a non-zero entry in this column
+      let pivotRowCandidate = pivotRow;
+      while (
+        pivotRowCandidate < rowCount &&
+        Math.abs(augmented[pivotRowCandidate][pivotColumn]) < tolerance
+      ) {
+        pivotRowCandidate++;
+      }
+
+      if (pivotRowCandidate === rowCount) {
+        // No pivot in this column
+        continue;
+      }
+
+      // Swap to bring pivot row into position
+      if (pivotRowCandidate !== pivotRow) {
+        const temp = augmented[pivotRow];
+        augmented[pivotRow] = augmented[pivotRowCandidate];
+        augmented[pivotRowCandidate] = temp;
+      }
+
+      // Normalize pivot row
+      const pivotValue = augmented[pivotRow][pivotColumn];
+      for (let col = 0; col < totalColumns; col++) {
+        augmented[pivotRow][col] /= pivotValue;
+      }
+
+      // Eliminate the pivot column from all other rows
+      for (let row = 0; row < rowCount; row++) {
+        if (row === pivotRow) {
+          continue;
+        }
+        const factor = augmented[row][pivotColumn];
+        if (Math.abs(factor) >= tolerance) {
+          for (let col = 0; col < totalColumns; col++) {
+            augmented[row][col] -= factor * augmented[pivotRow][col];
+          }
+        }
+      }
+
+      pivotRow++;
+    }
+
+    // Compute rank(A) and rank([A|b]) from RREF-like augmented matrix
+    let rankA = 0;
+    let rankAugmented = 0;
+
+    for (let row = 0; row < rowCount; row++) {
+      const hasNonZeroInA = augmented[row]
+        .slice(0, columnCount)
+        .some((value) => Math.abs(value) >= tolerance);
+
+      const hasNonZeroInAug = augmented[row]
+        .slice(0, totalColumns)
+        .some((value) => Math.abs(value) >= tolerance);
+
+      if (hasNonZeroInA) {
+        rankA++;
+      }
+
+      if (hasNonZeroInAug) {
+        rankAugmented++;
+      }
+    }
+
+    // Inconsistent if rank([A|b]) > rank(A)
+    const hasSolution = rankAugmented === rankA;
+
+    if (!hasSolution) {
+      return {
+        augmentedRowEchelonForm: augmented,
+        rankA,
+        rankAugmented,
+        hasSolution: false,
+        hasUniqueSolution: false,
+        hasInfiniteSolutions: false,
+        solution: null,
+      };
+    }
+
+    const hasUniqueSolution = rankA === columnCount;
+    const hasInfiniteSolutions = !hasUniqueSolution;
+
+    let solution: number[] | null = null;
+
+    // If unique, read off solution from augmented matrix
+    if (hasUniqueSolution) {
+      solution = Array(columnCount).fill(0);
+
+      for (let row = 0; row < rowCount; row++) {
+        // find leading 1 in columns 0..columnCount-1
+        let leadingColumn = -1;
+        for (let col = 0; col < columnCount; col++) {
+          if (Math.abs(augmented[row][col] - 1) < 1e-9) {
+            // ensure other entries in this column are ~0
+            leadingColumn = col;
+            break;
+          }
+        }
+
+        if (leadingColumn !== -1) {
+          solution[leadingColumn] = augmented[row][columnCount];
+        }
+      }
+    }
+
+    return {
+      augmentedRowEchelonForm: augmented,
+      rankA,
+      rankAugmented,
+      hasSolution,
+      hasUniqueSolution,
+      hasInfiniteSolutions,
+      solution,
     };
   }
 
@@ -412,13 +562,13 @@ export class MatrixAlgebra {
     matrix: Matrix,
     targetRowIndex: number,
     sourceRowIndex: number,
-    factor: number
+    factor: number,
   ): void {
     const targetRow = matrix[targetRowIndex];
     const sourceRow = matrix[sourceRowIndex];
 
     matrix[targetRowIndex] = targetRow.map(
-      (value, columnIndex) => value + factor * sourceRow[columnIndex]
+      (value, columnIndex) => value + factor * sourceRow[columnIndex],
     );
   }
 
