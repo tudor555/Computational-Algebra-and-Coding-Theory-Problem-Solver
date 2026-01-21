@@ -1,1 +1,207 @@
-<p>problem3-hermitian-matrix-inverse works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 3 – Matrice Hermitică și inversa ei
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Verificați dacă o matrice este Hermitică. Pentru intrări reale, o matrice este Hermitică dacă
+      este simetrică: <span class="font-mono">A = Aᵀ</span>. Dacă este Hermitică și inversabilă,
+      verificați dacă inversa este tot Hermitică.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+
+      <p class="text-app-muted text-m mb-3">
+        Alege rapid o matrice pentru testare (Hermitică inversabilă / Hermitică singulară /
+        ne-Hermitică).
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Row count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Numărul de linii </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="rowCount"
+            (input)="onRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Column count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"> Numărul de coloane </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="columnCount"
+            (input)="onColumnCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">Verifică</button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage }}
+        </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrix[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">Rezultate</h2>
+
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            Definiție: o matrice este Hermitică dacă <span class="font-mono">A = A*</span> (egală cu
+            transpusa conjugată). Pentru matrice cu intrări reale, aceasta devine simplu
+            <span class="font-mono">A = Aᵀ</span>.
+          </p>
+          <p>
+            Dacă <span class="font-mono">A</span> este Hermitică și inversabilă, atunci și
+            <span class="font-mono">A⁻¹</span> este Hermitică deoarece
+            <span class="font-mono">(A⁻¹)* = (A*)⁻¹ = A⁻¹</span>.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-2">
+              @if (result.isSquare) {
+                <span class="text-green-300 font-semibold">Matricea este pătratică.</span>
+              } @else {
+                <span class="text-red-300 font-semibold">Matricea nu este pătratică.</span>
+              }
+            </p>
+
+            <p>
+              @if (result.isSquare && result.isHermitian) {
+                <span class="text-green-300 font-semibold"
+                  >Matricea este Hermitică (pentru intrări reale).</span
+                >
+              } @else if (result.isSquare && !result.isHermitian) {
+                <span class="text-red-300 font-semibold">Matricea NU este Hermitică.</span>
+              } @else {
+                <span class="text-app-muted"
+                  >Hermitianitatea se verifică doar pentru matrice pătratice.</span
+                >
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">Inversa și proprietatea Hermitică</h3>
+
+            @if (result.isSquare && result.isHermitian) {
+              @if (result.hasInverse && result.inverse) {
+                <p class="mb-3 text-app-muted">
+                  Matricea este inversabilă. Mai jos este inversa
+                  <span class="font-mono">A⁻¹</span>.
+                </p>
+
+                <p class="mb-3">
+                  @if (result.inverseIsHermitian) {
+                    <span class="text-green-300 font-semibold">Inversa este Hermitică.</span>
+                  } @else {
+                    <span class="text-red-300 font-semibold">Inversa NU este Hermitică.</span>
+                  }
+                </p>
+
+                <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+                  <table class="border-collapse">
+                    <tbody>
+                      @for (row of result.inverse; track $index) {
+                        <tr>
+                          @for (value of row; track $index) {
+                            <td class="px-3 py-1 text-right text-m">
+                              {{ value | number: '1.3-3' }}
+                            </td>
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              } @else {
+                <p class="text-amber-300 font-semibold">
+                  Matricea este Hermitică, dar nu este inversabilă (singulară).
+                </p>
+              }
+            } @else {
+              <p class="text-app-muted">
+                Calculul inversei și verificarea proprietății se fac doar dacă matricea este
+                pătratică și Hermitică.
+              </p>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</div>
