@@ -27,10 +27,17 @@ export class Home {
     { id: 'problem2', number: 2, route: '/matrix-decomposition', difficulty: 'easy' },
     { id: 'problem6', number: 6, route: '/zn-order-idempotent', difficulty: 'easy' },
 
+    { id: 'problem3', number: 3, route: '/hermitian-matrix-inverse', difficulty: 'medium' },
+    { id: 'problem4', number: 4, route: '/gauss-4x4-linear-system', difficulty: 'medium' },
     { id: 'problem5', number: 5, route: '/gauss-rank-inverse', difficulty: 'medium' },
+    { id: 'problem9', number: 9, route: '/linear-code-check', difficulty: 'medium' },
+    { id: 'problem10', number: 10, route: '/generator-matrix-codewords', difficulty: 'medium' },
     { id: 'problem11', number: 11, route: '/code-parity-check', difficulty: 'medium' },
 
+    { id: 'problem7', number: 7, route: '/m2r-matrix-order-idempotent', difficulty: 'hard' },
+    { id: 'problem8', number: 8, route: '/code-parameters', difficulty: 'hard' },
     { id: 'problem12', number: 12, route: '/eigen-values', difficulty: 'hard' },
+    { id: 'problem13', number: 13, route: '/galois-group-polynomial', difficulty: 'hard' },
     { id: 'problem14', number: 14, route: '/euclid-continued-fraction', difficulty: 'hard' },
   ];
 
