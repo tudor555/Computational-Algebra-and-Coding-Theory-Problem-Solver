@@ -400,6 +400,30 @@ export class MatrixAlgebra {
     return 'none';
   }
 
+  isSymmetric(matrix: Matrix, tolerance = 1e-10): boolean {
+    if (!this.isSquare(matrix)) {
+      return false;
+    }
+
+    const size = matrix.length;
+
+    for (let row = 0; row < size; row++) {
+      for (let column = row + 1; column < size; column++) {
+        if (Math.abs(matrix[row][column] - matrix[column][row]) > tolerance) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  // For now we support only real matrices, so Hermitian <=> symmetric.
+  // (If we add complex support later, we will check conjugate transpose instead.)
+  isHermitianReal(matrix: Matrix, tolerance = 1e-10): boolean {
+    return this.isSymmetric(matrix, tolerance);
+  }
+
   // Get the number of rows in a matrix
   getRowCount(matrix: Matrix): number {
     return matrix.length;
