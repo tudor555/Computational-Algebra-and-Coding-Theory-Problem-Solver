@@ -1,1 +1,197 @@
-<p>problem10-generator-matrix-codewords works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 10 – Afișează toate cuvintele codului (din matricea generatoare)
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      Pentru o matrice generatoare <span class="font-mono">G</span> de dimensiune
+      <span class="font-mono">k×n</span>, codul este:
+      <span class="font-mono">C = &#123; uG (mod q) | u ∈ (Zq)^k &#125;</span>. Afișăm toate
+      cuvintele codului generate de <span class="font-mono">G</span>.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <p class="text-app-muted text-m mb-3">Alege rapid o matrice generatoare.</p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu matricea generatoare</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-m text-app-muted mb-1">Modulus (q)</label>
+          <input
+            type="number"
+            min="2"
+            max="13"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-m text-app-muted mb-1">Linii (k)</label>
+          <input
+            type="number"
+            min="1"
+            max="6"
+            [value]="rowCount"
+            (input)="onRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-m text-app-muted mb-1">Coloane (n)</label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            [value]="columnCount"
+            (input)="onColumnCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          Generează cuvintele codului
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">{{ errorMessage }}</p>
+      }
+
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border overflow-x-auto max-w-full"
+      >
+        <span class="text-app-muted text-m mr-1">G =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of generatorMatrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="generatorMatrix[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="mt-3 text-s text-app-muted">
+        Atenție: numărul de cuvinte este <span class="font-mono">q^k</span>. Pentru valori mari,
+        generarea poate deveni lentă.
+      </p>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">Rezultate</h2>
+
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-1">
+              Dimensiuni:
+              <span class="font-mono">k = {{ result.rowCount }}</span
+              >,
+              <span class="font-mono">n = {{ result.columnCount }}</span>
+            </p>
+            <p class="mb-1">
+              Număr așteptat de cuvinte:
+              <span class="font-mono">{{ result.expectedCount }}</span>
+            </p>
+            <p class="mb-1">
+              Număr afișat (după eliminarea duplicatelor):
+              <span class="font-mono">{{ result.codewordCount }}</span>
+            </p>
+
+            @if (result.hadDuplicates) {
+              <p class="mt-2 text-amber-300">
+                Observație: au existat duplicate (matricea poate să nu aibă rangul k sau lucrăm
+                peste Zq ne-corp).
+              </p>
+            }
+          </div>
+
+          <div
+            class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+          >
+            <p class="mb-2">
+              Fiecare cuvânt se obține ca <span class="font-mono">c = uG (mod q)</span>, unde
+              <span class="font-mono">u</span> este un vector de lungime
+              <span class="font-mono">k</span>.
+            </p>
+            <p>
+              Pentru <span class="font-mono">q=2</span>, această generare parcurge toate
+              combinațiile binare ale lui <span class="font-mono">u</span>.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-3">Cuvintele codului</h3>
+
+          <div class="bg-app-bg border border-app-border rounded-xl p-3 overflow-x-auto max-w-full">
+            <table class="border-collapse w-full">
+              <thead>
+                <tr class="text-app-muted">
+                  <th class="text-left px-2 py-2">#</th>
+                  <th class="text-left px-2 py-2">Cuvânt</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cw of result.codewords; track $index; let idx = $index) {
+                  <tr class="border-t border-app-border">
+                    <td class="px-2 py-2 text-app-muted">{{ idx + 1 }}</td>
+                    <td class="px-2 py-2 font-mono">{{ formatVector(cw) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="mt-3 text-s text-app-muted">
+            Cuvintele sunt afișate în ordinea mesajelor
+            <span class="font-mono">u</span> (lexicografic în baza q).
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</div>
