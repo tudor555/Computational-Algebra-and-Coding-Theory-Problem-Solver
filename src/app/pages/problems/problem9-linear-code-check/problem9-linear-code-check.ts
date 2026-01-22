@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CodingTheory, LinearCodeCheckResult, Vector } from '../../../services/coding-theory';
 import { RouterModule } from '@angular/router';
+import { CodingTheory, LinearCodeCheckResult, Vector } from '../../../services/coding-theory';
 
 interface CodePreset {
   id: string;

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import {
   LinearSystemSolutionResult,
   Matrix,
   MatrixAlgebra,
 } from '../../../services/matrix-algebra';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 interface LinearSystemPreset {
   id: string;
