@@ -34,6 +34,21 @@ export interface LinearSystemSolutionResult {
   solution: number[] | null; // when unique
 }
 
+export interface MatrixOrderResult {
+  maxPowerChecked: number;
+  tolerance: number;
+
+  isSquare: boolean;
+  size: number;
+
+  isIdempotent: boolean;
+
+  hasFiniteOrderWithinLimit: boolean;
+  order: number | null;
+
+  powersPreview: { power: number; matrix: Matrix }[]; // A^1..A^k for small preview
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -422,6 +437,114 @@ export class MatrixAlgebra {
   // (If we add complex support later, we will check conjugate transpose instead.)
   isHermitianReal(matrix: Matrix, tolerance = 1e-10): boolean {
     return this.isSymmetric(matrix, tolerance);
+  }
+
+  identityMatrix(size: number): Matrix {
+    if (!Number.isInteger(size) || size <= 0) {
+      throw new Error('Size must be a positive integer.');
+    }
+    return Array.from({ length: size }, (_, row) =>
+      Array.from({ length: size }, (_, col) => (row === col ? 1 : 0)),
+    );
+  }
+
+  areMatricesEqual(A: Matrix, B: Matrix, tolerance = 1e-10): boolean {
+    if (A.length !== B.length) {
+      return false;
+    }
+    if (A.length === 0) {
+      return false;
+    }
+    if (A[0].length !== B[0].length) {
+      return false;
+    }
+
+    for (let row = 0; row < A.length; row++) {
+      if (A[row].length !== B[row].length) {
+        return false;
+      }
+
+      for (let col = 0; col < A[row].length; col++) {
+        if (Math.abs(A[row][col] - B[row][col]) > tolerance) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  isIdempotent(matrix: Matrix, tolerance = 1e-10): boolean {
+    if (!this.isSquare(matrix)) {
+      return false;
+    }
+    const squared = this.multiplyMatrices(matrix, matrix);
+    return this.areMatricesEqual(squared, matrix, tolerance);
+  }
+
+  // Find the smallest k >= 1 such that A^k = I (within tolerance), up to maxPower.
+  // Returns null if not found within the limit.
+  computeOrderInMultiplicativeGroup(
+    matrix: Matrix,
+    maxPower = 50,
+    tolerance = 1e-10,
+    previewLimit = 10,
+  ): MatrixOrderResult {
+    const isSquare = this.isSquare(matrix);
+
+    if (!isSquare) {
+      return {
+        maxPowerChecked: maxPower,
+        tolerance,
+        isSquare: false,
+        size: 0,
+        isIdempotent: false,
+        hasFiniteOrderWithinLimit: false,
+        order: null,
+        powersPreview: [],
+      };
+    }
+
+    const size = matrix.length;
+    const identity = this.identityMatrix(size);
+
+    const idempotent = this.isIdempotent(matrix, tolerance);
+
+    let currentPower = this.cloneMatrix(matrix);
+    const preview: { power: number; matrix: Matrix }[] = [];
+
+    for (let power = 1; power <= maxPower; power++) {
+      if (power <= previewLimit) {
+        preview.push({ power, matrix: this.cloneMatrix(currentPower) });
+      }
+
+      if (this.areMatricesEqual(currentPower, identity, tolerance)) {
+        return {
+          maxPowerChecked: maxPower,
+          tolerance,
+          isSquare: true,
+          size,
+          isIdempotent: idempotent,
+          hasFiniteOrderWithinLimit: true,
+          order: power,
+          powersPreview: preview,
+        };
+      }
+
+      // Next power: A^{power+1} = A^{power} * A
+      currentPower = this.multiplyMatrices(currentPower, matrix);
+    }
+
+    return {
+      maxPowerChecked: maxPower,
+      tolerance,
+      isSquare: true,
+      size,
+      isIdempotent: idempotent,
+      hasFiniteOrderWithinLimit: false,
+      order: null,
+      powersPreview: preview,
+    };
   }
 
   // Get the number of rows in a matrix
