@@ -45,6 +45,24 @@ export interface GeneratorMatrixCodewordsResult {
   hadDuplicates: boolean;
 }
 
+export interface CodeParametersResult {
+  modulus: number;
+
+  length: number; // n
+  wordCount: number; // M (unique)
+
+  minimumDistance: number | null; // d
+  errorCorrectingCapability: number | null; // t
+  coveringRadius: number | null; // rho (null when too expensive)
+
+  isLinear: boolean;
+  dimensionK: number | null; // k if linear and M = q^k
+  redundancyS: number | null; // s = n - k (only if linear)
+
+  uniqueWords: Vector[];
+  coveringRadiusComputed: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -415,6 +433,186 @@ export class CodingTheory {
       expectedCount,
       codewords,
       hadDuplicates: codewords.length !== expectedCount,
+    };
+  }
+
+  // Hamming distance between two vectors (modulus used only for normalization)
+  hammingDistance(a: Vector, b: Vector, modulus: number): number {
+    if (a.length !== b.length) {
+      throw new Error('Vectors must have the same length to compute Hamming distance.');
+    }
+
+    let distance = 0;
+    for (let index = 0; index < a.length; index++) {
+      const x = this.normalizeMod(a[index], modulus);
+      const y = this.normalizeMod(b[index], modulus);
+      if (x !== y) {
+        distance++;
+      }
+    }
+
+    return distance;
+  }
+
+  // Normalize all words modulo modulus and remove duplicates
+  normalizeAndUniqueWords(words: Vector[], modulus: number): Vector[] {
+    if (!Number.isInteger(modulus) || modulus < 2) {
+      throw new Error('Modulus must be an integer at least 2.');
+    }
+
+    if (words.length === 0) {
+      return [];
+    }
+
+    const length = words[0].length;
+    if (length === 0) {
+      throw new Error('Words must have positive length.');
+    }
+
+    for (const word of words) {
+      if (word.length !== length) {
+        throw new Error('All words must have the same length.');
+      }
+    }
+
+    const normalized = words.map((w) => w.map((x) => this.normalizeMod(x, modulus)));
+
+    const seen = new Set<string>();
+    const unique: Vector[] = [];
+
+    for (const w of normalized) {
+      const key = w.join(',');
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(w);
+      }
+    }
+
+    return unique;
+  }
+
+  // d = min_{x != y} d_H(x,y)
+  computeMinimumDistance(words: Vector[], modulus: number): number | null {
+    if (words.length < 2) {
+      return null;
+    }
+
+    let minimum = Infinity;
+
+    for (let i = 0; i < words.length; i++) {
+      for (let j = i + 1; j < words.length; j++) {
+        const dist = this.hammingDistance(words[i], words[j], modulus);
+        if (dist < minimum) {
+          minimum = dist;
+        }
+      }
+    }
+
+    return Number.isFinite(minimum) ? minimum : null;
+  }
+
+  // rho = max_{v in (Z_q)^n} min_{c in C} d_H(v,c)
+  // Exponential -> we cap q^n to keep app responsive.
+  computeCoveringRadius(
+    words: Vector[],
+    modulus: number,
+    length: number,
+  ): { rho: number | null; computed: boolean } {
+    if (words.length === 0) {
+      return { rho: null, computed: false };
+    }
+
+    const spaceSize = Math.pow(modulus, length);
+
+    // Safety cap to avoid long computations in the UI
+    if (spaceSize > 5000) {
+      return { rho: null, computed: false };
+    }
+
+    // generateAllMessageVectors(length, modulus) already exists in your service from Problem 10
+    const allVectors = this.generateAllMessageVectors(length, modulus);
+
+    let radius = 0;
+
+    for (const v of allVectors) {
+      let minDist = Infinity;
+
+      for (const codeword of words) {
+        const dist = this.hammingDistance(v, codeword, modulus);
+        if (dist < minDist) {
+          minDist = dist;
+          if (minDist === 0) {
+            break;
+          }
+        }
+      }
+
+      if (minDist > radius) {
+        radius = minDist;
+      }
+    }
+
+    return { rho: radius, computed: true };
+  }
+
+  // Compute parameters (n, M, d, s, t, rho) for a code given as a set of words over Z_modulus
+  computeCodeParameters(words: Vector[], modulus: number): CodeParametersResult {
+    const uniqueWords = this.normalizeAndUniqueWords(words, modulus);
+
+    if (uniqueWords.length === 0) {
+      return {
+        modulus,
+        length: 0,
+        wordCount: 0,
+        minimumDistance: null,
+        errorCorrectingCapability: null,
+        coveringRadius: null,
+        isLinear: false,
+        dimensionK: null,
+        redundancyS: null,
+        uniqueWords: [],
+        coveringRadiusComputed: false,
+      };
+    }
+
+    const length = uniqueWords[0].length;
+    const wordCount = uniqueWords.length;
+
+    const minimumDistance = this.computeMinimumDistance(uniqueWords, modulus);
+    const errorCorrectingCapability =
+      minimumDistance === null ? null : Math.floor((minimumDistance - 1) / 2);
+
+    const linearCheck = this.checkIfCodeIsLinear(uniqueWords, modulus);
+    const isLinear = linearCheck.isLinear;
+
+    let dimensionK: number | null = null;
+    let redundancyS: number | null = null;
+
+    if (isLinear) {
+      // For linear codes over Z_q (field if q prime), typically M = q^k
+      const kApprox = Math.log(wordCount) / Math.log(modulus);
+      const kRounded = Math.round(kApprox);
+
+      if (Math.abs(kApprox - kRounded) < 1e-9 && Math.pow(modulus, kRounded) === wordCount) {
+        dimensionK = kRounded;
+        redundancyS = length - dimensionK; // s = n - k (redundancy)
+      }
+    }
+
+    const covering = this.computeCoveringRadius(uniqueWords, modulus, length);
+
+    return {
+      modulus,
+      length,
+      wordCount,
+      minimumDistance,
+      errorCorrectingCapability,
+      coveringRadius: covering.rho,
+      isLinear,
+      dimensionK,
+      redundancyS,
+      uniqueWords,
+      coveringRadiusComputed: covering.computed,
     };
   }
 }
