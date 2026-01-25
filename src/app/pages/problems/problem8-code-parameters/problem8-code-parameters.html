@@ -1,1 +1,249 @@
-<p>problem8-code-parameters works!</p>
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      ←
+      <span>Înapoi la pagina principală</span>
+    </button>
+
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      Problema 8 – Parametrii unui cod (n, M, d, s, t, ρ)
+    </h1>
+
+    <p class="text-app-muted text-base md:text-base max-w-3xl mx-auto text-center mb-10">
+      Se dă un cod <span class="font-mono">C ⊆ (Zq)^n</span>. Afișăm parametrii:
+      <span class="font-mono">n</span> (lungime), <span class="font-mono">M</span> (număr de
+      cuvinte), <span class="font-mono">d</span> (distanță minimă),
+      <span class="font-mono">t</span> (corecție erori), <span class="font-mono">ρ</span> (raza de
+      acoperire), și <span class="font-mono">s</span> (redundanță, pentru coduri liniare).
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <p class="text-app-muted text-base mb-3">Alege rapid un cod mic pentru test.</p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-sm md:text-base"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.label }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">Introdu codul</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-base text-app-muted mb-1">Modulus (q)</label>
+          <input
+            type="number"
+            min="2"
+            max="13"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-base text-app-muted mb-1">Număr de cuvinte</label>
+          <input
+            type="number"
+            min="1"
+            max="64"
+            [value]="wordCount"
+            (input)="onWordCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-base text-app-muted mb-1">Lungime cuvânt (n)</label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            [value]="wordLength"
+            (input)="onWordLengthChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          Calculează parametrii
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-base text-red-400 mb-3">{{ errorMessage }}</p>
+      }
+
+      <div class="bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border overflow-x-auto">
+        <table class="border-collapse">
+          <tbody>
+            @for (word of words; track $index; let i = $index) {
+              <tr>
+                <td class="pr-3 text-app-muted font-mono text-base">w{{ i + 1 }}</td>
+
+                @for (entry of word; track $index; let j = $index) {
+                  <td class="p-1">
+                    <input
+                      type="number"
+                      class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-base text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                      [value]="words[i][j]"
+                      (input)="onCellChange(i, j, $event)"
+                    />
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <p class="mt-3 text-sm text-app-muted">
+          Intrările sunt normalizate modulo <span class="font-mono">{{ modulus }}</span> și
+          duplicatele sunt eliminate automat.
+        </p>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">Parametrii codului</h2>
+
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base text-app-muted"
+        >
+          <p class="mb-2">
+            <span class="font-mono">n</span> = lungimea unui cuvânt,
+            <span class="font-mono">M</span> = numărul de cuvinte distincte.
+          </p>
+          <p class="mb-2">
+            <span class="font-mono">d</span> = distanța minimă Hamming dintre două cuvinte
+            distincte. <span class="font-mono">t = ⌊(d−1)/2⌋</span>.
+          </p>
+          <p>
+            <span class="font-mono">ρ</span> = cea mai mare distanță minimă de la un vector arbitrar
+            la cod (raza de acoperire). Pentru valori mari ale lui
+            <span class="font-mono">q^n</span>, calculul lui <span class="font-mono">ρ</span> este
+            prea costisitor și este omis.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+            <p class="mb-1">
+              <span class="font-semibold">n</span> =
+              <span class="font-mono">{{ result.length }}</span>
+            </p>
+            <p class="mb-1">
+              <span class="font-semibold">M</span> =
+              <span class="font-mono">{{ result.wordCount }}</span>
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">d</span> =
+              @if (result.minimumDistance !== null) {
+                <span class="font-mono">{{ result.minimumDistance }}</span>
+              } @else {
+                <span class="text-app-muted">nedefinit (M &lt; 2)</span>
+              }
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">t</span> =
+              @if (result.errorCorrectingCapability !== null) {
+                <span class="font-mono">{{ result.errorCorrectingCapability }}</span>
+              } @else {
+                <span class="text-app-muted">nedefinit</span>
+              }
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">ρ</span> =
+              @if (result.coveringRadiusComputed && result.coveringRadius !== null) {
+                <span class="font-mono">{{ result.coveringRadius }}</span>
+              } @else {
+                <span class="text-app-muted">prea costisitor de calculat (q^n mare)</span>
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+            <h3 class="font-semibold mb-2">Linearitate și parametrul s</h3>
+
+            <p class="mb-2">
+              @if (result.isLinear) {
+                <span class="text-green-300 font-semibold">Codul este liniar.</span>
+              } @else {
+                <span class="text-red-300 font-semibold">Codul NU este liniar.</span>
+              }
+            </p>
+
+            @if (result.isLinear && result.dimensionK !== null && result.redundancyS !== null) {
+              <p class="text-app-muted mb-2">
+                Pentru un cod liniar, de obicei <span class="font-mono">M = q^k</span>.
+              </p>
+              <p>
+                <span class="font-semibold">k</span> =
+                <span class="font-mono">{{ result.dimensionK }}</span
+                >, <span class="font-semibold">s</span> =
+                <span class="font-mono">{{ result.redundancyS }}</span>
+                <span class="text-app-muted">(s = n − k)</span>
+              </p>
+            } @else if (result.isLinear) {
+              <p class="text-app-muted">
+                Codul pare liniar, dar <span class="font-mono">M</span> nu este o putere exactă a
+                lui <span class="font-mono">q</span>, deci <span class="font-mono">k</span> și
+                <span class="font-mono">s</span> nu pot fi deduse sigur din aceste date.
+              </p>
+            } @else {
+              <p class="text-app-muted">
+                Parametrul <span class="font-mono">s</span> (redundanță
+                <span class="font-mono">n−k</span>) are sens în mod standard pentru coduri liniare.
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+          <h3 class="font-semibold mb-3">Cuvintele distincte ale codului</h3>
+
+          <div class="bg-app-bg border border-app-border rounded-xl p-3 overflow-x-auto max-w-full">
+            <table class="border-collapse w-full">
+              <thead>
+                <tr class="text-app-muted">
+                  <th class="text-left px-2 py-2">#</th>
+                  <th class="text-left px-2 py-2">Cuvânt</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cw of result.uniqueWords; track $index; let idx = $index) {
+                  <tr class="border-t border-app-border">
+                    <td class="px-2 py-2 text-app-muted">{{ idx + 1 }}</td>
+                    <td class="px-2 py-2 font-mono">{{ formatVector(cw) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="mt-3 text-sm text-app-muted">
+            Lista este normalizată modulo q și fără duplicate.
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</div>
