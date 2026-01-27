@@ -14,14 +14,14 @@ export class I18n {
   private loadedLanguage: LanguageCode | null = null;
   private translations: TranslationDictionary = {};
 
-  private readonly languageSubject = new BehaviorSubject<LanguageCode>('ro');
+  private readonly languageSubject = new BehaviorSubject<LanguageCode>('en');
   readonly language$ = this.languageSubject.asObservable();
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     // Pick initial language safely (browser-only localStorage)
-    const initialLanguage = this.readStoredLanguage() ?? 'ro';
+    const initialLanguage = this.readStoredLanguage() ?? 'en';
     this.languageSubject.next(initialLanguage);
   }
 
