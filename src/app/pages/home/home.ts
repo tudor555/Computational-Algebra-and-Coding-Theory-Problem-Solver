@@ -20,7 +20,7 @@ interface HomeProblemCard {
 })
 export class Home {
   // Controls how many problem cards are displayed per row on desktop.
-  readonly cardsPerRow: 2 | 3 | 4 = 2;
+  readonly cardsPerRow: 2 | 3 | 4 = 3;
 
   readonly problems: HomeProblemCard[] = [
     { id: 'problem1', number: 1, route: '/triangular-matrices', difficulty: 'easy' },
