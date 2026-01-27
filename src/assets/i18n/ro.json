@@ -31,6 +31,14 @@
         "title": "Decompoziție în matrice simetrică și antisimetrică",
         "description": "Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o matrice antisimetrică."
       },
+      "problem3": {
+        "title": "Matrice Hermitică și inversa ei",
+        "description": "Verificați dacă o matrice este Hermitică. In caz afirmativ verificați dacă inversa acesteia este tot Hermitică."
+      },
+      "problem4": {
+        "title": "Sistem liniar 4×4 prin metoda lui Gauss",
+        "description": "Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind metoda lui Gauss."
+      },
       "problem5": {
         "title": "Rang și inversă prin metoda lui Gauss",
         "description": "Calculați rangul unei matrici prin metoda lui Gauss și, dacă este posibil, inversa acesteia prin metoda Gauss–Jordan."
@@ -39,6 +47,22 @@
         "title": "Ordin și idempotent în (ℤₙ, ·)",
         "description": "Fiind dat (ℤₙ, ·), calculați ordinul unui element și verificați dacă este idempotent în raport cu înmulțirea modulo n."
       },
+      "problem7": {
+        "title": "Ordinul unei matrici în (M₂(ℝ), ·) și idempotent",
+        "description": "Calculați ordinul unei matrici 2×2 în raport cu înmulțirea (dacă există) și verificați dacă este idempotentă."
+      },
+      "problem8": {
+        "title": "Parametrii unui cod (n, M, d, s, t, ρ)",
+        "description": "Pentru un cod din (Fq)^n, calculați parametrii principali: n, M, d, s, t și raza de acoperire ρ."
+      },
+      "problem9": {
+        "title": "Verificare cod liniar în (Fq)^n",
+        "description": "Verificați dacă un cod dat este liniar (închis la adunare și înmulțire cu scalari modulo q)."
+      },
+      "problem10": {
+        "title": "Toate cuvintele unui cod din matricea generatoare",
+        "description": "Afișați toate cuvintele unui cod pentru care se cunoaște matricea generatoare G (modulo q)."
+      },
       "problem11": {
         "title": "Verificare cuvinte de cod cu matricea de control",
         "description": "Se citește matricea de control a unui cod și o mulțime de cuvinte. Afișați-le pe cele care sunt cuvinte ale codului (sindrom nul)."
@@ -46,6 +70,10 @@
       "problem12": {
         "title": "Polinom caracteristic și valori proprii (2×2, 3×3)",
         "description": "Calculați polinomul caracteristic și valorile proprii asociate unei matrici de ordinul 2 sau 3, afișând atât polinomul, cât și rădăcinile sale."
+      },
+      "problem13": {
+        "title": "Grupul Galois pentru polinom de grad 3 sau 4",
+        "description": "Determinați grupul Galois asociat unui polinom de gradul 3 sau 4 folosind discriminantul și rezolventa."
       },
       "problem14": {
         "title": "Algoritmul lui Euclid, combinație liniară și fracție continuă",

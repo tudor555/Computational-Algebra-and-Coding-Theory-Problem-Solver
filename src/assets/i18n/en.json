@@ -31,6 +31,14 @@
         "title": "Decomposition into symmetric and skew-symmetric matrices",
         "description": "Show that any matrix can be written uniquely as the sum of a symmetric matrix and a skew-symmetric matrix."
       },
+      "problem3": {
+        "title": "Hermitian matrix and its inverse",
+        "description": "Check whether a matrix is Hermitian. If it is, check whether its inverse is also Hermitian."
+      },
+      "problem4": {
+        "title": "Solve a 4×4 linear system using Gauss",
+        "description": "Solve a linear system with 4 equations and 4 unknowns using Gaussian method."
+      },
       "problem5": {
         "title": "Rank and inverse using Gauss method",
         "description": "Compute the rank of a matrix using Gaussian elimination and, if possible, compute its inverse using the Gauss–Jordan method."
@@ -39,6 +47,22 @@
         "title": "Order and idempotent element in (ℤₙ, ·)",
         "description": "Given (ℤₙ, ·), compute the order of an element and check whether it is idempotent modulo n."
       },
+      "problem7": {
+        "title": "Matrix order in (M₂(ℝ), ·) and idempotency",
+        "description": "Compute the order of a 2×2 matrix under multiplication (if it exists) and check whether it is idempotent."
+      },
+      "problem8": {
+        "title": "Code parameters (n, M, d, s, t, ρ)",
+        "description": "For a code in (Fq)^n, compute the main parameters: n, M, d, s, t, and the covering radius ρ."
+      },
+      "problem9": {
+        "title": "Check if a code is linear in (Fq)^n",
+        "description": "Check whether a given code is linear (closed under addition and scalar multiplication modulo q)."
+      },
+      "problem10": {
+        "title": "List all codewords from a generator matrix",
+        "description": "Display all codewords of a code given its generator matrix G (modulo q)."
+      },
       "problem11": {
         "title": "Codeword validation using parity-check matrix",
         "description": "Read a parity-check matrix and a set of words. Display the ones that are codewords (zero syndrome)."
@@ -46,6 +70,10 @@
       "problem12": {
         "title": "Characteristic polynomial and eigenvalues (2×2, 3×3)",
         "description": "Compute the characteristic polynomial and the eigenvalues of a 2×2 or 3×3 matrix, displaying both the polynomial and its roots."
+      },
+      "problem13": {
+        "title": "Galois group for a degree 3 or 4 polynomial",
+        "description": "Determine the Galois group of a degree 3 or 4 polynomial using the discriminant and the resolvent."
       },
       "problem14": {
         "title": "Euclidean algorithm, linear combination, and continued fraction",
