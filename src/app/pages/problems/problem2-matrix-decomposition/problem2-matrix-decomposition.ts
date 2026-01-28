@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import { Matrix, MatrixAlgebra, MatrixDecompositionResult } from '../../../services/matrix-algebra';
 
 interface MatrixPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   matrix: Matrix;
 }
 
 @Component({
   selector: 'app-problem2-matrix-decomposition',
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem2-matrix-decomposition.html',
   styleUrl: './problem2-matrix-decomposition.scss',
 })
@@ -34,8 +36,8 @@ export class Problem2MatrixDecomposition {
   presets: MatrixPreset[] = [
     {
       id: '2x2-simple',
-      label: 'Matrice 2×2 simplă',
-      description: 'Exemplu mic, ușor de verificat manual.',
+      labelKey: 'problem2.presets.simple2x2Matrix.label',
+      descriptionKey: 'problem2.presets.simple2x2Matrix.description',
       matrix: [
         [1, 2],
         [3, 4],
@@ -43,8 +45,8 @@ export class Problem2MatrixDecomposition {
     },
     {
       id: '3x3-mixed',
-      label: 'Matrice 3×3 mixtă',
-      description: 'Valori pozitive și negative.',
+      labelKey: 'problem2.presets.mixed3x3Matrix.label',
+      descriptionKey: 'problem2.presets.mixed3x3Matrix.description',
       matrix: [
         [2, -1, 0],
         [3, 5, 4],
@@ -53,8 +55,8 @@ export class Problem2MatrixDecomposition {
     },
     {
       id: '3x3-symmetric',
-      label: 'Matrice 3×3 simetrică',
-      description: 'Deja simetrică, componenta antisimetrică va fi zero.',
+      labelKey: 'problem2.presets.symmetric3x3Matrix.label',
+      descriptionKey: 'problem2.presets.symmetric3x3Matrix.description',
       matrix: [
         [2, 1, 3],
         [1, 4, 0],
@@ -80,7 +82,7 @@ export class Problem2MatrixDecomposition {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 6) {
-      this.errorMessage = 'Dimensiunea matricii trebuie să fie un număr întreg între 1 și 6.';
+      this.errorMessage = 'problem2.errors.sizeRange';
       return;
     }
 
@@ -102,7 +104,7 @@ export class Problem2MatrixDecomposition {
     const cols = rows > 0 ? preset.matrix[0].length : 0;
 
     if (rows !== cols) {
-      this.errorMessage = 'Preset matrix is not square.';
+      this.errorMessage = 'problem2.errors.presetNotSquare';
       return;
     }
 
@@ -122,11 +124,7 @@ export class Problem2MatrixDecomposition {
       const result = this.matrixAlgebraService.decomposeIntoSymmetricAndSkew(this.matrix);
       this.decompositionResult = result;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem2.errors.unexpected';
     }
   }
 
