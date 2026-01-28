@@ -118,12 +118,57 @@
       "both": "diagonală (triunghiulară superioară și inferioară)"
     },
     "presets": {
-      "upper3x3Label": "Două matrici 3×3 triunghiulare superioare",
-      "upper3x3Desc": "Exemplu în care inversa și produsul rămân triunghiulare superioare.",
-      "lower3x3Label": "Două matrici 3×3 triunghiulare inferioare",
-      "lower3x3Desc": "Produsul și inversa (dacă există) rămân triunghiulare inferioare.",
-      "nonTriangularLabel": "Matrice care nu este triunghiulară",
-      "nonTriangularDesc": "Exemplu în care matricea A nu este triunghiulară."
+      "upper3x3": {
+        "label": "Două matrici 3×3 triunghiulare superioare",
+        "description": "Exemplu în care inversa și produsul rămân triunghiulare superioare."
+      },
+      "lower3x3": {
+        "label": "Două matrici 3×3 triunghiulare inferioare",
+        "description": "Produsul și inversa (dacă există) rămân triunghiulare inferioare."
+      },
+      "nonTriangular": {
+        "label": "Matrice care nu este triunghiulară",
+        "description": "Exemplu în care matricea A nu este triunghiulară."
+      }
+    }
+  },
+  "problem2": {
+    "title": "Problema 2 – Decompoziție în matrice simetrică și antisimetrică",
+    "subtitle": "Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o matrice antisimetrică. Mai jos poți introduce o matrice pătratică sau poți alege un exemplu predefinit, iar aplicația va calcula componentele ei.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid una dintre matricile de mai jos pentru a vedea cum funcționează decompoziția. Poți apoi modifica valorile manual.",
+    "inputTitle": "Introdu matricea",
+    "sizeLabel": "Dimensiunea matricii (n × n)",
+    "sizeHint": "Pentru claritate, limita este 6 × 6.",
+    "decomposeButton": "Calculează decompoziția",
+    "resultTitle": "Rezultat: A = S + K",
+    "explainIntro": "Decompoziția se obține folosind formulele standard din algebra liniară:",
+    "explainSimmetric": "Componenta simetrică S se calculează ca:",
+    "explainSkewSimmetric": "Componenta antisimetrică K se calculează ca:",
+    "note": "Observație: orice matrice pătratică se poate scrie în mod unic ca sumă între o matrice simetrică și una antisimetrică, deoarece:",
+    "labels": {
+      "symmetric": "Matricea simetrică S",
+      "skew": "Matricea antisimetrică K",
+      "original": "Matricea inițială A"
+    },
+    "errors": {
+      "sizeRange": "Dimensiunea matricii trebuie să fie un număr întreg între 1 și 6.",
+      "presetNotSquare": "Matricea predefinită nu este pătratică.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "simple2x2Matrix": {
+        "label": "Matrice 2×2 simplă",
+        "description": "Exemplu mic, ușor de verificat manual."
+      },
+      "mixed3x3Matrix": {
+        "label": "Matrice 3×3 mixtă",
+        "description": "Valori pozitive și negative."
+      },
+      "symmetric3x3Matrix": {
+        "label": "Matrice 3×3 simetrică",
+        "description": "Deja simetrică, componenta antisimetrică va fi zero."
+      }
     }
   }
 }

@@ -118,12 +118,57 @@
       "both": "diagonal (both upper and lower triangular)"
     },
     "presets": {
-      "upper3x3Label": "Two 3×3 upper triangular matrices",
-      "upper3x3Desc": "Example where the inverse and product remain upper triangular.",
-      "lower3x3Label": "Two 3×3 lower triangular matrices",
-      "lower3x3Desc": "The product and inverse (if it exists) remain lower triangular.",
-      "nonTriangularLabel": "A non-triangular matrix",
-      "nonTriangularDesc": "Example where matrix A is not triangular."
+      "upper3x3": {
+        "label": "Two 3×3 upper triangular matrices",
+        "description": "Example where the inverse and product remain upper triangular."
+      },
+      "lower3x3": {
+        "label": "Two 3×3 lower triangular matrices",
+        "description": "The product and inverse (if it exists) remain lower triangular."
+      },
+      "nonTriangular": {
+        "label": "A non-triangular matrix",
+        "description": "Example where matrix A is not triangular."
+      }
+    }
+  },
+  "problem2": {
+    "title": "Problem 2 – Decomposition into symmetric and skew-symmetric matrices",
+    "subtitle": "Show that any matrix can be written uniquely as the sum of a symmetric matrix and a skew-symmetric matrix. Enter a square matrix below or choose a preset, and the app will compute its components.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose one of the matrices below to see how the decomposition works. You can then edit the values manually.",
+    "inputTitle": "Enter the matrix",
+    "sizeLabel": "Matrix size (n × n)",
+    "sizeHint": "For clarity, the limit is 6 × 6.",
+    "decomposeButton": "Compute decomposition",
+    "resultTitle": "Result: A = S + K",
+    "explainIntro": "The decomposition is obtained using the standard formulas from linear algebra:",
+    "explainSimmetric": "The symmetric component S is computed as:",
+    "explainSkewSimmetric": "The skew-symmetric component K is computed as:",
+    "note": "Note: any square matrix can be written uniquely as the sum of a symmetric and a skew-symmetric matrix, because:",
+    "labels": {
+      "symmetric": "Symmetric matrix S",
+      "skew": "Skew-symmetric matrix K",
+      "original": "Original matrix A"
+    },
+    "errors": {
+      "sizeRange": "Matrix size must be an integer between 1 and 6.",
+      "presetNotSquare": "The preset matrix is not square.",
+      "unexpected": "An unexpected error occurred during the computation."
+    },
+    "presets": {
+      "simple2x2Matrix": {
+        "label": "Simple 2×2 matrix",
+        "description": "Small example, easy to verify by hand."
+      },
+      "mixed3x3Matrix": {
+        "label": "Mixed 3×3 matrix",
+        "description": "Positive and negative values."
+      },
+      "symmetric3x3Matrix": {
+        "label": "Symmetric 3×3 matrix",
+        "description": "Already symmetric; the skew-symmetric part will be zero."
+      }
     }
   }
 }
