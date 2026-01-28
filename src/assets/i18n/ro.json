@@ -80,5 +80,50 @@
         "description": "Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b), scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b."
       }
     }
+  },
+  "backToHome": "Înapoi la pagina principală",
+  "problem1": {
+    "title": "Problema 1 – Matrice triunghiulare",
+    "subtitle": "Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă produsul a două matrici triunghiulare este tot matrice triunghiulară. Introdu mai jos două matrici pătratice A și B sau folosește exemplele predefinite.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid o pereche de matrici pentru a observa cum se comportă inversa și produsul în cazul matricilor triunghiulare.",
+    "inputTitle": "Introdu matricile A și B",
+    "sizeLabel": "Dimensiunea matricilor (n × n)",
+    "sizeHint": "Matricile A și B sunt pătratice și au aceeași dimensiune.",
+    "analyzeButton": "Verifică inversa și produsul",
+    "matrixA": "Matricea A",
+    "matrixB": "Matricea B",
+    "resultsTitle": "Rezultatele verificării matricilor triunghiulare",
+    "explain1": "O matrice se numește triunghiulară superioară dacă toate elementele de sub diagonala principală sunt zero, respectiv triunghiulară inferioară dacă toate elementele de deasupra diagonalei principale sunt zero.",
+    "explain2": "Inversa unei matrici triunghiulare inversabile este tot o matrice triunghiulară de același tip. Produsul a două matrici triunghiulare de același tip (superioare sau inferioare) este la rândul lui triunghiular de același tip.",
+    "summaryA": "Matricea A",
+    "summaryB": "Matricea B și produsul A·B",
+    "type": "Tip",
+    "inverse": "Inversă",
+    "existsAndIs": "există și este {{type}}.",
+    "doesNotExistNotInvertible": "nu există (matricea nu este inversabilă).",
+    "typeOfB": "Tipul lui B",
+    "productType": "Tipul produsului C = A · B",
+    "productNotComputed": "nu a putut fi calculat (dimensiuni incompatibile).",
+    "inverseMatrixTitle": "Inversa matricii A",
+    "productMatrixTitle": "Produsul C = A · B",
+    "errors": {
+      "sizeRange": "Dimensiunea matricii trebuie să fie un întreg între 1 și 6.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "triangular": {
+      "none": "netriunghiulară",
+      "upper": "triunghiulară superioară",
+      "lower": "triunghiulară inferioară",
+      "both": "diagonală (triunghiulară superioară și inferioară)"
+    },
+    "presets": {
+      "upper3x3Label": "Două matrici 3×3 triunghiulare superioare",
+      "upper3x3Desc": "Exemplu în care inversa și produsul rămân triunghiulare superioare.",
+      "lower3x3Label": "Două matrici 3×3 triunghiulare inferioare",
+      "lower3x3Desc": "Produsul și inversa (dacă există) rămân triunghiulare inferioare.",
+      "nonTriangularLabel": "Matrice care nu este triunghiulară",
+      "nonTriangularDesc": "Exemplu în care matricea A nu este triunghiulară."
+    }
   }
 }

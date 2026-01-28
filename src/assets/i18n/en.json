@@ -80,5 +80,50 @@
         "description": "Using Euclid’s algorithm, compute gcd(d) for two natural numbers (a,b), write a linear combination of (a,b,d), and display the continued fraction of a/b."
       }
     }
+  },
+  "backToHome": "Back to Home Page",
+  "problem1": {
+    "title": "Problem 1 – Triangular matrices",
+    "subtitle": "Check whether the inverse of a triangular matrix is also triangular. Check whether the product of two triangular matrices is also triangular. Enter two square matrices A and B below, or use the presets.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a pair of matrices to see how the inverse and product behave for triangular matrices.",
+    "inputTitle": "Enter matrices A and B",
+    "sizeLabel": "Matrix size (n × n)",
+    "sizeHint": "Matrices A and B are square and have the same size.",
+    "analyzeButton": "Check inverse and product",
+    "matrixA": "Matrix A",
+    "matrixB": "Matrix B",
+    "resultsTitle": "Results for triangular matrix checks",
+    "explain1": "A matrix is upper triangular if all entries below the main diagonal are zero, and lower triangular if all entries above the main diagonal are zero.",
+    "explain2": "The inverse of an invertible triangular matrix is triangular of the same type. The product of two triangular matrices of the same type (upper or lower) is also triangular of the same type.",
+    "summaryA": "Matrix A",
+    "summaryB": "Matrix B and the product A·B",
+    "type": "Type",
+    "inverse": "Inverse",
+    "existsAndIs": "exists and is {{type}}.",
+    "doesNotExistNotInvertible": "does not exist (the matrix is not invertible).",
+    "typeOfB": "Type of B",
+    "productType": "Type of the product C = A · B",
+    "productNotComputed": "could not be computed (incompatible sizes).",
+    "inverseMatrixTitle": "Inverse of matrix A",
+    "productMatrixTitle": "Product C = A · B",
+    "errors": {
+      "sizeRange": "Matrix size must be an integer between 1 and 6.",
+      "unexpected": "An unexpected error occurred during the computation."
+    },
+    "triangular": {
+      "none": "non-triangular",
+      "upper": "upper triangular",
+      "lower": "lower triangular",
+      "both": "diagonal (both upper and lower triangular)"
+    },
+    "presets": {
+      "upper3x3Label": "Two 3×3 upper triangular matrices",
+      "upper3x3Desc": "Example where the inverse and product remain upper triangular.",
+      "lower3x3Label": "Two 3×3 lower triangular matrices",
+      "lower3x3Desc": "The product and inverse (if it exists) remain lower triangular.",
+      "nonTriangularLabel": "A non-triangular matrix",
+      "nonTriangularDesc": "Example where matrix A is not triangular."
+    }
   }
 }
