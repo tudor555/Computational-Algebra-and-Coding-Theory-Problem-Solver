@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
 import { TranslatePipe } from '../../../pipes/translate';
 import { Matrix, MatrixAlgebra, TriangularType } from '../../../services/matrix-algebra';
 
@@ -29,7 +30,7 @@ interface TriangularAnalysisResult {
 
 @Component({
   selector: 'app-problem1-triangular-matrices',
-  imports: [RouterModule, CommonModule, TranslatePipe],
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem1-triangular-matrices.html',
   styleUrl: './problem1-triangular-matrices.scss',
 })

@@ -33,30 +33,31 @@
 
       <div class="grid gap-6" [ngClass]="gridClass">
         @for (problem of easyProblems; track trackByProblemId($index, problem)) {
-        <article class="problem-card">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
-                {{ 'home.sections.easy' | t }} ·
-                {{ 'home.problemTitle' | t : { number: problem.number } }}
-              </p>
-              <h3 class="text-lg font-semibold">
-                {{ 'home.problems.' + problem.id + '.title' | t }}
-              </h3>
+          <article class="problem-card">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                  {{ 'home.sections.easy' | t }} ·
+                  {{ 'home.problemTitle' | t: { number: problem.number } }}
+                </p>
+                <h3 class="text-lg font-semibold">
+                  {{ 'home.problems.' + problem.id + '.title' | t }}
+                </h3>
+              </div>
+              <span class="difficulty-easy">{{ 'home.sections.easy' | t }}</span>
             </div>
-            <span class="difficulty-easy">{{ 'home.sections.easy' | t }}</span>
-          </div>
 
-          <p class="text-sm text-app-muted">
-            {{ 'home.problems.' + problem.id + '.description' | t }}
-          </p>
+            <p class="text-sm text-app-muted">
+              {{ 'home.problems.' + problem.id + '.description' | t }}
+            </p>
 
-          <div class="mt-3">
-            <a [routerLink]="problem.route" class="btn-primary">
-              {{ 'home.openProblem' | t : { number: problem.number } }}
-            </a>
-          </div>
-        </article>
+            <div class="mt-3">
+              <a [routerLink]="problem.route" class="btn-primary">
+                {{ 'home.openProblem' | t: { number: problem.number } }}
+                <lucide-icon name="arrow-right" class="w-4 h-4"></lucide-icon>
+              </a>
+            </div>
+          </article>
         }
       </div>
     </section>
@@ -69,30 +70,31 @@
 
       <div class="grid gap-6" [ngClass]="gridClass">
         @for (problem of mediumProblems; track trackByProblemId($index, problem)) {
-        <article class="problem-card">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
-                {{ 'home.sections.medium' | t }} ·
-                {{ 'home.problemTitle' | t : { number: problem.number } }}
-              </p>
-              <h3 class="text-lg font-semibold">
-                {{ 'home.problems.' + problem.id + '.title' | t }}
-              </h3>
+          <article class="problem-card">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                  {{ 'home.sections.medium' | t }} ·
+                  {{ 'home.problemTitle' | t: { number: problem.number } }}
+                </p>
+                <h3 class="text-lg font-semibold">
+                  {{ 'home.problems.' + problem.id + '.title' | t }}
+                </h3>
+              </div>
+              <span class="difficulty-medium">{{ 'home.sections.medium' | t }}</span>
             </div>
-            <span class="difficulty-medium">{{ 'home.sections.medium' | t }}</span>
-          </div>
 
-          <p class="text-sm text-app-muted">
-            {{ 'home.problems.' + problem.id + '.description' | t }}
-          </p>
+            <p class="text-sm text-app-muted">
+              {{ 'home.problems.' + problem.id + '.description' | t }}
+            </p>
 
-          <div class="mt-3">
-            <a [routerLink]="problem.route" class="btn-primary">
-              {{ 'home.openProblem' | t : { number: problem.number } }}
-            </a>
-          </div>
-        </article>
+            <div class="mt-3">
+              <a [routerLink]="problem.route" class="btn-primary">
+                {{ 'home.openProblem' | t: { number: problem.number } }}
+                <lucide-icon name="arrow-right" class="w-4 h-4"></lucide-icon>
+              </a>
+            </div>
+          </article>
         }
       </div>
     </section>
@@ -105,30 +107,31 @@
 
       <div class="grid gap-6" [ngClass]="gridClass">
         @for (problem of hardProblems; track trackByProblemId($index, problem)) {
-        <article class="problem-card">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
-                {{ 'home.sections.hard' | t }} ·
-                {{ 'home.problemTitle' | t : { number: problem.number } }}
-              </p>
-              <h3 class="text-lg font-semibold">
-                {{ 'home.problems.' + problem.id + '.title' | t }}
-              </h3>
+          <article class="problem-card">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm uppercase tracking-wide text-app-muted mb-1">
+                  {{ 'home.sections.hard' | t }} ·
+                  {{ 'home.problemTitle' | t: { number: problem.number } }}
+                </p>
+                <h3 class="text-lg font-semibold">
+                  {{ 'home.problems.' + problem.id + '.title' | t }}
+                </h3>
+              </div>
+              <span class="difficulty-hard">{{ 'home.sections.hard' | t }}</span>
             </div>
-            <span class="difficulty-hard">{{ 'home.sections.hard' | t }}</span>
-          </div>
 
-          <p class="text-sm text-app-muted">
-            {{ 'home.problems.' + problem.id + '.description' | t }}
-          </p>
+            <p class="text-sm text-app-muted">
+              {{ 'home.problems.' + problem.id + '.description' | t }}
+            </p>
 
-          <div class="mt-3">
-            <a [routerLink]="problem.route" class="btn-primary">
-              {{ 'home.openProblem' | t : { number: problem.number } }}
-            </a>
-          </div>
-        </article>
+            <div class="mt-3">
+              <a [routerLink]="problem.route" class="btn-primary">
+                {{ 'home.openProblem' | t: { number: problem.number } }}
+                <lucide-icon name="arrow-right" class="w-4 h-4"></lucide-icon>
+              </a>
+            </div>
+          </article>
         }
       </div>
     </section>

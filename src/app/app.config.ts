@@ -11,6 +11,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import {
   ArrowLeft,
+  ArrowRight,
   BadgeAlert,
   BookOpen,
   Calculator,
@@ -26,6 +27,7 @@ import { I18n } from './services/i18n';
 
 const lucideIcons = {
   ArrowLeft,
+  ArrowRight,
   House,
   LayoutGrid,
   Calculator,

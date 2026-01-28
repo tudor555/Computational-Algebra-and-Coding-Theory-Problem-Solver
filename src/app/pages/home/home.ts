@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 import { TranslatePipe } from '../../pipes/translate';
 
 type Difficulty = 'easy' | 'medium' | 'hard';
@@ -14,7 +15,7 @@ interface HomeProblemCard {
 
 @Component({
   selector: 'app-home',
-  imports: [RouterModule, NgClass, TranslatePipe],
+  imports: [RouterModule, NgClass, LucideAngularModule, TranslatePipe],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
