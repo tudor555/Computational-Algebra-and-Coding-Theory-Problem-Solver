@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../../pipes/translate';
 import { Matrix, MatrixAlgebra, TriangularType } from '../../../services/matrix-algebra';
 
 interface TriangularPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   size: number;
   matrixA: Matrix;
   matrixB: Matrix;
@@ -28,7 +29,7 @@ interface TriangularAnalysisResult {
 
 @Component({
   selector: 'app-problem1-triangular-matrices',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, TranslatePipe],
   templateUrl: './problem1-triangular-matrices.html',
   styleUrl: './problem1-triangular-matrices.scss',
 })
@@ -44,8 +45,8 @@ export class Problem1TriangularMatrices {
   presets: TriangularPreset[] = [
     {
       id: 'upper-3x3',
-      label: 'Două matrici 3×3 triunghiulare superioare',
-      description: 'Exemplu în care inversa și produsul rămân triunghiulare superioare.',
+      labelKey: 'problem1.presets.upper3x3Label',
+      descriptionKey: 'problem1.presets.upper3x3Desc',
       size: 3,
       matrixA: [
         [2, 1, -1],
@@ -60,8 +61,8 @@ export class Problem1TriangularMatrices {
     },
     {
       id: 'lower-3x3',
-      label: 'Două matrici 3×3 triunghiulare inferioare',
-      description: 'Produsul și inversa (dacă există) rămân triunghiulare inferioare.',
+      labelKey: 'problem1.presets.lower3x3Label',
+      descriptionKey: 'problem1.presets.lower3x3Desc',
       size: 3,
       matrixA: [
         [1, 0, 0],
@@ -76,8 +77,8 @@ export class Problem1TriangularMatrices {
     },
     {
       id: 'non-triangular',
-      label: 'Matrice care nu este triunghiulară',
-      description: 'Exemplu în care matricea A nu este triunghiulară.',
+      labelKey: 'problem1.presets.nonTriangularLabel',
+      descriptionKey: 'problem1.presets.nonTriangularDesc',
       size: 3,
       matrixA: [
         [1, 2, 0],
@@ -111,7 +112,7 @@ export class Problem1TriangularMatrices {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 6) {
-      this.errorMessage = 'Dimensiunea matricii trebuie să fie un întreg între 1 și 6.';
+      this.errorMessage = 'problem1.errors.sizeRange';
       return;
     }
 
@@ -197,29 +198,22 @@ export class Problem1TriangularMatrices {
         productMatrixType: productType,
       };
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem1.errors.unexpected';
     }
   }
 
   // Map a triangular type to a human-readable label in Romanian
-  getTriangularLabel(type: TriangularType | null): string {
-    if (!type || type === 'none') {
-      return 'netriunghiulară';
+  getTriangularLabelKey(type: TriangularType | null): string {
+    switch (type) {
+      case 'upper':
+        return 'problem1.triangular.upper';
+      case 'lower':
+        return 'problem1.triangular.lower';
+      case 'both':
+        return 'problem1.triangular.both';
+      case 'none':
+      default:
+        return 'problem1.triangular.none';
     }
-
-    if (type === 'upper') {
-      return 'triunghiulară superioară';
-    }
-
-    if (type === 'lower') {
-      return 'triunghiulară inferioară';
-    }
-
-    // 'both' -> diagonal (upper and lower)
-    return 'diagonală (triunghiulară superioară și inferioară)';
   }
 }
