@@ -46,8 +46,8 @@ export class Problem1TriangularMatrices {
   presets: TriangularPreset[] = [
     {
       id: 'upper-3x3',
-      labelKey: 'problem1.presets.upper3x3Label',
-      descriptionKey: 'problem1.presets.upper3x3Desc',
+      labelKey: 'problem1.presets.upper3x3.label',
+      descriptionKey: 'problem1.presets.upper3x3.description',
       size: 3,
       matrixA: [
         [2, 1, -1],
@@ -62,8 +62,8 @@ export class Problem1TriangularMatrices {
     },
     {
       id: 'lower-3x3',
-      labelKey: 'problem1.presets.lower3x3Label',
-      descriptionKey: 'problem1.presets.lower3x3Desc',
+      labelKey: 'problem1.presets.lower3x3.label',
+      descriptionKey: 'problem1.presets.lower3x3.description',
       size: 3,
       matrixA: [
         [1, 0, 0],
@@ -78,8 +78,8 @@ export class Problem1TriangularMatrices {
     },
     {
       id: 'non-triangular',
-      labelKey: 'problem1.presets.nonTriangularLabel',
-      descriptionKey: 'problem1.presets.nonTriangularDesc',
+      labelKey: 'problem1.presets.nonTriangular.label',
+      descriptionKey: 'problem1.presets.nonTriangular.description',
       size: 3,
       matrixA: [
         [1, 2, 0],
