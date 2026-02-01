@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Matrix, MatrixAlgebra } from '../../../services/matrix-algebra';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 
 interface MatrixPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   matrix: Matrix;
 }
 
@@ -20,7 +22,7 @@ interface HermitianInverseCheckResult {
 
 @Component({
   selector: 'app-problem3-hermitian-matrix-inverse',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem3-hermitian-matrix-inverse.html',
   styleUrl: './problem3-hermitian-matrix-inverse.scss',
 })
@@ -33,8 +35,8 @@ export class Problem3HermitianMatrixInverse {
   presets: MatrixPreset[] = [
     {
       id: '3x3-symmetric-invertible',
-      label: 'Matrice Hermitică (reală) inversabilă',
-      description: 'Exemplu simetric real, cu inversă.',
+      labelKey: 'problem3.presets.realInversableHermitianMatrix.label',
+      descriptionKey: 'problem3.presets.realInversableHermitianMatrix.description',
       matrix: [
         [4, 1, 2],
         [1, 3, 0],
@@ -43,8 +45,8 @@ export class Problem3HermitianMatrixInverse {
     },
     {
       id: '3x3-symmetric-singular',
-      label: 'Matrice Hermitică (reală) singulară',
-      description: 'Simetrică, dar determinant zero → fără inversă.',
+      labelKey: 'problem3.presets.realSingularHermitianMatrix.label',
+      descriptionKey: 'problem3.presets.realSingularHermitianMatrix.description',
       matrix: [
         [1, 2, 3],
         [2, 4, 6],
@@ -53,8 +55,8 @@ export class Problem3HermitianMatrixInverse {
     },
     {
       id: '3x3-not-hermitian',
-      label: 'Nu este Hermitică',
-      description: 'Exemplu care nu este simetric (pentru intrări reale).',
+      labelKey: 'problem3.presets.notHermitianMatrix.label',
+      descriptionKey: 'problem3.presets.notHermitianMatrix.description',
       matrix: [
         [1, 2, 0],
         [0, 1, 3],
@@ -63,8 +65,8 @@ export class Problem3HermitianMatrixInverse {
     },
     {
       id: '2x2-symmetric-invertible',
-      label: '2×2 Hermitică (reală) inversabilă',
-      description: 'Exemplu mic, bun pentru verificare rapidă.',
+      labelKey: 'problem3.presets.2x2InvertibleHermitianMatrix.label',
+      descriptionKey: 'problem3.presets.2x2InvertibleHermitianMatrix.description',
       matrix: [
         [2, -1],
         [-1, 2],
@@ -102,7 +104,7 @@ export class Problem3HermitianMatrixInverse {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 8) {
-      this.errorMessage = 'Numărul de linii trebuie să fie un întreg între 1 și 8.';
+      this.errorMessage = 'problem3.errors.rowRange';
       return;
     }
 
@@ -115,7 +117,7 @@ export class Problem3HermitianMatrixInverse {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 8) {
-      this.errorMessage = 'Numărul de coloane trebuie să fie un întreg între 1 și 8.';
+      this.errorMessage = 'problem3.errors.colRange';
       return;
     }
 
@@ -160,11 +162,7 @@ export class Problem3HermitianMatrixInverse {
         inverseIsHermitian,
       };
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem3.errors.unexpected';
     }
   }
 }
