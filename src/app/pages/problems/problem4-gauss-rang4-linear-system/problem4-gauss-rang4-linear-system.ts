@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import {
   LinearSystemSolutionResult,
   Matrix,
@@ -9,15 +11,15 @@ import {
 
 interface LinearSystemPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   A: Matrix;
   b: number[];
 }
 
 @Component({
   selector: 'app-problem4-gauss-rang4-linear-system',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem4-gauss-rang4-linear-system.html',
   styleUrl: './problem4-gauss-rang4-linear-system.scss',
 })
@@ -31,8 +33,8 @@ export class Problem4GaussRang4LinearSystem {
   presets: LinearSystemPreset[] = [
     {
       id: 'unique-solution',
-      label: 'Soluție unică',
-      description: 'Sistem consistent cu soluție unică.',
+      labelKey: 'problem4.presets.uniqueSolution.label',
+      descriptionKey: 'problem4.presets.uniqueSolution.description',
       A: [
         [2, 1, -1, 1],
         [1, 3, 2, -2],
@@ -43,8 +45,8 @@ export class Problem4GaussRang4LinearSystem {
     },
     {
       id: 'no-solution',
-      label: 'Fără soluție',
-      description: 'Sistem inconsistent (rangul augmentatei crește).',
+      labelKey: 'problem4.presets.noSolution.label',
+      descriptionKey: 'problem4.presets.noSolution.description',
       A: [
         [1, 1, 0, 0],
         [2, 2, 0, 0],
@@ -55,8 +57,8 @@ export class Problem4GaussRang4LinearSystem {
     },
     {
       id: 'infinite-solutions',
-      label: 'Infinit de soluții',
-      description: 'Sistem consistent, dar cu variabile libere.',
+      labelKey: 'problem4.presets.infiniteSolutions.label',
+      descriptionKey: 'problem4.presets.infiniteSolutions.description',
       A: [
         [1, 1, 0, 0],
         [2, 2, 0, 0],
@@ -107,11 +109,7 @@ export class Problem4GaussRang4LinearSystem {
     try {
       this.result = this.matrixAlgebraService.solveLinearSystemGaussJordan(this.A, this.b);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem4.errors.unexpected';
     }
   }
 }

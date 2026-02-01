@@ -5,27 +5,28 @@
       routerLink="/home"
       class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
     >
-      ←
-      <span>Înapoi la pagina principală</span>
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
     </button>
 
     <!-- Title & description -->
     <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
-      Problema 4 – Sistem liniar 4×4 prin metoda lui Gauss
+      {{ 'problem4.title' | t }}
     </h1>
 
     <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
-      Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind eliminarea Gauss (pe
-      matricea augmentată <span class="font-mono">[A | b]</span>). În funcție de ranguri, sistemul
-      poate avea soluție unică, infinit de soluții sau nici o soluție.
+      {{ 'problem4.subtitle.before' | t }} <span class="font-mono">[A | b]). </span
+      >{{ 'problem4.subtitle.after' | t }}
     </p>
 
     <!-- Presets -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem4.presetsTitle' | t }}
+      </h2>
 
       <p class="text-app-muted text-m mb-3">
-        Alege rapid un sistem 4×4 (soluție unică / infinit de soluții / fără soluție).
+        {{ 'problem4.presetsHint' | t }}
       </p>
 
       <div class="flex flex-wrap gap-3">
@@ -35,7 +36,7 @@
             class="btn-secondary text-s md:text-m"
             (click)="onApplyPreset(preset)"
           >
-            {{ preset.label }}
+            {{ preset.labelKey | t }}
           </button>
         }
       </div>
@@ -43,19 +44,21 @@
 
     <!-- Input card -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-3">Introdu sistemul</h2>
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem4.inputTitle' | t }}</h2>
 
       <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
         <button type="button" class="btn-primary" (click)="onCompute()">
-          Aplică metoda lui Gauss
+          {{ 'problem4.computeButton' | t }}
         </button>
 
-        <button type="button" class="btn-secondary" (click)="initialize()">Resetează</button>
+        <button type="button" class="btn-secondary" (click)="initialize()">
+          {{ 'problem4.resetButton' | t }}
+        </button>
       </div>
 
       @if (errorMessage) {
         <p class="text-m text-red-400 mb-3">
-          {{ errorMessage }}
+          {{ errorMessage | t }}
         </p>
       }
 
@@ -104,22 +107,26 @@
     <!-- Results -->
     @if (result) {
       <section class="problem-card">
-        <h2 class="text-lg font-semibold mb-3">Rezultatele metodei lui Gauss</h2>
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem4.resultsTitle' | t }}
+        </h2>
 
         <!-- Explanation block -->
         <div
           class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
         >
           <p class="mb-2">
-            Construim matricea augmentată <span class="font-mono">[A | b]</span> și aplicăm operații
-            elementare pe linii (schimb de linii, înmulțire cu scalar nenul, adunarea unui multiplu
-            al unei linii la alta) pentru a ajunge la o formă escalonată redusă (Gauss–Jordan).
+            {{ 'problem4.explain.p1.before' | t }}
+            <span class="font-mono">[A | b]</span> {{ 'problem4.explain.p1.after' | t }}
           </p>
           <p class="mb-2">
-            Dacă <span class="font-mono">rang([A|b]) &gt; rang(A)</span>, sistemul este inconsistent
-            (fără soluție). Dacă <span class="font-mono">rang([A|b]) = rang(A) = 4</span>, soluția
-            este unică. Dacă <span class="font-mono">rang([A|b]) = rang(A) &lt; 4</span>, există
-            infinit de soluții.
+            {{ 'problem4.explain.p2.before' | t }}
+            <span class="font-mono">rang([A|b]) &gt; rang(A)</span>
+            {{ 'problem4.explain.p2.middle1' | t }}
+            <span class="font-mono">rang([A|b]) = rang(A) = 4</span
+            >{{ 'problem4.explain.p2.middle2' | t }}
+            <span class="font-mono">rang([A|b]) = rang(A) &lt; 4</span
+            >{{ 'problem4.explain.p2.after' | t }}
           </p>
         </div>
 
@@ -127,37 +134,44 @@
         <div class="grid gap-4 md:grid-cols-2 mb-6">
           <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
             <p class="mb-1">
-              <span class="font-semibold">rang(A)</span> =
+              <span class="font-semibold">{{ 'problem4.rank.rankA' | t }} </span> =
               <span class="font-mono">{{ result.rankA }}</span>
             </p>
             <p class="mb-1">
-              <span class="font-semibold">rang([A|b])</span> =
+              <span class="font-semibold">{{ 'problem4.rank.rankAug' | t }} </span> =
               <span class="font-mono">{{ result.rankAugmented }}</span>
             </p>
 
             <div class="mt-3">
               @if (!result.hasSolution) {
-                <p class="text-red-300 font-semibold">Sistem fără soluție (inconsistent).</p>
+                <p class="text-red-300 font-semibold">
+                  {{ 'problem4.status.noSolution' | t }}
+                </p>
               } @else if (result.hasUniqueSolution && result.solution) {
-                <p class="text-green-300 font-semibold">Sistem cu soluție unică.</p>
+                <p class="text-green-300 font-semibold">
+                  {{ 'problem4.status.uniqueSolution' | t }}
+                </p>
               } @else {
-                <p class="text-amber-300 font-semibold">Sistem cu infinit de soluții.</p>
+                <p class="text-amber-300 font-semibold">
+                  {{ 'problem4.status.infiniteSolutions' | t }}
+                </p>
               }
             </div>
           </div>
 
           <!-- Solution -->
           <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
-            <h3 class="font-semibold mb-2">Soluția</h3>
+            <h3 class="font-semibold mb-2">{{ 'problem4.solutionTitle' | t }}</h3>
 
             @if (!result.hasSolution) {
               <p class="text-app-muted">
-                Sistemul este inconsistent: apare o ecuație de forma
-                <span class="font-mono">0 = c</span> cu <span class="font-mono">c ≠ 0</span>.
+                {{ 'problem4.solution.noSolution.before' | t }}
+                <span class="font-mono">0 = c</span> {{ 'problem4.solution.noSolution.after' | t }}
+                <span class="font-mono">c ≠ 0</span>.
               </p>
             } @else if (result.hasUniqueSolution && result.solution) {
               <p class="mb-3 text-app-muted">
-                Din forma escalonată redusă citim direct valorile necunoscutelor:
+                {{ 'problem4.solution.uniqueHint' | t }}
               </p>
 
               <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
@@ -177,8 +191,7 @@
               </div>
             } @else {
               <p class="text-app-muted">
-                Sistem consistent, dar rangul este mai mic decât numărul de necunoscute → există
-                variabile libere, deci infinit de soluții.
+                {{ 'problem4.solution.infiniteHint' | t }}
               </p>
             }
           </div>
@@ -186,7 +199,9 @@
 
         <!-- Augmented row echelon form -->
         <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
-          <h3 class="font-semibold mb-3">Forma obținută pentru matricea augmentată [A | b]</h3>
+          <h3 class="font-semibold mb-3">
+            {{ 'problem4.augmentedTitle' | t }}
+          </h3>
 
           <div
             class="inline-block bg-app-bg rounded-xl p-3 border border-app-border overflow-x-auto max-w-full"
@@ -211,8 +226,9 @@
           </div>
 
           <p class="mt-3 text-s text-app-muted">
-            Ultima coloană corespunde lui <span class="font-mono">b</span>. Separatorul
-            <span class="font-mono">|</span> este doar vizual.
+            {{ 'problem4.augmentedNote.before' | t }}
+            <span class="font-mono">b.</span> {{ 'problem4.augmentedNote.after' | t }}
+            <span class="font-mono">|</span>{{ 'problem4.augmentedNote.end' | t }}
           </p>
         </div>
       </section>
