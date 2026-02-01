@@ -170,5 +170,68 @@
         "description": "Already symmetric; the skew-symmetric part will be zero."
       }
     }
+  },
+  "problem3": {
+    "title": "Problem 3 – Hermitian matrix and its inverse",
+    "subtitle": {
+      "before": "Check whether a matrix is Hermitian. For real entries, a matrix is Hermitian if it is symmetric:",
+      "after": "If it is Hermitian and invertible, check whether its inverse is also Hermitian."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to test (invertible Hermitian / singular Hermitian / non-Hermitian).",
+    "inputTitle": "Enter the matrix",
+    "rowsLabel": "Number of rows",
+    "colsLabel": "Number of columns",
+    "checkButton": "Check",
+    "resultsTitle": "Results",
+    "explain": {
+      "p1": {
+        "before": "Definition: a matrix is Hermitian if",
+        "middle": "(equal to its conjugate transpose). For real-valued matrices, this becomes simply"
+      },
+      "p2": {
+        "before": "If",
+        "middle": "is Hermitian and invertible, then",
+        "after": "is Hermitian as well, because"
+      }
+    },
+    "status": {
+      "squareYes": "The matrix is square.",
+      "squareNo": "The matrix is not square.",
+      "hermitianYes": "The matrix is Hermitian (for real entries).",
+      "hermitianNo": "The matrix is NOT Hermitian.",
+      "hermitianOnlySquare": "Hermitianity is checked only for square matrices."
+    },
+    "inverseTitle": "Inverse and the Hermitian property",
+    "inverse": {
+      "exists": "The matrix is invertible. The inverse is shown below:",
+      "isHermitianYes": "The inverse is Hermitian.",
+      "isHermitianNo": "The inverse is NOT Hermitian.",
+      "singular": "The matrix is Hermitian, but it is not invertible (singular).",
+      "onlyIf": "The inverse and this check are computed only if the matrix is square and Hermitian."
+    },
+    "errors": {
+      "rowRange": "Number of rows must be an integer between 1 and 8.",
+      "colRange": "Number of columns must be an integer between 1 and 8.",
+      "unexpected": "An unexpected error occurred during the computation."
+    },
+    "presets": {
+      "realInversableHermitianMatrix": {
+        "label": "Invertible Hermitian (real) matrix",
+        "description": "Real symmetric example with an inverse."
+      },
+      "realSingularHermitianMatrix": {
+        "label": "Singular Hermitian (real) matrix",
+        "description": "Symmetric, but determinant zero → no inverse."
+      },
+      "notHermitianMatrix": {
+        "label": "Not Hermitian",
+        "description": "Example that is not symmetric (for real inputs)."
+      },
+      "2x2InvertibleHermitianMatrix": {
+        "label": "Invertible 2×2 Hermitian (real) matrix",
+        "description": "Small example for quick verification."
+      }
+    }
   }
 }

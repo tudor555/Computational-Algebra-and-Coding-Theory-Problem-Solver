@@ -170,5 +170,68 @@
         "description": "Deja simetrică, componenta antisimetrică va fi zero."
       }
     }
+  },
+  "problem3": {
+    "title": "Problema 3 – Matrice Hermitică și inversa ei",
+    "subtitle": {
+      "before": "Verificați dacă o matrice este Hermitică. Pentru intrări reale, o matrice este Hermitică dacă este simetrică:",
+      "after": "Dacă este Hermitică și inversabilă, verificați dacă inversa este tot Hermitică."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru testare (Hermitică inversabilă / Hermitică singulară / ne-Hermitică).",
+    "inputTitle": "Introdu matricea",
+    "rowsLabel": "Numărul de linii",
+    "colsLabel": "Numărul de coloane",
+    "checkButton": "Verifică",
+    "resultsTitle": "Rezultate",
+    "explain": {
+      "p1": {
+        "before": "Definiție: o matrice este Hermitică dacă",
+        "middle": "(egală cu transpusa conjugată). Pentru matrice cu intrări reale, aceasta devine simplu"
+      },
+      "p2": {
+        "before": "Dacă",
+        "middle": "este Hermitică și inversabilă, atunci și",
+        "after": "este Hermitică deoarece"
+      }
+    },
+    "status": {
+      "squareYes": "Matricea este pătratică.",
+      "squareNo": "Matricea nu este pătratică.",
+      "hermitianYes": "Matricea este Hermitică (pentru intrări reale).",
+      "hermitianNo": "Matricea NU este Hermitică.",
+      "hermitianOnlySquare": "Hermitianitatea se verifică doar pentru matrice pătratice."
+    },
+    "inverseTitle": "Inversa și proprietatea Hermitică",
+    "inverse": {
+      "exists": "Matricea este inversabilă. Mai jos este inversa",
+      "isHermitianYes": "Inversa este Hermitică.",
+      "isHermitianNo": "Inversa NU este Hermitică.",
+      "singular": "Matricea este Hermitică, dar nu este inversabilă (singulară).",
+      "onlyIf": "Calculul inversei și verificarea proprietății se fac doar dacă matricea este pătratică și Hermitică."
+    },
+    "errors": {
+      "rowRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
+      "colRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "realInversableHermitianMatrix": {
+        "label": "Matrice Hermitică (reală) inversabilă",
+        "description": "Exemplu simetric real, cu inversă."
+      },
+      "realSingularHermitianMatrix": {
+        "label": "Matrice Hermitică (reală) singulară",
+        "description": "Simetrică, dar determinant zero → fără inversă."
+      },
+      "notHermitianMatrix": {
+        "label": "Nu este Hermitică",
+        "description": "Exemplu care nu este simetric (pentru intrări reale)."
+      },
+      "2x2InvertibleHermitianMatrix": {
+        "label": "2×2 Hermitică (reală) inversabilă",
+        "description": "Exemplu mic, bun pentru verificare rapidă."
+      }
+    }
   }
 }
