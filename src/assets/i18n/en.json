@@ -233,5 +233,71 @@
         "description": "Small example for quick verification."
       }
     }
+  },
+  "problem4": {
+    "title": "Problem 4 – 4×4 linear system using Gauss method",
+    "subtitle": {
+      "before": "Solve a linear system of 4 equations with 4 unknowns using Gaussian elimination (on the augmented matrix",
+      "after": "Depending on the ranks, the system can have a unique solution, infinitely many solutions, or no solution."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a 4×4 system (unique solution / no solution / infinitely many solutions).",
+    "inputTitle": "Enter the system",
+    "computeButton": "Apply Gauss method",
+    "resetButton": "Reset",
+    "resultsTitle": "Gauss method results",
+    "explain": {
+      "p1": {
+        "before": "We build the augmented matrix",
+        "after": "and apply elementary row operations (swap rows, multiply by a non-zero scalar, add a multiple of one row to another) to reach reduced row echelon form (Gauss–Jordan)."
+      },
+      "p2": {
+        "before": "If",
+        "middle1": ", the system is inconsistent (no solution). If",
+        "middle2": ", the solution is unique. If",
+        "after": ", there are infinitely many solutions."
+      }
+    },
+    "status": {
+      "noSolution": "No solution (inconsistent system).",
+      "uniqueSolution": "Unique solution.",
+      "infiniteSolutions": "Infinitely many solutions."
+    },
+    "solutionTitle": "Solution",
+    "solution": {
+      "noSolution": {
+        "before": "The system is inconsistent: an equation of the form appears",
+        "after": "with"
+      },
+      "uniqueHint": "From the reduced row echelon form we read the unknowns directly:",
+      "infiniteHint": "Consistent system, but the rank is smaller than the number of unknowns → free variables exist, so there are infinitely many solutions."
+    },
+    "rank": {
+      "rankA": "rank(A)",
+      "rankAug": "rank([A|b])"
+    },
+    "augmentedTitle": "Reduced form of the augmented matrix [A | b]",
+    "augmentedNote": {
+      "before": "The last column corresponds to",
+      "after": "The separator",
+      "end": "is only visual."
+    },
+    "errors": {
+      "unexpected": "An unexpected error occurred during the computation."
+    },
+    "presets": {
+      "uniqueSolution": {
+        "label": "Unique solution",
+        "description": "Consistent system with a unique solution."
+      },
+      "noSolution": {
+        "label": "No solution",
+        "description": "Inconsistent system (augmented rank increases)."
+      },
+      "infiniteSolutions": {
+        "label": "Infinitely many solutions",
+        "description": "Consistent system, but with free variables."
+      }
+    }
   }
 }

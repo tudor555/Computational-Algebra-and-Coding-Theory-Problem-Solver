@@ -233,5 +233,71 @@
         "description": "Exemplu mic, bun pentru verificare rapidă."
       }
     }
+  },
+  "problem4": {
+    "title": "Problema 4 – Sistem liniar 4×4 prin metoda lui Gauss",
+    "subtitle": {
+      "before": "Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind eliminarea Gauss (pe matricea augmentată",
+      "after": "În funcție de ranguri, sistemul poate avea soluție unică, infinit de soluții sau nici o soluție."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un sistem 4×4 (soluție unică / fără soluție / infinit de soluții).",
+    "inputTitle": "Introdu sistemul",
+    "computeButton": "Aplică metoda lui Gauss",
+    "resetButton": "Resetează",
+    "resultsTitle": "Rezultatele metodei lui Gauss",
+    "explain": {
+      "p1": {
+        "before": "Construim matricea augmentată",
+        "after": "și aplicăm operații elementare pe linii (schimb de linii, înmulțire cu scalar nenul, adunarea unui multiplu al unei linii la alta) pentru a ajunge la o formă escalonată redusă (Gauss–Jordan)."
+      },
+      "p2": {
+        "before": "Dacă",
+        "middle1": ", sistemul este inconsistent (fără soluție). Dacă",
+        "middle2": ", soluția este unică. Dacă",
+        "after": ", există infinit de soluții."
+      }
+    },
+    "status": {
+      "noSolution": "Sistem fără soluție (inconsistent).",
+      "uniqueSolution": "Sistem cu soluție unică.",
+      "infiniteSolutions": "Sistem cu infinit de soluții."
+    },
+    "solutionTitle": "Soluția",
+    "solution": {
+      "noSolution": {
+        "before": "Sistemul este inconsistent: apare o ecuație de forma",
+        "after": "cu"
+      },
+      "uniqueHint": "Din forma escalonată redusă citim direct valorile necunoscutelor:",
+      "infiniteHint": "Sistem consistent, dar rangul este mai mic decât numărul de necunoscute → există variabile libere, deci infinit de soluții."
+    },
+    "rank": {
+      "rankA": "rang(A)",
+      "rankAug": "rang([A|b])"
+    },
+    "augmentedTitle": "Forma obținută pentru matricea augmentată [A | b]",
+    "augmentedNote": {
+      "before": "Ultima coloană corespunde lui",
+      "after": "Separatorul",
+      "end": "este doar vizual."
+    },
+    "errors": {
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "uniqueSolution": {
+        "label": "Soluție unică",
+        "description": "Sistem consistent cu soluție unică."
+      },
+      "noSolution": {
+        "label": "Fără soluție",
+        "description": "Sistem inconsistent (rangul augmentatei crește)."
+      },
+      "infiniteSolutions": {
+        "label": "Infinit de soluții",
+        "description": "Sistem consistent, dar cu variabile libere."
+      }
+    }
   }
 }
