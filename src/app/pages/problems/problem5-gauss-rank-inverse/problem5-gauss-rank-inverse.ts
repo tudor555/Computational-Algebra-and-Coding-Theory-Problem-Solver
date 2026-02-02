@@ -2,17 +2,19 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Matrix, MatrixAlgebra, RankAndInverseResult } from '../../../services/matrix-algebra';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 
 interface MatrixPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   matrix: Matrix;
 }
 
 @Component({
   selector: 'app-problem5-gauss-rank-inverse',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem5-gauss-rank-inverse.html',
   styleUrl: './problem5-gauss-rank-inverse.scss',
 })
@@ -25,8 +27,8 @@ export class Problem5GaussRankInverse {
   presets: MatrixPreset[] = [
     {
       id: '3x3-easy',
-      label: 'Matrice 3×3 simplă',
-      description: 'Exemplu ușor pentru verificarea rangului.',
+      labelKey: 'problem5.presets.easy3x3Matrix.label',
+      descriptionKey: 'problem5.presets.easy3x3Matrix.description',
       matrix: [
         [1, 2, 3],
         [4, 5, 6],
@@ -35,8 +37,8 @@ export class Problem5GaussRankInverse {
     },
     {
       id: '3x3-invertible',
-      label: 'Matrice 3×3 inversabilă',
-      description: 'Determinant nenul, bună pentru testarea inversei.',
+      labelKey: 'problem5.presets.inverse3x3Matrix.label',
+      descriptionKey: 'problem5.presets.inverse3x3Matrix.description',
       matrix: [
         [2, 1, 1],
         [1, 3, 2],
@@ -45,8 +47,8 @@ export class Problem5GaussRankInverse {
     },
     {
       id: '2x2-invertible',
-      label: 'Matrice 2×2 inversabilă',
-      description: 'Exemplu mic, inversabil sigur.',
+      labelKey: 'problem5.presets.invertible2x2Matrix.label',
+      descriptionKey: 'problem5.presets.invertible2x2Matrix.description',
       matrix: [
         [4, 7],
         [2, 6],
@@ -54,8 +56,8 @@ export class Problem5GaussRankInverse {
     },
     {
       id: '2x2-singular',
-      label: 'Matrice 2×2 singulară',
-      description: 'Determinant zero → fără inversă.',
+      labelKey: 'problem5.presets.singular2x2Matrix.label',
+      descriptionKey: 'problem5.presets.singular2x2Matrix.description',
       matrix: [
         [1, 2],
         [2, 4],
@@ -63,8 +65,8 @@ export class Problem5GaussRankInverse {
     },
     {
       id: '4x3-rectangular',
-      label: 'Matrice 4×3 rectangulară',
-      description: 'Bună pentru testarea rangului și forma escalonată.',
+      labelKey: 'problem5.presets.rectangular4x3Matrix.label',
+      descriptionKey: 'problem5.presets.rectangular4x3Matrix.description',
       matrix: [
         [1, 2, 0],
         [3, 6, 0],
@@ -107,7 +109,7 @@ export class Problem5GaussRankInverse {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 8) {
-      this.errorMessage = 'Numărul de linii trebuie să fie un întreg între 1 și 8.';
+      this.errorMessage = 'problem5.errors.rowsRange';
       return;
     }
 
@@ -120,7 +122,7 @@ export class Problem5GaussRankInverse {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 8) {
-      this.errorMessage = 'Numărul de coloane trebuie să fie un întreg între 1 și 8.';
+      this.errorMessage = 'problem5.errors.columnsRange';
       return;
     }
 
@@ -143,11 +145,7 @@ export class Problem5GaussRankInverse {
     try {
       this.computationResult = this.matrixAlgebraService.computeRankAndInverse(this.matrix);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem5.errors.unexpected';
     }
   }
 }
