@@ -299,5 +299,71 @@
         "description": "Consistent system, but with free variables."
       }
     }
+  },
+  "problem5": {
+    "title": "Problem 5 – Rank and inverse using Gauss method",
+    "subtitle": {
+      "before": "Compute the rank of a matrix using Gaussian elimination and, if the matrix is square and invertible, compute its inverse using the Gauss–Jordan method on the augmented matrix"
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to test the rank, the echelon form, or the inverse.",
+    "inputTitle": "Enter the matrix",
+    "rowsLabel": "Number of rows",
+    "columnsLabel": "Number of columns",
+    "computeButton": "Apply Gauss method",
+    "resultsTitle": "Gauss method results",
+    "explain": {
+      "p1": {
+        "before": "Gaussian elimination transforms the matrix",
+        "after": "into an echelon form using elementary row operations. The rank is the number of non-zero rows in the echelon form."
+      },
+      "p2": {
+        "before": "To compute the inverse of a square matrix, we build the augmented matrix",
+        "middle": "and apply Gauss–Jordan until we obtain",
+        "after": "if it exists."
+      },
+      "p3": "If the matrix is not square or its determinant is zero, the inverse does not exist and the matrix is singular."
+    },
+    "summary": {
+      "rank": "The rank of matrix A is:",
+      "size": "Size:",
+      "squareYes": "The matrix is square.",
+      "squareNo": "The matrix is not square, so a classical inverse is not defined."
+    },
+    "inverseTitle": "Inverse of matrix A",
+    "inverse": {
+      "exists": "The matrix is invertible. Below is the inverse",
+      "singular": "The matrix is square but not invertible (singular).",
+      "notDefined": "Since the matrix is not square, the inverse is not defined."
+    },
+    "echelonTitle": "Echelon form of A(result of Gauss method)",
+    "echelonNote": "Non-zero rows in the echelon form correspond to linearly independent rows, and their number equals the rank.",
+    "errors": {
+      "rowsRange": "The number of rows must be an integer between 1 and 8.",
+      "columnsRange": "The number of columns must be an integer between 1 and 8.",
+      "unexpected": "An unexpected error occurred during the computation."
+    },
+    "presets": {
+      "easy3x3Matrix": {
+        "label": "Simple 3×3 matrix",
+        "description": "Easy example for checking the rank."
+      },
+      "inverse3x3Matrix": {
+        "label": "Invertible 3×3 matrix",
+        "description": "Non-zero determinant, good for testing the inverse."
+      },
+      "invertible2x2Matrix": {
+        "label": "Invertible 2×2 matrix",
+        "description": "Small example that is surely invertible."
+      },
+      "singular2x2Matrix": {
+        "label": "Singular 2×2 matrix",
+        "description": "Zero determinant → no inverse."
+      },
+      "rectangular4x3Matrix": {
+        "label": "Rectangular 4×3 matrix",
+        "description": "Good for testing the rank and echelon form."
+      }
+    }
   }
 }

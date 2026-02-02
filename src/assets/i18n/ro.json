@@ -299,5 +299,71 @@
         "description": "Sistem consistent, dar cu variabile libere."
       }
     }
+  },
+  "problem5": {
+    "title": "Problema 5 – Rang și inversă prin metoda lui Gauss",
+    "subtitle": {
+      "before": "Calculați rangul unei matrici prin metoda lui Gauss și, dacă matricea este pătratică și inversabilă, determinați inversa acesteia folosind metoda Gauss–Jordan pe matricea augmentată"
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru testarea rangului, formei escalonate sau a inversei.",
+    "inputTitle": "Introdu matricea",
+    "rowsLabel": "Numărul de linii",
+    "columnsLabel": "Numărul de coloane",
+    "computeButton": "Aplică metoda lui Gauss",
+    "resultsTitle": "Rezultatele metodei lui Gauss",
+    "explain": {
+      "p1": {
+        "before": "Metoda lui Gauss transformă matricea",
+        "after": "într-o formă escalonată prin operații elementare pe linii. Rangul este numărul de linii nenule din forma escalonată."
+      },
+      "p2": {
+        "before": "Pentru a calcula inversa unei matrici pătratice, construim matricea augmentată",
+        "middle": "și aplicăm metoda Gauss–Jordan până obținem",
+        "after": "dacă aceasta există."
+      },
+      "p3": "Dacă matricea nu este pătratică sau determinatul este zero, inversa nu există și se spune că matricea este singulară."
+    },
+    "summary": {
+      "rank": "Rangul matricei A este:",
+      "size": "Dimensiune:",
+      "squareYes": "Matricea este pătratică.",
+      "squareNo": "Matricea nu este pătratică, deci nu poate avea inversă clasică."
+    },
+    "inverseTitle": "Inversa matricei A",
+    "inverse": {
+      "exists": "Matricea este inversabilă. Mai jos este afișată inversa",
+      "singular": "Matricea este pătratică dar nu este inversabilă (este singulară).",
+      "notDefined": "Deoarece matricea nu este pătratică, inversa nu este definită."
+    },
+    "echelonTitle": "Forma escalonată a lui A(rezultatul metodei lui Gauss)",
+    "echelonNote": "Liniile nenule din forma escalonată corespund liniilor independente liniar, iar numărul lor este exact rangul matricei.",
+    "errors": {
+      "rowsRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
+      "columnsRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "easy3x3Matrix": {
+        "label": "Matrice 3×3 simplă",
+        "description": "Exemplu ușor pentru verificarea rangului."
+      },
+      "inverse3x3Matrix": {
+        "label": "Matrice 3×3 inversabilă",
+        "description": "Determinant nenul, bună pentru testarea inversei."
+      },
+      "invertible2x2Matrix": {
+        "label": "Matrice 2×2 inversabilă",
+        "description": "Exemplu mic, inversabil sigur."
+      },
+      "singular2x2Matrix": {
+        "label": "Matrice 2×2 singulară",
+        "description": "Determinant zero → fără inversă."
+      },
+      "rectangular4x3Matrix": {
+        "label": "Matrice 4×3 rectangulară",
+        "description": "Bună pentru testarea rangului și forma escalonată."
+      }
+    }
   }
 }
