@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ModularGroup, OrderComputationResult } from '../../../services/modular-group';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 
 @Component({
   selector: 'app-problem6-zn-order-idempotent',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem6-zn-order-idempotent.html',
   styleUrl: './problem6-zn-order-idempotent.scss',
 })
@@ -42,29 +44,25 @@ export class Problem6ZnOrderIdempotent {
 
     try {
       if (!Number.isInteger(this.modulus) || this.modulus <= 1) {
-        this.errorMessage = 'Modulul n trebuie să fie un număr întreg cel puțin 2.';
+        this.errorMessage = 'problem6.errors.modulusMin';
         return;
       }
 
       if (!Number.isInteger(this.element)) {
-        this.errorMessage = 'Elementul a trebuie să fie un număr întreg.';
+        this.errorMessage = 'problem6.errors.elementInteger';
         return;
       }
 
       // Compute order in (Z_n, ·)
       this.computationResult = this.modularGroupService.computeOrderInZn(
         this.element,
-        this.modulus
+        this.modulus,
       );
 
       // Compute idempotent status
       this.isIdempotentResult = this.modularGroupService.isIdempotent(this.element, this.modulus);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem5.errors.unexpected';
     }
   }
 }
