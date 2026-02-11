@@ -365,5 +365,74 @@
         "description": "Good for testing the rank and echelon form."
       }
     }
+  },
+  "problem6": {
+    "title": "Problem 6 – Order and idempotent element in (ℤₙ, ·)",
+    "subtitle": {
+      "before": "Given the multiplicative group (ℤₙ, ·) of residues modulo",
+      "middle1": ", compute the order of an element",
+      "middle2": "and check whether it is idempotent"
+    },
+    "inputTitle": "Enter the data: modulus n and element a",
+    "modulusLabel": { "before": "Modulus" },
+    "modulusHint": "n ≥ 2. Use not-too-large values to clearly see the steps.",
+    "elementLabel": { "before": "Element" },
+    "elementHint": "a can be any integer; computations are done modulo n.",
+    "computeButton": "Compute order and check idempotent",
+    "resultsTitle": "Results for a in (ℤₙ, ·)",
+    "explain": {
+      "p1": {
+        "before": "The order of an element",
+        "afterA": "in (ℤₙ, ·) is the smallest positive integer",
+        "afterK": "such that"
+      },
+      "p2": {
+        "before": "The element",
+        "middle1": "is idempotent modulo",
+        "middle2": "if:",
+        "after": "that is"
+      },
+      "p3": {
+        "before": "To compute the order, we multiply:",
+        "middle": "modulo",
+        "after": "until we obtain",
+        "end": "if that happens."
+      }
+    },
+    "info": {
+      "normalized": "The normalized value of a modulo n:",
+      "gcd": "gcd(a, n) ="
+    },
+    "unit": {
+      "isUnit": "The element a is a unit in (ℤₙ, ·), so its order is well-defined.",
+      "notUnit": "The element a is not a unit in (ℤₙ, ·), so its order in the group is not defined."
+    },
+    "orderTitle": "Order and idempotent check",
+    "order": {
+      "defined": {
+        "before": "The order of",
+        "after": "in (ℤₙ, ·) is:"
+      },
+      "notFound": "No order was found within the computed step limit (n may be too large).",
+      "notUnit": {
+        "before": "Since",
+        "after": "is not a unit, it has no order in (ℤₙ, ·)."
+      }
+    },
+    "idempotent": {
+      "yes": { "before": "The element", "after": "is idempotent: a² ≡ a (mod n)." },
+      "no": { "before": "The element", "after": "is not idempotent: a² ≢ a (mod n)." }
+    },
+    "stepsTitle": "Computed steps for powers of a modulo n",
+    "table": {
+      "k": "k",
+      "value": "aᵏ (mod n)"
+    },
+    "stepsNote": "Look for the first exponent k where the value becomes 1 — that is the order of a, if it exists.",
+    "errors": {
+      "modulusMin": "The modulus n must be an integer at least 2.",
+      "elementInteger": "The element a must be an integer.",
+      "unexpected": "An unexpected error occurred during the computation."
+    }
   }
 }

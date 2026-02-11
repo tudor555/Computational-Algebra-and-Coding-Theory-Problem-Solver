@@ -365,5 +365,74 @@
         "description": "Bună pentru testarea rangului și forma escalonată."
       }
     }
+  },
+  "problem6": {
+    "title": "Problema 6 – Ordin și idempotent în (ℤₙ, ·)",
+    "subtitle": {
+      "before": "Fiind dat grupul (ℤₙ, ·) al resturilor modulo",
+      "middle1": "în raport cu înmulțirea, se cere să se calculeze ordinul unui element",
+      "middle2": "și să se verifice dacă acesta este idempotent"
+    },
+    "inputTitle": "Introdu datele: modulul n și elementul a",
+    "modulusLabel": { "before": "Modulul" },
+    "modulusHint": "n ≥ 2. Recomandat valori nu foarte mari pentru a vedea pașii.",
+    "elementLabel": { "before": "Elementul" },
+    "elementHint": "a poate fi orice întreg; se va lucra modulo n.",
+    "computeButton": "Calculează ordinul și verifică idempotent",
+    "resultsTitle": "Rezultate pentru a în (ℤₙ, ·)",
+    "explain": {
+      "p1": {
+        "before": "Ordinul unui element",
+        "afterA": "în grupul (ℤₙ, ·) este cel mai mic număr natural nenul",
+        "afterK": "astfel încât"
+      },
+      "p2": {
+        "before": "Elementul",
+        "middle1": "este idempotent modulo",
+        "middle2": "dacă:",
+        "after": "adică"
+      },
+      "p3": {
+        "before": "Pentru a calcula ordinul, înmulțim pe rând:",
+        "middle": "modulo",
+        "after": "până obținem",
+        "end": "dacă acest lucru se întâmplă."
+      }
+    },
+    "info": {
+      "normalized": "Valoarea normalizată a lui a modulo n:",
+      "gcd": "gcd(a, n) ="
+    },
+    "unit": {
+      "isUnit": "Elementul a este inversabil în (ℤₙ, ·), deci are ordin bine definit.",
+      "notUnit": "Elementul a nu este inversabil în (ℤₙ, ·), deci ordinul său în grup nu este definit."
+    },
+    "orderTitle": "Ordinul și idempotentul",
+    "order": {
+      "defined": {
+        "before": "Ordinul lui",
+        "after": "în (ℤₙ, ·) este:"
+      },
+      "notFound": "Nu a fost găsit un ordin în limita pașilor calculați (probabil n este prea mare).",
+      "notUnit": {
+        "before": "Deoarece",
+        "after": "nu este unitate, nu are ordin în grupul (ℤₙ, ·)."
+      }
+    },
+    "idempotent": {
+      "yes": { "before": "Elementul", "after": "este idempotent: a² ≡ a (mod n)." },
+      "no": { "before": "Elementul", "after": "nu este idempotent: a² ≢ a (mod n)." }
+    },
+    "stepsTitle": "Pașii calculați pentru puterile lui a modulo n",
+    "table": {
+      "k": "k",
+      "value": "aᵏ (mod n)"
+    },
+    "stepsNote": "Observă la ce exponent k se obține pentru prima dată valoarea 1 – acesta este ordinul lui a, dacă există.",
+    "errors": {
+      "modulusMin": "Modulul n trebuie să fie un număr întreg cel puțin 2.",
+      "elementInteger": "Elementul a trebuie să fie un număr întreg.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    }
   }
 }
