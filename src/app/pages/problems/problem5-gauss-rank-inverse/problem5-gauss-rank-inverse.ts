@@ -145,7 +145,7 @@ export class Problem5GaussRankInverse {
     try {
       this.computationResult = this.matrixAlgebraService.computeRankAndInverse(this.matrix);
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem5.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 }

@@ -124,7 +124,7 @@ export class Problem2MatrixDecomposition {
       const result = this.matrixAlgebraService.decomposeIntoSymmetricAndSkew(this.matrix);
       this.decompositionResult = result;
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem2.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 

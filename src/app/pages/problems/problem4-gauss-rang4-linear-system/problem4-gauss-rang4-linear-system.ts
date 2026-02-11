@@ -109,7 +109,7 @@ export class Problem4GaussRang4LinearSystem {
     try {
       this.result = this.matrixAlgebraService.solveLinearSystemGaussJordan(this.A, this.b);
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem4.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 }

@@ -199,7 +199,7 @@ export class Problem1TriangularMatrices {
         productMatrixType: productType,
       };
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem1.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 

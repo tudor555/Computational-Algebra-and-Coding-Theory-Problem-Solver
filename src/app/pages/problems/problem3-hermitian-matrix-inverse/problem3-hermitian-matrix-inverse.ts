@@ -162,7 +162,7 @@ export class Problem3HermitianMatrixInverse {
         inverseIsHermitian,
       };
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem3.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 }
