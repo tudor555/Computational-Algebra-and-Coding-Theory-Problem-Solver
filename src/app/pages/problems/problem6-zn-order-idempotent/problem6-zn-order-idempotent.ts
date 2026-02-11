@@ -62,7 +62,7 @@ export class Problem6ZnOrderIdempotent {
       // Compute idempotent status
       this.isIdempotentResult = this.modularGroupService.isIdempotent(this.element, this.modulus);
     } catch (error: unknown) {
-      this.errorMessage = error instanceof Error ? error.message : 'problem5.errors.unexpected';
+      this.errorMessage = error instanceof Error ? error.message : 'problem6.errors.unexpected';
     }
   }
 }
