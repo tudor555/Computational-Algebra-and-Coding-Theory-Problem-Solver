@@ -82,6 +82,14 @@
     }
   },
   "backToHome": "Back to Home Page",
+  "common": {
+    "yes": "yes",
+    "no": "no",
+    "reset": "Reset"
+  },
+  "errors": {
+    "unexpectedComputation": "An unexpected error occurred during computation."
+  },
   "problem1": {
     "title": "Problem 1 – Triangular matrices",
     "subtitle": "Check whether the inverse of a triangular matrix is also triangular. Check whether the product of two triangular matrices is also triangular. Enter two square matrices A and B below, or use the presets.",
@@ -108,8 +116,7 @@
     "inverseMatrixTitle": "Inverse of matrix A",
     "productMatrixTitle": "Product C = A · B",
     "errors": {
-      "sizeRange": "Matrix size must be an integer between 1 and 6.",
-      "unexpected": "An unexpected error occurred during the computation."
+      "sizeRange": "Matrix size must be an integer between 1 and 6."
     },
     "triangular": {
       "none": "non-triangular",
@@ -153,8 +160,7 @@
     },
     "errors": {
       "sizeRange": "Matrix size must be an integer between 1 and 6.",
-      "presetNotSquare": "The preset matrix is not square.",
-      "unexpected": "An unexpected error occurred during the computation."
+      "presetNotSquare": "The preset matrix is not square."
     },
     "presets": {
       "simple2x2Matrix": {
@@ -212,8 +218,7 @@
     },
     "errors": {
       "rowRange": "Number of rows must be an integer between 1 and 8.",
-      "colRange": "Number of columns must be an integer between 1 and 8.",
-      "unexpected": "An unexpected error occurred during the computation."
+      "colRange": "Number of columns must be an integer between 1 and 8."
     },
     "presets": {
       "realInversableHermitianMatrix": {
@@ -282,9 +287,6 @@
       "after": "The separator",
       "end": "is only visual."
     },
-    "errors": {
-      "unexpected": "An unexpected error occurred during the computation."
-    },
     "presets": {
       "uniqueSolution": {
         "label": "Unique solution",
@@ -340,8 +342,7 @@
     "echelonNote": "Non-zero rows in the echelon form correspond to linearly independent rows, and their number equals the rank.",
     "errors": {
       "rowsRange": "The number of rows must be an integer between 1 and 8.",
-      "columnsRange": "The number of columns must be an integer between 1 and 8.",
-      "unexpected": "An unexpected error occurred during the computation."
+      "columnsRange": "The number of columns must be an integer between 1 and 8."
     },
     "presets": {
       "easy3x3Matrix": {
@@ -431,8 +432,72 @@
     "stepsNote": "Look for the first exponent k where the value becomes 1 — that is the order of a, if it exists.",
     "errors": {
       "modulusMin": "The modulus n must be an integer at least 2.",
-      "elementInteger": "The element a must be an integer.",
-      "unexpected": "An unexpected error occurred during the computation."
+      "elementInteger": "The element a must be an integer."
+    }
+  },
+  "problem7": {
+    "title": "Problem 7 – Order of a matrix in (M₂(ℝ), ·) and idempotent",
+    "subtitle": "Given a matrix A ∈ M₂(ℝ). Determine the order of A under multiplication (the smallest k ≥ 1 with A^k = I, if it exists) and check whether it is idempotent (A² = A).",
+
+    "presetsTitle": "Presets",
+    "presetsHint": "Examples with finite order (I, −I, rotation) and examples without finite order (scaling, projection).",
+
+    "inputTitle": "Enter the 2×2 matrix",
+    "maxPowerLabel": "Max power",
+    "toleranceLabel": "Tolerance",
+    "computeButton": "Compute",
+
+    "resultsTitle": "Results",
+
+    "explainP1": "The order of a matrix (in the group sense) is the smallest k ≥ 1 such that A^k = I. For many real matrices, such a k does not exist (infinite order).",
+    "explainP2": "A matrix is idempotent if A² = A.",
+
+    "idempotentLabel": "Idempotent:",
+    "orderLabel": "Order:",
+    "orderFound": "k = {{k}}",
+    "orderNotFound": "not found up to k = {{k}}",
+    "toleranceNote": "Comparison uses tolerance {{tol}}.",
+
+    "notFoundIntro": "If the order is not found within the chosen limit, two typical cases are:",
+    "notFoundB1": "the matrix has infinite order (no k with A^k = I)",
+    "notFoundB2": "the order exists, but it is larger than the selected limit",
+    "foundWithinLimit": "For this example, a k with A^k = I was found within the selected limit.",
+
+    "preview": {
+      "title": "First powers (preview)",
+      "table": {
+        "power": "Power",
+        "matrix": "Matrix"
+      },
+      "note": "The preview shows up to the first 10 powers. For large powers, values may grow quickly and numerical errors may appear."
+    },
+
+    "errors": {
+      "maxPowerRange": "Max power must be an integer between 1 and 500.",
+      "tolerancePositive": "Tolerance must be a positive number (e.g. 1e-10)."
+    },
+
+    "presets": {
+      "identity": {
+        "label": "Identity (order 1)",
+        "description": "I has order 1 and is idempotent."
+      },
+      "minus-identity": {
+        "label": "−I (order 2)",
+        "description": "(-I)^2 = I."
+      },
+      "rotation90": {
+        "label": "90° rotation (order 4)",
+        "description": "Rotation matrix: R^4 = I."
+      },
+      "projection-idempotent": {
+        "label": "Projection (idempotent)",
+        "description": "P^2 = P, but it generally does not have finite order."
+      },
+      "scale-2": {
+        "label": "Scaling (no finite order)",
+        "description": "2I does not reach I for n>0."
+      }
     }
   }
 }

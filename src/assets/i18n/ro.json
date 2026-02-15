@@ -82,6 +82,14 @@
     }
   },
   "backToHome": "Înapoi la pagina principală",
+  "common": {
+    "yes": "da",
+    "no": "nu",
+    "reset": "Resetează"
+  },
+  "errors": {
+    "unexpectedComputation": "A apărut o eroare neașteptată în timpul calculului."
+  },
   "problem1": {
     "title": "Problema 1 – Matrice triunghiulare",
     "subtitle": "Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă produsul a două matrici triunghiulare este tot matrice triunghiulară. Introdu mai jos două matrici pătratice A și B sau folosește exemplele predefinite.",
@@ -108,8 +116,7 @@
     "inverseMatrixTitle": "Inversa matricii A",
     "productMatrixTitle": "Produsul C = A · B",
     "errors": {
-      "sizeRange": "Dimensiunea matricii trebuie să fie un întreg între 1 și 6.",
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+      "sizeRange": "Dimensiunea matricii trebuie să fie un întreg între 1 și 6."
     },
     "triangular": {
       "none": "netriunghiulară",
@@ -153,8 +160,7 @@
     },
     "errors": {
       "sizeRange": "Dimensiunea matricii trebuie să fie un număr întreg între 1 și 6.",
-      "presetNotSquare": "Matricea predefinită nu este pătratică.",
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+      "presetNotSquare": "Matricea predefinită nu este pătratică."
     },
     "presets": {
       "simple2x2Matrix": {
@@ -212,8 +218,7 @@
     },
     "errors": {
       "rowRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
-      "colRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8.",
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+      "colRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8."
     },
     "presets": {
       "realInversableHermitianMatrix": {
@@ -282,9 +287,6 @@
       "after": "Separatorul",
       "end": "este doar vizual."
     },
-    "errors": {
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
-    },
     "presets": {
       "uniqueSolution": {
         "label": "Soluție unică",
@@ -340,8 +342,7 @@
     "echelonNote": "Liniile nenule din forma escalonată corespund liniilor independente liniar, iar numărul lor este exact rangul matricei.",
     "errors": {
       "rowsRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
-      "columnsRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8.",
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+      "columnsRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8."
     },
     "presets": {
       "easy3x3Matrix": {
@@ -431,8 +432,63 @@
     "stepsNote": "Observă la ce exponent k se obține pentru prima dată valoarea 1 – acesta este ordinul lui a, dacă există.",
     "errors": {
       "modulusMin": "Modulul n trebuie să fie un număr întreg cel puțin 2.",
-      "elementInteger": "Elementul a trebuie să fie un număr întreg.",
-      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+      "elementInteger": "Elementul a trebuie să fie un număr întreg."
+    }
+  },
+  "problem7": {
+    "title": "Problema 7 – Ordinul unei matrici în (M₂(ℝ), ·) și idempotent",
+    "subtitle": "Se dă o matrice A ∈ M₂(ℝ). Determinați ordinul lui A în raport cu înmulțirea (cel mai mic k ≥ 1 cu A^k = I, dacă există) și verificați dacă este idempotentă (A² = A).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Exemple cu ordin finit (I, -I, rotație) și exemple fără ordin finit (scalare, proiecție).",
+    "inputTitle": "Introdu matricea 2×2",
+    "maxPowerLabel": "Max power",
+    "toleranceLabel": "Toleranță",
+    "computeButton": "Calculează",
+    "resultsTitle": "Rezultate",
+    "explainP1": "Ordinul unei matrici (în sens de grup) este cel mai mic k ≥ 1 pentru care A^k = I. Pentru multe matrici reale, un astfel de k nu există (ordin infinit).",
+    "explainP2": "O matrice este idempotentă dacă A² = A.",
+    "idempotentLabel": "Idempotent:",
+    "orderLabel": "Ordin:",
+    "orderFound": "k = {{k}}",
+    "orderNotFound": "nu a fost găsit până la k = {{k}}",
+    "toleranceNote": "Comparația folosește toleranța {{tol}}.",
+    "notFoundIntro": "Dacă ordinul nu este găsit în limita aleasă, există două situații tipice:",
+    "notFoundB1": "matricea are ordin infinit (nu există k cu A^k = I)",
+    "notFoundB2": "ordinul există, dar este mai mare decât limita selectată",
+    "foundWithinLimit": "Pentru acest exemplu, s-a găsit un k cu A^k = I în limita selectată.",
+    "preview": {
+      "title": "Primele puteri (preview)",
+      "table": {
+        "power": "Putere",
+        "matrix": "Matrice"
+      },
+      "note": "Preview-ul arată până la primele 10 puteri. Pentru puteri mari, valorile pot crește rapid și pot apărea erori numerice."
+    },
+    "errors": {
+      "maxPowerRange": "Max power trebuie să fie un întreg între 1 și 500.",
+      "tolerancePositive": "Toleranța trebuie să fie un număr pozitiv (ex: 1e-10)."
+    },
+    "presets": {
+      "identity": {
+        "label": "Identitatea (ordin 1)",
+        "description": "I are ordin 1 și este idempotentă."
+      },
+      "minus-identity": {
+        "label": "-I (ordin 2)",
+        "description": "(-I)^2 = I."
+      },
+      "rotation90": {
+        "label": "Rotație 90° (ordin 4)",
+        "description": "Matrice de rotație: R^4 = I."
+      },
+      "projection-idempotent": {
+        "label": "Proiecție (idempotentă)",
+        "description": "P^2 = P, dar nu are ordin finit (în general)."
+      },
+      "scale-2": {
+        "label": "Scalare (fără ordin finit)",
+        "description": "2I nu ajunge la I pentru n>0."
+      }
     }
   }
 }
