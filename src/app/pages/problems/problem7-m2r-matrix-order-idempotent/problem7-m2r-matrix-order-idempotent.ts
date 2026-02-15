@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import { Matrix, MatrixAlgebra, MatrixOrderResult } from '../../../services/matrix-algebra';
 
 interface MatrixPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   matrix: Matrix;
 }
 
 @Component({
   selector: 'app-problem7-m2r-matrix-order-idempotent',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem7-m2r-matrix-order-idempotent.html',
   styleUrl: './problem7-m2r-matrix-order-idempotent.scss',
 })
@@ -28,8 +30,8 @@ export class Problem7M2rMatrixOrderIdempotent {
   presets: MatrixPreset[] = [
     {
       id: 'identity',
-      label: 'Identitatea (ordin 1)',
-      description: 'I are ordin 1 și este idempotentă.',
+      labelKey: 'problem7.presets.identity.label',
+      descriptionKey: 'problem7.presets.identity.description',
       matrix: [
         [1, 0],
         [0, 1],
@@ -37,8 +39,8 @@ export class Problem7M2rMatrixOrderIdempotent {
     },
     {
       id: 'minus-identity',
-      label: '-I (ordin 2)',
-      description: '(-I)^2 = I.',
+      labelKey: 'problem7.presets.minus-identity.label',
+      descriptionKey: 'problem7.presets.minus-identity.description',
       matrix: [
         [-1, 0],
         [0, -1],
@@ -46,8 +48,8 @@ export class Problem7M2rMatrixOrderIdempotent {
     },
     {
       id: 'rotation-90',
-      label: 'Rotație 90° (ordin 4)',
-      description: 'Matrice de rotație: R^4 = I.',
+      labelKey: 'problem7.presets.rotation90.label',
+      descriptionKey: 'problem7.presets.rotation90.description',
       matrix: [
         [0, -1],
         [1, 0],
@@ -55,8 +57,8 @@ export class Problem7M2rMatrixOrderIdempotent {
     },
     {
       id: 'projection-idempotent',
-      label: 'Proiecție (idempotentă)',
-      description: 'P^2 = P, dar nu are ordin finit (în general).',
+      labelKey: 'problem7.presets.projection-idempotent.label',
+      descriptionKey: 'problem7.presets.projection-idempotent.description',
       matrix: [
         [1, 0],
         [0, 0],
@@ -64,8 +66,8 @@ export class Problem7M2rMatrixOrderIdempotent {
     },
     {
       id: 'scale-2',
-      label: 'Scalare (fără ordin finit)',
-      description: '2I nu ajunge la I pentru n>0.',
+      labelKey: 'problem7.presets.scale-2.label',
+      descriptionKey: 'problem7.presets.scale-2.description',
       matrix: [
         [2, 0],
         [0, 2],
@@ -97,7 +99,7 @@ export class Problem7M2rMatrixOrderIdempotent {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 500) {
-      this.errorMessage = 'Max power trebuie să fie un întreg între 1 și 500.';
+      this.errorMessage = 'problem7.errors.maxPowerRange';
       return;
     }
 
@@ -111,7 +113,7 @@ export class Problem7M2rMatrixOrderIdempotent {
     const value = Number(input.value);
 
     if (!Number.isFinite(value) || value <= 0 || value > 1e-2) {
-      this.errorMessage = 'Toleranța trebuie să fie un număr pozitiv (ex: 1e-10).';
+      this.errorMessage = 'problem7.errors.tolerancePositive';
       return;
     }
 
@@ -138,11 +140,7 @@ export class Problem7M2rMatrixOrderIdempotent {
         10,
       );
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 }
