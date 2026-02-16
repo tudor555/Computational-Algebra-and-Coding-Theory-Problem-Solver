@@ -4,26 +4,26 @@
       routerLink="/home"
       class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
     >
-      ←
-      <span>Înapoi la pagina principală</span>
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
     </button>
 
     <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
-      Problema 8 – Parametrii unui cod (n, M, d, s, t, ρ)
+      {{ 'problem8.title' | t }}
     </h1>
 
     <p class="text-app-muted text-base md:text-base max-w-3xl mx-auto text-center mb-10">
-      Se dă un cod <span class="font-mono">C ⊆ (Zq)^n</span>. Afișăm parametrii:
-      <span class="font-mono">n</span> (lungime), <span class="font-mono">M</span> (număr de
-      cuvinte), <span class="font-mono">d</span> (distanță minimă),
-      <span class="font-mono">t</span> (corecție erori), <span class="font-mono">ρ</span> (raza de
-      acoperire), și <span class="font-mono">s</span> (redundanță, pentru coduri liniare).
+      {{ 'problem8.subtitle' | t }}
     </p>
 
     <!-- Presets -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
-      <p class="text-app-muted text-base mb-3">Alege rapid un cod mic pentru test.</p>
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem8.presetsTitle' | t }}
+      </h2>
+      <p class="text-app-muted text-base mb-3">
+        {{ 'problem8.presetsHint' | t }}
+      </p>
 
       <div class="flex flex-wrap gap-3">
         @for (preset of presets; track $index) {
@@ -32,7 +32,7 @@
             class="btn-secondary text-sm md:text-base"
             (click)="onApplyPreset(preset)"
           >
-            {{ preset.label }}
+            {{ preset.labelKey | t }}
           </button>
         }
       </div>
@@ -40,11 +40,13 @@
 
     <!-- Inputs -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-3">Introdu codul</h2>
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem8.inputTitle' | t }}</h2>
 
       <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
         <div>
-          <label class="block text-base text-app-muted mb-1">Modulus (q)</label>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.modulus' | t
+          }}</label>
           <input
             type="number"
             min="2"
@@ -56,7 +58,9 @@
         </div>
 
         <div>
-          <label class="block text-base text-app-muted mb-1">Număr de cuvinte</label>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.wordCount' | t
+          }}</label>
           <input
             type="number"
             min="1"
@@ -68,7 +72,9 @@
         </div>
 
         <div>
-          <label class="block text-base text-app-muted mb-1">Lungime cuvânt (n)</label>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.wordLength' | t
+          }}</label>
           <input
             type="number"
             min="1"
@@ -80,12 +86,12 @@
         </div>
 
         <button type="button" class="btn-primary" (click)="onCompute()">
-          Calculează parametrii
+          {{ 'problem8.computeButton' | t }}
         </button>
       </div>
 
       @if (errorMessage) {
-        <p class="text-base text-red-400 mb-3">{{ errorMessage }}</p>
+        <p class="text-base text-red-400 mb-3">{{ errorMessage | t }}</p>
       }
 
       <div class="bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border overflow-x-auto">
@@ -93,7 +99,9 @@
           <tbody>
             @for (word of words; track $index; let i = $index) {
               <tr>
-                <td class="pr-3 text-app-muted font-mono text-base">w{{ i + 1 }}</td>
+                <td class="pr-3 text-app-muted font-mono text-base">
+                  {{ 'problem8.wordLabel' | t: { index: i + 1 } }}
+                </td>
 
                 @for (entry of word; track $index; let j = $index) {
                   <td class="p-1">
@@ -111,8 +119,8 @@
         </table>
 
         <p class="mt-3 text-sm text-app-muted">
-          Intrările sunt normalizate modulo <span class="font-mono">{{ modulus }}</span> și
-          duplicatele sunt eliminate automat.
+          {{ 'problem8.inputNote.before' | t }}
+          <span class="font-mono">{{ modulus }}</span> {{ 'problem8.inputNote.after' | t }}
         </p>
       </div>
     </section>
@@ -120,24 +128,21 @@
     <!-- Results -->
     @if (result) {
       <section class="problem-card">
-        <h2 class="text-lg font-semibold mb-3">Parametrii codului</h2>
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem8.resultsTitle' | t }}
+        </h2>
 
         <div
           class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base text-app-muted"
         >
           <p class="mb-2">
-            <span class="font-mono">n</span> = lungimea unui cuvânt,
-            <span class="font-mono">M</span> = numărul de cuvinte distincte.
+            {{ 'problem8.explain.p1' | t }}
           </p>
           <p class="mb-2">
-            <span class="font-mono">d</span> = distanța minimă Hamming dintre două cuvinte
-            distincte. <span class="font-mono">t = ⌊(d−1)/2⌋</span>.
+            {{ 'problem8.explain.p2' | t }}
           </p>
           <p>
-            <span class="font-mono">ρ</span> = cea mai mare distanță minimă de la un vector arbitrar
-            la cod (raza de acoperire). Pentru valori mari ale lui
-            <span class="font-mono">q^n</span>, calculul lui <span class="font-mono">ρ</span> este
-            prea costisitor și este omis.
+            {{ 'problem8.explain.p3' | t }}
           </p>
         </div>
 
@@ -157,7 +162,7 @@
               @if (result.minimumDistance !== null) {
                 <span class="font-mono">{{ result.minimumDistance }}</span>
               } @else {
-                <span class="text-app-muted">nedefinit (M &lt; 2)</span>
+                <span class="text-app-muted">{{ 'problem8.values.dUndefined' | t }}</span>
               }
             </p>
 
@@ -166,7 +171,7 @@
               @if (result.errorCorrectingCapability !== null) {
                 <span class="font-mono">{{ result.errorCorrectingCapability }}</span>
               } @else {
-                <span class="text-app-muted">nedefinit</span>
+                <span class="text-app-muted">{{ 'problem8.values.tUndefined' | t }}</span>
               }
             </p>
 
@@ -175,57 +180,64 @@
               @if (result.coveringRadiusComputed && result.coveringRadius !== null) {
                 <span class="font-mono">{{ result.coveringRadius }}</span>
               } @else {
-                <span class="text-app-muted">prea costisitor de calculat (q^n mare)</span>
+                <span class="text-app-muted">{{ 'problem8.values.rhoTooCostly' | t }}</span>
               }
             </p>
           </div>
 
           <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
-            <h3 class="font-semibold mb-2">Linearitate și parametrul s</h3>
+            <h3 class="font-semibold mb-2">
+              {{ 'problem8.linearity.title' | t }}
+            </h3>
 
             <p class="mb-2">
               @if (result.isLinear) {
-                <span class="text-green-300 font-semibold">Codul este liniar.</span>
+                <span class="text-green-300 font-semibold">{{
+                  'problem8.linearity.isLinear' | t
+                }}</span>
               } @else {
-                <span class="text-red-300 font-semibold">Codul NU este liniar.</span>
+                <span class="text-red-300 font-semibold">{{
+                  'problem8.linearity.notLinear' | t
+                }}</span>
               }
             </p>
 
             @if (result.isLinear && result.dimensionK !== null && result.redundancyS !== null) {
               <p class="text-app-muted mb-2">
-                Pentru un cod liniar, de obicei <span class="font-mono">M = q^k</span>.
+                {{ 'problem8.linearity.notePower' | t }}
               </p>
               <p>
                 <span class="font-semibold">k</span> =
                 <span class="font-mono">{{ result.dimensionK }}</span
                 >, <span class="font-semibold">s</span> =
                 <span class="font-mono">{{ result.redundancyS }}</span>
-                <span class="text-app-muted">(s = n − k)</span>
+                <span class="text-app-muted">{{ 'problem8.linearity.noteS' | t }}</span>
               </p>
             } @else if (result.isLinear) {
               <p class="text-app-muted">
-                Codul pare liniar, dar <span class="font-mono">M</span> nu este o putere exactă a
-                lui <span class="font-mono">q</span>, deci <span class="font-mono">k</span> și
-                <span class="font-mono">s</span> nu pot fi deduse sigur din aceste date.
+                {{ 'problem8.linearity.linearButNoK' | t }}
               </p>
             } @else {
               <p class="text-app-muted">
-                Parametrul <span class="font-mono">s</span> (redundanță
-                <span class="font-mono">n−k</span>) are sens în mod standard pentru coduri liniare.
+                {{ 'problem8.linearity.nonLinearS' | t }}
               </p>
             }
           </div>
         </div>
 
         <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
-          <h3 class="font-semibold mb-3">Cuvintele distincte ale codului</h3>
+          <h3 class="font-semibold mb-3">
+            {{ 'problem8.uniqueWords.title' | t }}
+          </h3>
 
           <div class="bg-app-bg border border-app-border rounded-xl p-3 overflow-x-auto max-w-full">
             <table class="border-collapse w-full">
               <thead>
                 <tr class="text-app-muted">
-                  <th class="text-left px-2 py-2">#</th>
-                  <th class="text-left px-2 py-2">Cuvânt</th>
+                  <th class="text-left px-2 py-2">{{ 'problem8.uniqueWords.table.index' | t }}</th>
+                  <th class="text-left px-2 py-2">
+                    {{ 'problem8.uniqueWords.table.word' | t }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -240,7 +252,7 @@
           </div>
 
           <p class="mt-3 text-sm text-app-muted">
-            Lista este normalizată modulo q și fără duplicate.
+            {{ 'problem8.uniqueWords.note' | t }}
           </p>
         </div>
       </section>

@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import { CodeParametersResult, CodingTheory, Vector } from '../../../services/coding-theory';
 
 interface CodePreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   modulus: number;
   words: Vector[];
 }
 
 @Component({
   selector: 'app-problem8-code-parameters',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem8-code-parameters.html',
   styleUrl: './problem8-code-parameters.scss',
 })
@@ -27,8 +29,8 @@ export class Problem8CodeParameters {
   presets: CodePreset[] = [
     {
       id: 'z2-linear-4words',
-      label: 'Cod liniar (Z₂), n=3',
-      description: 'Exemplu mic pentru parametri; M=4.',
+      labelKey: 'problem8.presets.z2-linear-4words.label',
+      descriptionKey: 'problem8.presets.z2-linear-4words.description',
       modulus: 2,
       words: [
         [0, 0, 0],
@@ -39,8 +41,8 @@ export class Problem8CodeParameters {
     },
     {
       id: 'z2-nonlinear',
-      label: 'Cod neliniar (Z₂), n=3',
-      description: 'Set de cuvinte care nu formează cod liniar.',
+      labelKey: 'problem8.presets.z2-nonlinear.label',
+      descriptionKey: 'problem8.presets.z2-nonlinear.description',
       modulus: 2,
       words: [
         [0, 0, 0],
@@ -51,8 +53,8 @@ export class Problem8CodeParameters {
     },
     {
       id: 'z3-small',
-      label: 'Cod în Z₃, n=2',
-      description: 'Exemplu mic în (Z₃)^2.',
+      labelKey: 'problem8.presets.z3-small.label',
+      descriptionKey: 'problem8.presets.z3-small.description',
       modulus: 3,
       words: [
         [0, 0],
@@ -90,7 +92,7 @@ export class Problem8CodeParameters {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 2 || value > 13) {
-      this.errorMessage = 'Modulus trebuie să fie un întreg între 2 și 13.';
+      this.errorMessage = 'problem8.errors.modulusRange';
       return;
     }
 
@@ -104,7 +106,7 @@ export class Problem8CodeParameters {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 64) {
-      this.errorMessage = 'Numărul de cuvinte trebuie să fie un întreg între 1 și 64.';
+      this.errorMessage = 'problem8.errors.wordCountRange';
       return;
     }
 
@@ -117,7 +119,7 @@ export class Problem8CodeParameters {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 12) {
-      this.errorMessage = 'Lungimea cuvintelor trebuie să fie un întreg între 1 și 12.';
+      this.errorMessage = 'problem8.errors.wordLengthRange';
       return;
     }
 
@@ -138,11 +140,7 @@ export class Problem8CodeParameters {
     try {
       this.result = this.codingTheoryService.computeCodeParameters(this.words, this.modulus);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 
