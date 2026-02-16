@@ -490,5 +490,70 @@
         "description": "2I nu ajunge la I pentru n>0."
       }
     }
+  },
+  "problem8": {
+    "title": "Problema 8 – Parametrii unui cod (n, M, d, s, t, ρ)",
+    "subtitle": "Se dă un cod C ⊆ (Zq)^n. Afișăm parametrii: n (lungime), M (număr de cuvinte), d (distanță minimă), t (corecție erori), ρ (raza de acoperire), și s (redundanță, pentru coduri liniare).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un cod mic pentru test.",
+    "inputTitle": "Introdu codul",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "wordCount": "Număr de cuvinte",
+      "wordLength": "Lungime cuvânt (n)"
+    },
+    "computeButton": "Calculează parametrii",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Intrările sunt normalizate modulo",
+      "after": "și duplicatele sunt eliminate automat."
+    },
+    "resultsTitle": "Parametrii codului",
+    "explain": {
+      "p1": "n = lungimea unui cuvânt, M = numărul de cuvinte distincte.",
+      "p2": "d = distanța minimă Hamming dintre două cuvinte distincte. t = ⌊(d−1)/2⌋.",
+      "p3": "ρ = cea mai mare distanță minimă de la un vector arbitrar la cod (raza de acoperire). Pentru valori mari ale lui q^n, calculul lui ρ este prea costisitor și este omis."
+    },
+    "values": {
+      "dUndefined": "nedefinit (M < 2)",
+      "tUndefined": "nedefinit",
+      "rhoTooCostly": "prea costisitor de calculat (q^n mare)"
+    },
+    "linearity": {
+      "title": "Linearitate și parametrul s",
+      "isLinear": "Codul este liniar.",
+      "notLinear": "Codul NU este liniar.",
+      "notePower": "Pentru un cod liniar, de obicei M = q^k.",
+      "noteS": "(s = n − k)",
+      "linearButNoK": "Codul pare liniar, dar M nu este o putere exactă a lui q, deci k și s nu pot fi deduse sigur din aceste date.",
+      "nonLinearS": "Parametrul s (redundanță n−k) are sens în mod standard pentru coduri liniare."
+    },
+    "uniqueWords": {
+      "title": "Cuvintele distincte ale codului",
+      "table": {
+        "index": "#",
+        "word": "Cuvânt"
+      },
+      "note": "Lista este normalizată modulo q și fără duplicate."
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 64.",
+      "wordLengthRange": "Lungimea cuvintelor trebuie să fie un întreg între 1 și 12."
+    },
+    "presets": {
+      "z2-linear-4words": {
+        "label": "Cod liniar (Z₂), n=3",
+        "description": "Exemplu mic pentru parametri; M=4."
+      },
+      "z2-nonlinear": {
+        "label": "Cod neliniar (Z₂), n=3",
+        "description": "Set de cuvinte care nu formează cod liniar."
+      },
+      "z3-small": {
+        "label": "Cod în Z₃, n=2",
+        "description": "Exemplu mic în (Z₃)^2."
+      }
+    }
   }
 }

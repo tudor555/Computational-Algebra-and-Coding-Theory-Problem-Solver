@@ -499,5 +499,70 @@
         "description": "2I does not reach I for n>0."
       }
     }
+  },
+  "problem8": {
+    "title": "Problem 8 – Code parameters (n, M, d, s, t, ρ)",
+    "subtitle": "Given a code C ⊆ (Zq)^n. We display the parameters: n (length), M (number of words), d (minimum distance), t (error-correcting capability), ρ (covering radius), and s (redundancy, for linear codes).",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a small code to test.",
+    "inputTitle": "Enter the code",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "wordCount": "Number of words",
+      "wordLength": "Word length (n)"
+    },
+    "computeButton": "Compute parameters",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Entries are normalized modulo",
+      "after": "and duplicates are automatically removed."
+    },
+    "resultsTitle": "Code parameters",
+    "explain": {
+      "p1": "n = the length of a word, M = the number of distinct words.",
+      "p2": "d = the minimum Hamming distance between two distinct codewords. t = ⌊(d−1)/2⌋.",
+      "p3": "ρ = the maximum, over all vectors, of the minimum distance to the code (covering radius). For large q^n, computing ρ is too expensive and is omitted."
+    },
+    "values": {
+      "dUndefined": "undefined (M < 2)",
+      "tUndefined": "undefined",
+      "rhoTooCostly": "too expensive to compute (large q^n)"
+    },
+    "linearity": {
+      "title": "Linearity and parameter s",
+      "isLinear": "The code is linear.",
+      "notLinear": "The code is NOT linear.",
+      "notePower": "For a linear code, typically M = q^k.",
+      "noteS": "(s = n − k)",
+      "linearButNoK": "The code appears linear, but M is not an exact power of q, so k and s cannot be reliably inferred from these data.",
+      "nonLinearS": "The parameter s (redundancy n−k) is standardly defined for linear codes."
+    },
+    "uniqueWords": {
+      "title": "Distinct codewords",
+      "table": {
+        "index": "#",
+        "word": "Word"
+      },
+      "note": "The list is normalized modulo q and contains no duplicates."
+    },
+    "errors": {
+      "modulusRange": "Modulus must be an integer between 2 and 13.",
+      "wordCountRange": "The number of words must be an integer between 1 and 64.",
+      "wordLengthRange": "Word length must be an integer between 1 and 12."
+    },
+    "presets": {
+      "z2-linear-4words": {
+        "label": "Linear code (Z₂), n=3",
+        "description": "Small example for parameters; M=4."
+      },
+      "z2-nonlinear": {
+        "label": "Nonlinear code (Z₂), n=3",
+        "description": "A set of words that does not form a linear code."
+      },
+      "z3-small": {
+        "label": "Code in Z₃, n=2",
+        "description": "Small example in (Z₃)^2."
+      }
+    }
   }
 }
