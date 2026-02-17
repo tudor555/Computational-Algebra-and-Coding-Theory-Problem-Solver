@@ -555,5 +555,72 @@
         "description": "Exemplu mic în (Z₃)^2."
       }
     }
+  },
+  "problem9": {
+    "title": "Problema 9 – Verifică dacă un cod este liniar",
+    "subtitle": "Un cod C ⊆ (Zₘ)ⁿ este liniar dacă: conține cuvântul zero și este închis la adunare și înmulțire cu scalari (mod m).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un set de cuvinte pentru test.",
+    "inputTitle": "Introdu codul",
+    "inputs": {
+      "modulus": "Modulus (m)",
+      "wordCount": "Număr de cuvinte",
+      "wordLength": "Lungime cuvânt (n)"
+    },
+    "computeButton": "Verifică linearitatea",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Notă: intrările sunt reduse automat modulo",
+      "after": "."
+    },
+    "resultsTitle": "Rezultat",
+    "conditions": {
+      "intro": "Condiții verificate:",
+      "textBefore": "0 ∈ C, a+b ∈ C pentru orice a,b ∈ C, și α·a ∈ C pentru orice scalar α."
+    },
+    "status": {
+      "isLinear": "Codul este liniar.",
+      "notLinear": "Codul NU este liniar."
+    },
+    "checks": {
+      "zeroWord": "Conține cuvântul zero:",
+      "addition": "Închis la adunare:",
+      "scalarMult": "Închis la înmulțire cu scalari:"
+    },
+    "counterexample": {
+      "title": "Contraexemplu (dacă există)",
+      "notClosedAddition": "Nu este închis la adunare:",
+      "sumNotInCode": "Suma nu se regăsește în cod.",
+      "notClosedScalar": "Nu este închis la înmulțire cu scalari:",
+      "productNotInCode": "Produsul nu se regăsește în cod.",
+      "missingZero": "Codul nu conține cuvântul zero, deci nu poate fi liniar.",
+      "noneFound": "Nu s-a găsit un contraexemplu simplu (sau codul este liniar)."
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "modulusMin": "Modulus trebuie să fie cel puțin 2.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 32.",
+      "wordLengthRange": "Lungimea cuvintelor trebuie să fie un întreg între 1 și 12.",
+      "inconsistentLengths": "Toate cuvintele trebuie să aibă aceeași lungime.",
+      "unexpectedCheck": "A apărut o eroare neașteptată în timpul verificării."
+    },
+    "presets": {
+      "linear-z2": {
+        "label": "Cod liniar (Z₂)",
+        "description": "Exemplu clasic: subspațiu în (Z₂)^3."
+      },
+      "not-linear-missing-zero": {
+        "label": "Nu e liniar (lipsește 0)",
+        "description": "Nu conține cuvântul zero."
+      },
+      "not-linear-not-closed": {
+        "label": "Nu e liniar (nu e închis la +)",
+        "description": "Conține 0, dar nu este închis la adunare."
+      },
+      "linear-z3": {
+        "label": "Cod liniar (Z₃)",
+        "description": "Exemplu mic în (Z₃)^2."
+      }
+    }
   }
 }

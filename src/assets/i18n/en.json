@@ -564,5 +564,72 @@
         "description": "Small example in (Z₃)^2."
       }
     }
+  },
+  "problem9": {
+    "title": "Problem 9 – Check if a code is linear",
+    "subtitle": "A code C ⊆ (Zₘ)ⁿ is linear if it contains the zero word and is closed under addition and scalar multiplication (mod m).",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly pick a set of words to test.",
+    "inputTitle": "Enter the code",
+    "inputs": {
+      "modulus": "Modulus (m)",
+      "wordCount": "Number of words",
+      "wordLength": "Word length (n)"
+    },
+    "computeButton": "Check linearity",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Note: entries are automatically reduced modulo",
+      "after": "."
+    },
+    "resultsTitle": "Result",
+    "conditions": {
+      "intro": "Checked conditions:",
+      "textBefore": "0 ∈ C, a+b ∈ C for all a,b ∈ C, and α·a ∈ C for any scalar α."
+    },
+    "status": {
+      "isLinear": "The code is linear.",
+      "notLinear": "The code is NOT linear."
+    },
+    "checks": {
+      "zeroWord": "Contains the zero word:",
+      "addition": "Closed under addition:",
+      "scalarMult": "Closed under scalar multiplication:"
+    },
+    "counterexample": {
+      "title": "Counterexample (if any)",
+      "notClosedAddition": "Not closed under addition:",
+      "sumNotInCode": "The sum is not in the code.",
+      "notClosedScalar": "Not closed under scalar multiplication:",
+      "productNotInCode": "The product is not in the code.",
+      "missingZero": "The code does not contain the zero word, so it cannot be linear.",
+      "noneFound": "No simple counterexample was found (or the code is linear)."
+    },
+    "errors": {
+      "modulusRange": "Modulus must be an integer between 2 and 13.",
+      "modulusMin": "Modulus must be at least 2.",
+      "wordCountRange": "Number of words must be an integer between 1 and 32.",
+      "wordLengthRange": "Word length must be an integer between 1 and 12.",
+      "inconsistentLengths": "All words must have the same length.",
+      "unexpectedCheck": "An unexpected error occurred during the check."
+    },
+    "presets": {
+      "linear-z2": {
+        "label": "Linear code (Z₂)",
+        "description": "Classic example: a subspace of (Z₂)^3."
+      },
+      "not-linear-missing-zero": {
+        "label": "Not linear (missing 0)",
+        "description": "Does not contain the zero word."
+      },
+      "not-linear-not-closed": {
+        "label": "Not linear (not closed under +)",
+        "description": "Contains 0, but is not closed under addition."
+      },
+      "linear-z3": {
+        "label": "Linear code (Z₃)",
+        "description": "Small example in (Z₃)^2."
+      }
+    }
   }
 }
