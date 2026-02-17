@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import { CodingTheory, LinearCodeCheckResult, Vector } from '../../../services/coding-theory';
 
 interface CodePreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   modulus: number;
   words: Vector[];
 }
 
 @Component({
   selector: 'app-problem9-linear-code-check',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem9-linear-code-check.html',
   styleUrl: './problem9-linear-code-check.scss',
 })
@@ -27,8 +29,8 @@ export class Problem9LinearCodeCheck {
   presets: CodePreset[] = [
     {
       id: 'linear-z2',
-      label: 'Cod liniar (Z₂)',
-      description: 'Exemplu clasic: subspațiu în (Z₂)^3.',
+      labelKey: 'problem9.presets.linear-z2.label',
+      descriptionKey: 'problem9.presets.linear-z2.description',
       modulus: 2,
       words: [
         [0, 0, 0],
@@ -39,8 +41,8 @@ export class Problem9LinearCodeCheck {
     },
     {
       id: 'not-linear-missing-zero',
-      label: 'Nu e liniar (lipsește 0)',
-      description: 'Nu conține cuvântul zero.',
+      labelKey: 'problem9.presets.not-linear-missing-zero.label',
+      descriptionKey: 'problem9.presets.not-linear-missing-zero.description',
       modulus: 2,
       words: [
         [1, 0, 1],
@@ -50,8 +52,8 @@ export class Problem9LinearCodeCheck {
     },
     {
       id: 'not-linear-not-closed',
-      label: 'Nu e liniar (nu e închis la +)',
-      description: 'Conține 0, dar nu este închis la adunare.',
+      labelKey: 'problem9.presets.not-linear-not-closed.label',
+      descriptionKey: 'problem9.presets.not-linear-not-closed.description',
       modulus: 2,
       words: [
         [0, 0, 0],
@@ -61,8 +63,8 @@ export class Problem9LinearCodeCheck {
     },
     {
       id: 'linear-z3',
-      label: 'Cod liniar (Z₃)',
-      description: 'Exemplu mic în (Z₃)^2.',
+      labelKey: 'problem9.presets.linear-z3.label',
+      descriptionKey: 'problem9.presets.linear-z3.description',
       modulus: 3,
       words: [
         [0, 0],
@@ -100,7 +102,7 @@ export class Problem9LinearCodeCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 2 || value > 13) {
-      this.errorMessage = 'Modulus trebuie să fie un întreg între 2 și 13.';
+      this.errorMessage = 'problem9.errors.modulusRange';
       return;
     }
 
@@ -114,7 +116,7 @@ export class Problem9LinearCodeCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 32) {
-      this.errorMessage = 'Numărul de cuvinte trebuie să fie un întreg între 1 și 32.';
+      this.errorMessage = 'problem9.errors.wordCountRange';
       return;
     }
 
@@ -127,7 +129,7 @@ export class Problem9LinearCodeCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 12) {
-      this.errorMessage = 'Lungimea cuvintelor trebuie să fie un întreg între 1 și 12.';
+      this.errorMessage = 'problem9.errors.wordLengthRange';
       return;
     }
 
@@ -149,20 +151,17 @@ export class Problem9LinearCodeCheck {
       this.result = this.codingTheoryService.checkIfCodeIsLinear(this.words, this.modulus);
 
       if (!this.result.hasValidModulus) {
-        this.errorMessage = 'Modulus trebuie să fie cel puțin 2.';
+        this.errorMessage = 'problem9.errors.modulusMin';
         return;
       }
 
       if (!this.result.hasConsistentLengths) {
-        this.errorMessage = 'Toate cuvintele trebuie să aibă aceeași lungime.';
+        this.errorMessage = 'problem9.errors.inconsistentLengths';
         return;
       }
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul verificării.';
-      }
+      this.errorMessage =
+        error instanceof Error ? error.message : 'problem9.errors.unexpectedCheck';
     }
   }
 
