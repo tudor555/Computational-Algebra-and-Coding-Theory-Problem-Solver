@@ -622,5 +622,77 @@
         "description": "Exemplu mic în (Z₃)^2."
       }
     }
+  },
+  "problem10": {
+    "title": "Problema 10 – Afișează toate cuvintele codului (din matricea generatoare)",
+    "subtitle": {
+      "before": "Pentru o matrice generatoare",
+      "middle1": "de dimensiune",
+      "middle2": "codul este:",
+      "after": "Afișăm toate cuvintele codului generate de"
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice generatoare.",
+    "inputTitle": "Introdu matricea generatoare",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "rows": "Linii (k)",
+      "cols": "Coloane (n)"
+    },
+    "computeButton": "Generează cuvintele codului",
+    "note": {
+      "before": "Atenție: numărul de cuvinte este",
+      "after": "Pentru valori mari, generarea poate deveni lentă."
+    },
+    "resultsTitle": "Rezultate",
+    "summary": {
+      "dimensions": "Dimensiuni:",
+      "expectedCount": "Număr așteptat de cuvinte:",
+      "shownCount": "Număr afișat (după eliminarea duplicatelor):",
+      "duplicatesNote": "Observație: au existat duplicate (matricea poate să nu aibă rangul k sau lucrăm peste Zq ne-corp)."
+    },
+    "explain": {
+      "p1": {
+        "before": "Fiecare cuvânt se obține ca",
+        "middle1": "unde",
+        "middle2": "este un vector de lungime"
+      },
+      "p2": {
+        "before": "Pentru",
+        "after": "această generare parcurge toate combinațiile binare ale lui"
+      }
+    },
+    "codewords": {
+      "title": "Cuvintele codului",
+      "table": {
+        "index": "#",
+        "word": "Cuvânt"
+      },
+      "note": {
+        "before": "Cuvintele sunt afișate în ordinea mesajelor",
+        "after": "(lexicografic în baza q)."
+      }
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "rowsRange": "Numărul de linii (k) trebuie să fie un întreg între 1 și 6.",
+      "colsRange": "Numărul de coloane (n) trebuie să fie un întreg între 1 și 12.",
+      "tooMany": "Prea multe cuvinte de generat (q^k este foarte mare). Reduceți k sau modulus.",
+      "unexpected": "A apărut o eroare neașteptată în timpul generării."
+    },
+    "presets": {
+      "z2-2x4": {
+        "label": "Z₂: G (2×4)",
+        "description": "Exemplu mic: 2 biți informație, lungime 4."
+      },
+      "z2-3x5": {
+        "label": "Z₂: G (3×5)",
+        "description": "Puțin mai mare, încă rapid de generat."
+      },
+      "z3-2x3": {
+        "label": "Z₃: G (2×3)",
+        "description": "Exemplu peste Z₃."
+      }
+    }
   }
 }
