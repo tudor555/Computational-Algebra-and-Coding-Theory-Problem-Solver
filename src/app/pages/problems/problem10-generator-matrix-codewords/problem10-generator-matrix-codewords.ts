@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import {
   CodingTheory,
   GeneratorMatrixCodewordsResult,
@@ -8,15 +10,15 @@ import {
 
 interface GeneratorPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   modulus: number;
   G: Matrix;
 }
 
 @Component({
   selector: 'app-problem10-generator-matrix-codewords',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem10-generator-matrix-codewords.html',
   styleUrl: './problem10-generator-matrix-codewords.scss',
 })
@@ -31,8 +33,8 @@ export class Problem10GeneratorMatrixCodewords {
   presets: GeneratorPreset[] = [
     {
       id: 'z2-2x4',
-      label: 'Z₂: G (2×4)',
-      description: 'Exemplu mic: 2 biți informație, lungime 4.',
+      labelKey: 'problem10.presets.z2-2x4.label',
+      descriptionKey: 'problem10.presets.z2-2x4.description',
       modulus: 2,
       G: [
         [1, 0, 1, 1],
@@ -41,8 +43,8 @@ export class Problem10GeneratorMatrixCodewords {
     },
     {
       id: 'z2-3x5',
-      label: 'Z₂: G (3×5)',
-      description: 'Puțin mai mare, încă rapid de generat.',
+      labelKey: 'problem10.presets.z2-3x5.label',
+      descriptionKey: 'problem10.presets.z2-3x5.description',
       modulus: 2,
       G: [
         [1, 0, 0, 1, 1],
@@ -52,8 +54,8 @@ export class Problem10GeneratorMatrixCodewords {
     },
     {
       id: 'z3-2x3',
-      label: 'Z₃: G (2×3)',
-      description: 'Exemplu peste Z₃.',
+      labelKey: 'problem10.presets.z3-2x3.label',
+      descriptionKey: 'problem10.presets.z3-2x3.description',
       modulus: 3,
       G: [
         [1, 0, 1],
@@ -92,7 +94,7 @@ export class Problem10GeneratorMatrixCodewords {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 2 || value > 13) {
-      this.errorMessage = 'Modulus trebuie să fie un întreg între 2 și 13.';
+      this.errorMessage = 'problem10.errors.modulusRange';
       return;
     }
 
@@ -106,7 +108,7 @@ export class Problem10GeneratorMatrixCodewords {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 6) {
-      this.errorMessage = 'Numărul de linii (k) trebuie să fie un întreg între 1 și 6.';
+      this.errorMessage = 'problem10.errors.rowsRange';
       return;
     }
 
@@ -119,7 +121,7 @@ export class Problem10GeneratorMatrixCodewords {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 1 || value > 12) {
-      this.errorMessage = 'Numărul de coloane (n) trebuie să fie un întreg între 1 și 12.';
+      this.errorMessage = 'problem10.errors.colsRange';
       return;
     }
 
@@ -141,8 +143,7 @@ export class Problem10GeneratorMatrixCodewords {
       // Keep runtime reasonable: q^k can explode
       const estimated = Math.pow(this.modulus, this.rowCount);
       if (estimated > 5000) {
-        this.errorMessage =
-          'Prea multe cuvinte de generat (q^k este foarte mare). Reduceți k sau modulus.';
+        this.errorMessage = 'problem10.errors.tooMany';
         return;
       }
 
@@ -151,11 +152,7 @@ export class Problem10GeneratorMatrixCodewords {
         this.modulus,
       );
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul generării.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'problem10.errors.unexpected';
     }
   }
 
