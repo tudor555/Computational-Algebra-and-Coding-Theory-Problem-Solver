@@ -187,7 +187,7 @@
     "presetsHint": "Quickly choose a matrix to test (invertible Hermitian / singular Hermitian / non-Hermitian).",
     "inputTitle": "Enter the matrix",
     "rowsLabel": "Number of rows",
-    "colsLabel": "Number of columns",
+    "columnsLabel": "Number of columns",
     "checkButton": "Check",
     "resultsTitle": "Results",
     "explain": {
@@ -438,31 +438,24 @@
   "problem7": {
     "title": "Problem 7 – Order of a matrix in (M₂(ℝ), ·) and idempotent",
     "subtitle": "Given a matrix A ∈ M₂(ℝ). Determine the order of A under multiplication (the smallest k ≥ 1 with A^k = I, if it exists) and check whether it is idempotent (A² = A).",
-
     "presetsTitle": "Presets",
     "presetsHint": "Examples with finite order (I, −I, rotation) and examples without finite order (scaling, projection).",
-
     "inputTitle": "Enter the 2×2 matrix",
     "maxPowerLabel": "Max power",
     "toleranceLabel": "Tolerance",
     "computeButton": "Compute",
-
     "resultsTitle": "Results",
-
     "explainP1": "The order of a matrix (in the group sense) is the smallest k ≥ 1 such that A^k = I. For many real matrices, such a k does not exist (infinite order).",
     "explainP2": "A matrix is idempotent if A² = A.",
-
     "idempotentLabel": "Idempotent:",
     "orderLabel": "Order:",
     "orderFound": "k = {{k}}",
     "orderNotFound": "not found up to k = {{k}}",
     "toleranceNote": "Comparison uses tolerance {{tol}}.",
-
     "notFoundIntro": "If the order is not found within the chosen limit, two typical cases are:",
     "notFoundB1": "the matrix has infinite order (no k with A^k = I)",
     "notFoundB2": "the order exists, but it is larger than the selected limit",
     "foundWithinLimit": "For this example, a k with A^k = I was found within the selected limit.",
-
     "preview": {
       "title": "First powers (preview)",
       "table": {
@@ -471,12 +464,10 @@
       },
       "note": "The preview shows up to the first 10 powers. For large powers, values may grow quickly and numerical errors may appear."
     },
-
     "errors": {
       "maxPowerRange": "Max power must be an integer between 1 and 500.",
       "tolerancePositive": "Tolerance must be a positive number (e.g. 1e-10)."
     },
-
     "presets": {
       "identity": {
         "label": "Identity (order 1)",
@@ -701,6 +692,80 @@
       "z3-2x3": {
         "label": "Z₃: G (2×3)",
         "description": "Example over Z₃."
+      }
+    }
+  },
+  "problem11": {
+    "title": "Problem 11 – Validate codewords using a parity-check matrix",
+    "subtitle": {
+      "before": "We read the parity-check matrix",
+      "middle1": "of a code and a set of words of length",
+      "middle2": "For each word",
+      "middle3": "we compute the syndrome",
+      "middle4": "(modulo",
+      "after": "). Words with zero syndrome are codewords."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a parity-check matrix and a set of words to demonstrate the feature. You can then edit values manually.",
+    "inputTitle": "Enter the parity-check matrix H and the words",
+    "inputs": {
+      "modulusLabel": "Modulus q",
+      "modulusHint": "Typically, binary codes use q = 2.",
+      "rowsLabel": "Number of rows of H",
+      "columnsLabel": "Number of columns of H (word length)",
+      "wordCountLabel": "Number of words to validate"
+    },
+    "matrix": {
+      "title": "Parity-check matrix H",
+      "dimension": "size {{rows}} × {{cols}}"
+    },
+    "words": {
+      "title": "Words to validate",
+      "lengthNote": "each of length {{n}}",
+      "vLabel": "v{{index}} ="
+    },
+    "validateButton": "Compute syndromes and validate words",
+    "resultsTitle": "Parity-check validation results",
+    "explain": {
+      "p1": "For each word v, we compute the syndrome s = H · vᵀ (mod q). If s = 0, then v is a codeword.",
+      "p2": "The parity-check matrix H encodes all linear equations that a valid codeword must satisfy.",
+      "p3": "A nonzero syndrome indicates errors or that the vector is not in the code."
+    },
+    "summary": {
+      "validTitle": "Codewords (zero syndrome)",
+      "invalidTitle": "Not codewords (nonzero syndrome)",
+      "noneValid": "None of the entered words is a codeword.",
+      "allValid": "All entered words are codewords."
+    },
+    "syndromes": {
+      "title": "Syndromes for each word",
+      "table": {
+        "word": "Word",
+        "syndrome": "Syndrome s = H · vᵀ",
+        "isCodeword": "Is it a codeword?"
+      },
+      "yes": "Yes (zero syndrome)",
+      "no": "No (nonzero syndrome)"
+    },
+    "errors": {
+      "modulusRange": "Modulus q must be an integer between 2 and 10.",
+      "rowsRange": "Number of parity-check rows must be between 1 and 8.",
+      "colsRange": "Number of columns must be an integer between 2 and 12.",
+      "wordCountRange": "Number of words must be an integer between 1 and 12.",
+      "unexpected": "An unexpected error occurred during computation."
+    },
+    "presets": {
+      "binary-single-parity": {
+        "label": "Binary single-parity code",
+        "description": "1×3 parity-check matrix, simple single-parity code."
+      },
+      "binary-hamming-7-4": {
+        "label": "Binary Hamming (7,4) code",
+        "description": "Classic parity-check matrix for the Hamming (7,4) code."
+      },
+      "ternary-example": {
+        "label": "Ternary code (q = 3)",
+        "description": "Simple example over ℤ₃ (mod 3)."
       }
     }
   }

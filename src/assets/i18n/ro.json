@@ -187,7 +187,7 @@
     "presetsHint": "Alege rapid o matrice pentru testare (Hermitică inversabilă / Hermitică singulară / ne-Hermitică).",
     "inputTitle": "Introdu matricea",
     "rowsLabel": "Numărul de linii",
-    "colsLabel": "Numărul de coloane",
+    "columnsLabel": "Numărul de coloane",
     "checkButton": "Verifică",
     "resultsTitle": "Rezultate",
     "explain": {
@@ -692,6 +692,80 @@
       "z3-2x3": {
         "label": "Z₃: G (2×3)",
         "description": "Exemplu peste Z₃."
+      }
+    }
+  },
+  "problem11": {
+    "title": "Problema 11 – Verificare cuvinte de cod cu matricea de control",
+    "subtitle": {
+      "before": "Se citește matricea de control",
+      "middle1": "a unui cod și o mulțime de cuvinte de lungime",
+      "middle2": "Pentru fiecare cuvânt",
+      "middle3": "se calculează sindromul",
+      "middle4": "(modulo",
+      "after": "). Cuvintele pentru care sindromul este nul sunt cuvinte de cod."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid o matrice de control și un set de cuvinte pentru a demonstra funcționalitatea. Poți apoi modifica manual valorile.",
+    "inputTitle": "Introdu matricea de control H și cuvintele",
+    "inputs": {
+      "modulusLabel": "Modulul q",
+      "modulusHint": "În mod uzual pentru coduri binare se folosește q = 2.",
+      "rowsLabel": "Numărul de linii ale lui H",
+      "columnsLabel": "Numărul de coloane ale lui H (lungimea cuvintelor)",
+      "wordCountLabel": "Numărul de cuvinte de verificat"
+    },
+    "matrix": {
+      "title": "Matricea de control H",
+      "dimension": "dimensiune {{rows}} × {{cols}}"
+    },
+    "words": {
+      "title": "Cuvintele de verificat",
+      "lengthNote": "fiecare de lungime {{n}}",
+      "vLabel": "v{{index}} ="
+    },
+    "validateButton": "Calculează sindroamele și validează cuvintele",
+    "resultsTitle": "Rezultatele verificării cu matricea de control",
+    "explain": {
+      "p1": "Pentru fiecare cuvânt v, calculăm sindromul s = H · vᵀ (modulo q). Dacă s = 0, atunci v este cuvânt de cod.",
+      "p2": "Matricea de control H caracterizează toate ecuațiile liniare pe care trebuie să le satisfacă un cuvânt valid.",
+      "p3": "Sindromul nenul indică faptul că au apărut erori sau că vectorul nu aparține codului."
+    },
+    "summary": {
+      "validTitle": "Cuvinte de cod (sindrom nul)",
+      "invalidTitle": "Cuvinte care nu sunt de cod (sindrom nenul)",
+      "noneValid": "Niciunul dintre cuvintele introduse nu este cuvânt de cod.",
+      "allValid": "Toate cuvintele introduse sunt cuvinte de cod."
+    },
+    "syndromes": {
+      "title": "Sindroamele asociate fiecărui cuvânt",
+      "table": {
+        "word": "Cuvânt",
+        "syndrome": "Sindrom s = H · vᵀ",
+        "isCodeword": "Este cuvânt de cod?"
+      },
+      "yes": "Da (sindrom nul)",
+      "no": "Nu (sindrom nenul)"
+    },
+    "errors": {
+      "modulusRange": "Modulul q trebuie să fie un întreg între 2 și 10.",
+      "rowsRange": "Numărul de linii ale matricii de control trebuie să fie între 1 și 8.",
+      "colsRange": "Numărul de coloane trebuie să fie un întreg între 2 și 12.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 12.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "binary-single-parity": {
+        "label": "Cod binar cu sumă de paritate",
+        "description": "Matrice de control 1×3, cod simplu cu sumă de paritate."
+      },
+      "binary-hamming-7-4": {
+        "label": "Cod Hamming (7, 4) binar",
+        "description": "Matrice de control clasică pentru codul Hamming (7,4)."
+      },
+      "ternary-example": {
+        "label": "Cod ternar (q = 3)",
+        "description": "Exemplu simplu peste ℤ₃ (modulo 3)."
       }
     }
   }
