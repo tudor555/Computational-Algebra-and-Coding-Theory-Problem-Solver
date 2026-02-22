@@ -6,11 +6,13 @@ import {
   Matrix,
   Vector,
 } from '../../../services/coding-theory';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 
 interface ParityCheckPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   modulus: number;
   parityCheckMatrix: Matrix;
   words: Vector[];
@@ -18,7 +20,7 @@ interface ParityCheckPreset {
 
 @Component({
   selector: 'app-problem11-code-parity-check',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem11-code-parity-check.html',
   styleUrl: './problem11-code-parity-check.scss',
 })
@@ -26,8 +28,8 @@ export class Problem11CodeParityCheck {
   presets: ParityCheckPreset[] = [
     {
       id: 'binary-single-parity',
-      label: 'Cod binar cu sumă de paritate',
-      description: 'Matrice de control 1×3, cod simplu cu sumă de paritate.',
+      labelKey: 'problem11.presets.binary-single-parity.label',
+      descriptionKey: 'problem11.presets.binary-single-parity.description',
       modulus: 2,
       parityCheckMatrix: [[1, 1, 1]],
       words: [
@@ -38,8 +40,8 @@ export class Problem11CodeParityCheck {
     },
     {
       id: 'binary-hamming-7-4',
-      label: 'Cod Hamming (7, 4) binar',
-      description: 'Matrice de control clasică pentru codul Hamming (7,4).',
+      labelKey: 'problem11.presets.binary-hamming-7-4.label',
+      descriptionKey: 'problem11.presets.binary-hamming-7-4.description',
       modulus: 2,
       parityCheckMatrix: [
         [1, 0, 0, 1, 1, 0, 1],
@@ -55,8 +57,8 @@ export class Problem11CodeParityCheck {
     },
     {
       id: 'ternary-example',
-      label: 'Cod ternar (q = 3)',
-      description: 'Exemplu simplu peste ℤ₃ (modulo 3).',
+      labelKey: 'problem11.presets.ternary-example.label',
+      descriptionKey: 'problem11.presets.ternary-example.description',
       modulus: 3,
       parityCheckMatrix: [
         [1, 1, 1],
@@ -91,7 +93,7 @@ export class Problem11CodeParityCheck {
   // Initialize the parity-check matrix H with zeros
   initializeParityCheckMatrix(): void {
     this.parityCheckMatrix = Array.from({ length: this.parityRowCount }, () =>
-      Array(this.parityColumnCount).fill(0)
+      Array(this.parityColumnCount).fill(0),
     );
     this.validationResult = null;
     this.errorMessage = null;
@@ -103,7 +105,7 @@ export class Problem11CodeParityCheck {
   // Initialize the list of words with zeros
   initializeWords(): void {
     this.words = Array.from({ length: this.wordCount }, () =>
-      Array(this.parityColumnCount).fill(0)
+      Array(this.parityColumnCount).fill(0),
     );
     this.validationResult = null;
     this.errorMessage = null;
@@ -133,7 +135,7 @@ export class Problem11CodeParityCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value < 2 || value > 10) {
-      this.errorMessage = 'Modulul q trebuie să fie un întreg între 2 și 10.';
+      this.errorMessage = 'problem11.errors.modulusRange';
       return;
     }
 
@@ -148,7 +150,7 @@ export class Problem11CodeParityCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 8) {
-      this.errorMessage = 'Numărul de linii ale matricii de control trebuie să fie între 1 și 8.';
+      this.errorMessage = 'problem11.errors.rowsRange';
       return;
     }
 
@@ -162,7 +164,7 @@ export class Problem11CodeParityCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 1 || value > 12) {
-      this.errorMessage = 'Numărul de coloane trebuie să fie un întreg între 2 și 12.';
+      this.errorMessage = 'problem11.errors.colsRange';
       return;
     }
 
@@ -177,7 +179,7 @@ export class Problem11CodeParityCheck {
     const value = Number(input.value);
 
     if (!Number.isInteger(value) || value <= 0 || value > 12) {
-      this.errorMessage = 'Numărul de cuvinte trebuie să fie un întreg între 1 și 12.';
+      this.errorMessage = 'problem11.errors.wordCountRange';
       return;
     }
 
@@ -210,14 +212,10 @@ export class Problem11CodeParityCheck {
       this.validationResult = this.codingTheoryService.validateCodewords(
         this.parityCheckMatrix,
         this.words,
-        this.modulus
+        this.modulus,
       );
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 
