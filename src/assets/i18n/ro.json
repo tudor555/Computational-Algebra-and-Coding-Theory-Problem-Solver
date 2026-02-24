@@ -768,5 +768,60 @@
         "description": "Exemplu simplu peste ℤ₃ (modulo 3)."
       }
     }
+  },
+  "problem12": {
+    "title": "Problema 12 – Polinom caracteristic și valori proprii (2×2, 3×3)",
+    "subtitle": {
+      "before": "Pentru o matrice pătratică",
+      "middle1": "de ordin 2 sau 3, se cere să se determine polinomul caracteristic",
+      "middle2": "și valorile proprii (rădăcinile acestui polinom). Mai jos poți alege dimensiunea matricei și introduce coeficienții."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru a demonstra funcționalitatea. Poți modifica valorile ulterior.",
+    "inputTitle": "Introdu matricea și alege dimensiunea",
+    "inputs": {
+      "sizeLabel": "Dimensiunea matricei",
+      "size2": "2 × 2",
+      "size3": "3 × 3",
+      "sizeHint": "Problema se referă doar la matrici de ordinul 2 sau 3."
+    },
+    "computeButton": "Calculează polinomul și valorile proprii",
+    "resultsTitle": "Rezultatele pentru matricea A",
+    "explain": {
+      "p1": "Polinomul caracteristic al unei matrici A este p(λ) = det(λI − A). Valorile proprii sunt rădăcinile acestui polinom.",
+      "p2": "Pentru matrici 2×2, polinomul caracteristic are forma: p(λ) = λ² − tr(A) λ + det(A).",
+      "p3": "Pentru matrici 3×3, polinomul caracteristic este un polinom cubic, iar valorile proprii reale se obțin numeric ca rădăcini reale ale acestei cubicii."
+    },
+    "polynomial": {
+      "sizeLabel": "Dimensiune:",
+      "title": "Polinomul caracteristic:"
+    },
+    "eigen": {
+      "title": "Valorile proprii (reale)",
+      "found": "Matricea are următoarele valori proprii reale (aproximate):",
+      "none": "Nu au fost găsite valori proprii reale (rădăcini reale) pentru polinomul caracteristic."
+    },
+    "errors": {
+      "presetInvalidSize": "Presetul are o dimensiune invalidă.",
+      "sizeMustBe2or3": "Dimensiunea matricii trebuie să fie 2 sau 3."
+    },
+    "presets": {
+      "diagonal-2x2": {
+        "label": "Diagonală 2×2",
+        "description": "Valorile proprii sunt direct elementele diagonale."
+      },
+      "general-2x2": {
+        "label": "Generală 2×2",
+        "description": "Exemplu cu două valori proprii reale distincte."
+      },
+      "rotation-2x2": {
+        "label": "Matrice de rotație 2D",
+        "description": "Nu are valori proprii reale."
+      },
+      "upper-3x3": {
+        "label": "Triunghiulară 3×3",
+        "description": "Valorile proprii sunt elementele diagonale."
+      }
+    }
   }
 }

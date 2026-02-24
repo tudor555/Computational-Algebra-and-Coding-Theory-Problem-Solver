@@ -768,5 +768,60 @@
         "description": "Simple example over ℤ₃ (mod 3)."
       }
     }
+  },
+  "problem12": {
+    "title": "Problem 12 – Characteristic polynomial and eigenvalues (2×2, 3×3)",
+    "subtitle": {
+      "before": "For a square matrix",
+      "middle1": "of size 2 or 3, compute the characteristic polynomial",
+      "middle2": "and the eigenvalues (the roots of this polynomial). Below you can choose the matrix size and enter the coefficients."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to demonstrate the feature. You can edit the values afterwards.",
+    "inputTitle": "Enter the matrix and choose the size",
+    "inputs": {
+      "sizeLabel": "Matrix size",
+      "size2": "2 × 2",
+      "size3": "3 × 3",
+      "sizeHint": "This problem only covers matrices of size 2 or 3."
+    },
+    "computeButton": "Compute the polynomial and eigenvalues",
+    "resultsTitle": "Results for matrix A",
+    "explain": {
+      "p1": "The characteristic polynomial of a matrix A is p(λ) = det(λI − A). The eigenvalues are the roots of this polynomial.",
+      "p2": "For 2×2 matrices, the characteristic polynomial has the form: p(λ) = λ² − tr(A) λ + det(A).",
+      "p3": "For 3×3 matrices, the characteristic polynomial is cubic, and real eigenvalues are obtained numerically as real roots of this cubic."
+    },
+    "polynomial": {
+      "sizeLabel": "Size:",
+      "title": "Characteristic polynomial:"
+    },
+    "eigen": {
+      "title": "Eigenvalues (real)",
+      "found": "The matrix has the following real eigenvalues (approximated):",
+      "none": "No real eigenvalues (real roots) were found for the characteristic polynomial."
+    },
+    "errors": {
+      "presetInvalidSize": "The preset has an invalid size.",
+      "sizeMustBe2or3": "Matrix size must be 2 or 3."
+    },
+    "presets": {
+      "diagonal-2x2": {
+        "label": "Diagonal 2×2",
+        "description": "Eigenvalues are the diagonal entries."
+      },
+      "general-2x2": {
+        "label": "General 2×2",
+        "description": "Example with two distinct real eigenvalues."
+      },
+      "rotation-2x2": {
+        "label": "2D rotation matrix",
+        "description": "Has no real eigenvalues."
+      },
+      "upper-3x3": {
+        "label": "Upper triangular 3×3",
+        "description": "Eigenvalues are the diagonal entries."
+      }
+    }
   }
 }
