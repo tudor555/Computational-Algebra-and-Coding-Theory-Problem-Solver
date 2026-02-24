@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import {
   CharacteristicPolynomialResult,
   Matrix,
@@ -10,23 +12,23 @@ import {
 
 interface EigenPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   matrix: Matrix;
 }
 
 @Component({
   selector: 'app-problem12-eigenvalues',
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem12-eigenvalues.html',
   styleUrl: './problem12-eigenvalues.scss',
 })
 export class Problem12Eigenvalues {
   presets: EigenPreset[] = [
     {
-      id: 'diag-2x2',
-      label: 'Diagonală 2×2',
-      description: 'Valorile proprii sunt direct elementele diagonale.',
+      id: 'diagonal-2x2',
+      labelKey: 'problem12.presets.diagonal-2x2.label',
+      descriptionKey: 'problem12.presets.diagonal-2x2.description',
       matrix: [
         [4, 0],
         [0, -2],
@@ -34,8 +36,8 @@ export class Problem12Eigenvalues {
     },
     {
       id: 'general-2x2',
-      label: 'Generală 2×2',
-      description: 'Exemplu cu două valori proprii reale distincte.',
+      labelKey: 'problem12.presets.general-2x2.label',
+      descriptionKey: 'problem12.presets.general-2x2.description',
       matrix: [
         [2, 1],
         [1, 2],
@@ -43,8 +45,8 @@ export class Problem12Eigenvalues {
     },
     {
       id: 'rotation-2x2',
-      label: 'Matrice de rotație 2D',
-      description: 'Nu are valori proprii reale.',
+      labelKey: 'problem12.presets.rotation-2x2.label',
+      descriptionKey: 'problem12.presets.rotation-2x2.description',
       matrix: [
         [0, -1],
         [1, 0],
@@ -52,8 +54,8 @@ export class Problem12Eigenvalues {
     },
     {
       id: 'upper-3x3',
-      label: 'Triunghiulară 3×3',
-      description: 'Valorile proprii sunt elementele diagonale.',
+      labelKey: 'problem12.presets.upper-3x3.label',
+      descriptionKey: 'problem12.presets.upper-3x3.description',
       matrix: [
         [3, 1, 2],
         [0, 4, 1],
@@ -84,7 +86,7 @@ export class Problem12Eigenvalues {
     const size = preset.matrix.length;
 
     if (size !== 2 && size !== 3) {
-      this.errorMessage = 'Presetul are o dimensiune invalidă.';
+      this.errorMessage = 'problem12.errors.presetInvalidSize';
       return;
     }
 
@@ -100,7 +102,7 @@ export class Problem12Eigenvalues {
   // Handle changes in the matrix size (2×2 or 3×3)
   onSizeChange(value: number): void {
     if (value !== 2 && value !== 3) {
-      this.errorMessage = 'Dimensiunea matricii trebuie să fie 2 sau 3.';
+      this.errorMessage = 'problem12.errors.sizeMustBe2or3';
       return;
     }
 
@@ -123,13 +125,13 @@ export class Problem12Eigenvalues {
 
     try {
       this.result = this.matrixAlgebraService.computeCharacteristicPolynomialAndEigenvalues(
-        this.matrix
+        this.matrix,
       );
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.errorMessage = error.message;
       } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
+        this.errorMessage = 'errors.unexpectedComputation';
       }
     }
   }
