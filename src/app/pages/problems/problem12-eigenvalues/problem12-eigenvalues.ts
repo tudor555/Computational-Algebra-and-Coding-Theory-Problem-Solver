@@ -128,11 +128,7 @@ export class Problem12Eigenvalues {
         this.matrix,
       );
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'errors.unexpectedComputation';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 }
