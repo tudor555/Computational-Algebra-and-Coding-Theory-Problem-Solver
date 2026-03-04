@@ -823,5 +823,79 @@
         "description": "Valorile proprii sunt elementele diagonale."
       }
     }
+  },
+  "problem13": {
+    "title": "Problema 13 – Grupul Galois pentru un polinom (grad 3 sau 4)",
+    "subtitle": "Determinăm grupul Galois (peste ℚ) pentru un polinom de grad 3 sau 4, folosind criterii clasice: rădăcini raționale, discriminant și (pentru grad 4) cubica rezolventă.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un polinom pentru test.",
+    "inputTitle": "Introdu polinomul",
+    "inputs": {
+      "degree": "Grad"
+    },
+    "computeButton": "Calculează grupul Galois",
+    "coeffsHint": {
+      "before": "Introdu coeficienții în ordine descrescătoare:"
+    },
+    "polynomialLabel": "Polinom:",
+    "resultsTitle": "Rezultate",
+    "summary": {
+      "group": "Grup Galois:",
+      "discriminant": "Discriminant:",
+      "discriminantSquare": "Discriminant pătrat perfect:",
+      "rationalRoots": "Rădăcini raționale:",
+      "noneFound": "nu au fost găsite",
+      "na": "—",
+      "resolventIntro": "Cubica rezolventă (coeficienți întregi după eliminarea numitorilor):",
+      "resolventRoots": "Rădăcini raționale ale rezolventei:"
+    },
+    "explanationTitle": "Explicație (pași)",
+    "explanations": {
+      "leadingCoefficientZero": "Coeficientul dominant este 0, deci polinomul nu are gradul cerut.",
+      "cubic": {
+        "hasRationalRootReducible": "Polinomul are o rădăcină rațională, deci este reducibil peste Q.",
+        "splitsCompletelyTrivial": "Se descompune complet în factori liniari peste Q, deci corpul de descompunere este Q și grupul Galois este trivial.",
+        "linearTimesIrreducibleQuadraticC2": "Caz tipic: factor liniar înmulțit cu un pătratic ireductibil, deci corpul de descompunere adaugă o rădăcină pătratică și grupul Galois este C2.",
+        "noRationalRootIrreducible": "Nu există rădăcină rațională, deci cubica este ireductibilă peste Q (teorema rădăcinilor raționale).",
+        "discriminantSquareA3": "Discriminantul este pătrat perfect în Z, deci grupul Galois este A3 ≅ C3.",
+        "discriminantNotSquareS3": "Discriminantul nu este pătrat perfect, deci grupul Galois este S3."
+      },
+      "quartic": {
+        "hasRationalRootReducible": "Cuartica are o rădăcină rațională, deci este reducibilă peste Q.",
+        "reducibleDependsOnFactorization": "Pentru cuartice reducibile, grupul Galois depinde de factorizarea exactă (factori liniari/pătratici). Această implementare se concentrează pe cuartice ireductibile pentru clasificarea S4/A4/D4/V4/C4.",
+        "noRationalRootProceedIrreducibleCase": "Nu a fost găsită nicio rădăcină rațională. Continuăm cu abordarea standard pentru cuartice ireductibile (discriminant + cubică rezolventă).",
+        "resolventRationalRootCount": "Cubica rezolventă are {{count}} rădăcini raționale (numărând rădăcinile distincte găsite prin testul rădăcinilor raționale).",
+        "resolventIrreducibleDiscSquareA4": "Cubica rezolventă este ireductibilă și discriminantul este pătrat perfect, deci grupul Galois este A4.",
+        "resolventIrreducibleDiscNotSquareS4": "Cubica rezolventă este ireductibilă și discriminantul nu este pătrat perfect, deci grupul Galois este S4.",
+        "resolventHasRootDiscNotSquareD4": "Rezolventa are o rădăcină rațională iar discriminantul nu este pătrat perfect, deci grupul Galois este D4.",
+        "discSquareResolventSplitsV4": "Discriminant pătrat perfect și rezolventa se descompune (3 rădăcini raționale), deci grupul Galois este V4 (Klein).",
+        "discSquareResolventHasRootNotSplitC4": "Discriminant pătrat perfect și rezolventa are o rădăcină rațională, dar nu se descompune complet, deci rezultatul tipic este C4."
+      }
+    },
+    "notes": {
+      "p1": "Notă: pentru gradul 3, clasificarea (A3/S3) este standard pentru polinoame ireductibile peste ℚ.",
+      "p2": "Pentru gradul 4, folosim discriminantul și cubica rezolventă (decizie uzuală în cursuri). Dacă polinomul este reducibil, clasificarea completă depinde de tipul de factorizare."
+    },
+    "errors": {
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "cubic_s3": {
+        "label": "Cubic: x³ − 2",
+        "description": "Cubic ireductibil, discriminant nepătrat → S3."
+      },
+      "cubic_a3": {
+        "label": "Cubic: x³ − 3x − 1",
+        "description": "Deseori discriminant pătrat → A3 (C3) în multe exemple."
+      },
+      "quartic_s4": {
+        "label": "Cuartic: x⁴ − 2",
+        "description": "Cuartic ireductibil tipic → adesea S4."
+      },
+      "quartic_dihedral": {
+        "label": "Cuartic: x⁴ − 5x² + 6",
+        "description": "Are structură specială; încearcă clasificarea prin rezolventă."
+      }
+    }
   }
 }

@@ -823,5 +823,79 @@
         "description": "Eigenvalues are the diagonal entries."
       }
     }
+  },
+  "problem13": {
+    "title": "Problem 13 – Galois group of a polynomial (degree 3 or 4)",
+    "subtitle": "We determine the Galois group (over ℚ) for a degree 3 or 4 polynomial using classical criteria: rational roots, discriminant, and (for degree 4) the resolvent cubic.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a polynomial to test.",
+    "inputTitle": "Enter the polynomial",
+    "inputs": {
+      "degree": "Degree"
+    },
+    "computeButton": "Compute the Galois group",
+    "coeffsHint": {
+      "before": "Enter the coefficients in descending order:"
+    },
+    "polynomialLabel": "Polynomial:",
+    "resultsTitle": "Results",
+    "summary": {
+      "group": "Galois group:",
+      "discriminant": "Discriminant:",
+      "discriminantSquare": "Discriminant is a perfect square:",
+      "rationalRoots": "Rational roots:",
+      "noneFound": "none found",
+      "na": "—",
+      "resolventIntro": "Resolvent cubic (integer coefficients after clearing denominators):",
+      "resolventRoots": "Rational roots of the resolvent:"
+    },
+    "explanationTitle": "Explanation (steps)",
+    "explanations": {
+      "leadingCoefficientZero": "Leading coefficient is 0, so the polynomial is not of the requested degree.",
+      "cubic": {
+        "hasRationalRootReducible": "The polynomial has a rational root, so it is reducible over Q.",
+        "splitsCompletelyTrivial": "It splits completely into linear factors over Q, so the splitting field is Q and the Galois group is trivial.",
+        "linearTimesIrreducibleQuadraticC2": "Typical case: linear factor times an irreducible quadratic, so the splitting field adds one quadratic root and the Galois group is C2.",
+        "noRationalRootIrreducible": "No rational root, so the cubic is irreducible over Q (rational root theorem).",
+        "discriminantSquareA3": "The discriminant is a square in Z, so the Galois group is A3 ≅ C3.",
+        "discriminantNotSquareS3": "The discriminant is not a square, so the Galois group is S3."
+      },
+      "quartic": {
+        "hasRationalRootReducible": "The quartic has a rational root, so it is reducible over Q.",
+        "reducibleDependsOnFactorization": "For reducible quartics, the Galois group depends on the exact factorization (linear/quadratic factors). This implementation focuses on irreducible quartics for S4/A4/D4/V4/C4 classification.",
+        "noRationalRootProceedIrreducibleCase": "No rational root found. We proceed with the standard irreducible-quartic classification approach (discriminant + resolvent cubic).",
+        "resolventRationalRootCount": "Resolvent cubic has {{count}} rational root(s) (counting distinct roots found by the rational-root test).",
+        "resolventIrreducibleDiscSquareA4": "Resolvent cubic irreducible and discriminant square, so the Galois group is A4.",
+        "resolventIrreducibleDiscNotSquareS4": "Resolvent cubic irreducible and discriminant not a square, so the Galois group is S4.",
+        "resolventHasRootDiscNotSquareD4": "Resolvent has a rational root and discriminant is not a square, so the Galois group is D4.",
+        "discSquareResolventSplitsV4": "Discriminant square and resolvent splits (3 rational roots), so the Galois group is V4 (Klein).",
+        "discSquareResolventHasRootNotSplitC4": "Discriminant square and resolvent has a rational root but does not split completely, so the typical outcome is C4."
+      }
+    },
+    "notes": {
+      "p1": "Note: for degree 3, the (A3/S3) classification is standard for irreducible polynomials over ℚ.",
+      "p2": "For degree 4, we use the discriminant and the resolvent cubic (a common course-level decision rule). If the polynomial is reducible, the full classification depends on the factorization type."
+    },
+    "errors": {
+      "unexpected": "An unexpected error occurred during computation."
+    },
+    "presets": {
+      "cubic_s3": {
+        "label": "Cubic: x³ − 2",
+        "description": "Irreducible cubic, discriminant not a square → S3."
+      },
+      "cubic_a3": {
+        "label": "Cubic: x³ − 3x − 1",
+        "description": "Often has a square discriminant → A3 (C3) in many examples."
+      },
+      "quartic_s4": {
+        "label": "Quartic: x⁴ − 2",
+        "description": "Typical irreducible quartic → often S4."
+      },
+      "quartic_dihedral": {
+        "label": "Quartic: x⁴ − 5x² + 6",
+        "description": "Has special structure; try classification via the resolvent."
+      }
+    }
   }
 }
