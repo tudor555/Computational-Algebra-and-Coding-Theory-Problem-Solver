@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import { GaloisComputationResult, PolynomialAlgebra } from '../../../services/polynomial-algebra';
 
 type Degree = 3 | 4;
 
 interface PolynomialPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   degree: Degree;
   coefficients: number[]; // [a_n..a_0]
 }
 
 @Component({
   selector: 'app-problem13-galois-group-polynomial',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem13-galois-group-polynomial.html',
   styleUrl: './problem13-galois-group-polynomial.scss',
 })
@@ -27,29 +29,29 @@ export class Problem13GaloisGroupPolynomial {
   presets: PolynomialPreset[] = [
     {
       id: 'cubic_s3',
-      label: 'Cubic: x³ − 2',
-      description: 'Irreducible cubic, discriminant not square → S3.',
+      labelKey: 'problem13.presets.cubic_s3.label',
+      descriptionKey: 'problem13.presets.cubic_s3.description',
       degree: 3,
       coefficients: [1, 0, 0, -2],
     },
     {
       id: 'cubic_a3',
-      label: 'Cubic: x³ − 3x − 1',
-      description: 'Often gives discriminant square → A3 (C3) in many examples.',
+      labelKey: 'problem13.presets.cubic_a3.label',
+      descriptionKey: 'problem13.presets.cubic_a3.description',
       degree: 3,
       coefficients: [1, 0, -3, -1],
     },
     {
       id: 'quartic_s4',
-      label: 'Quartic: x⁴ − 2',
-      description: 'Typical irreducible quartic → often S4.',
+      labelKey: 'problem13.presets.quartic_s4.label',
+      descriptionKey: 'problem13.presets.quartic_s4.description',
       degree: 4,
       coefficients: [1, 0, 0, 0, -2],
     },
     {
       id: 'quartic_dihedral',
-      label: 'Quartic: x⁴ − 5x² + 6',
-      description: 'Has special structure; try classification via resolvent.',
+      labelKey: 'problem13.presets.quartic_dihedral.label',
+      descriptionKey: 'problem13.presets.quartic_dihedral.description',
       degree: 4,
       coefficients: [1, 0, -5, 0, 6],
     },
@@ -96,11 +98,7 @@ export class Problem13GaloisGroupPolynomial {
 
       this.result = this.polynomialService.computeGaloisGroupForDegree3or4(coeffs);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 

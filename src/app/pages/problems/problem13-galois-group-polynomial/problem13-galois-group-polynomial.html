@@ -4,23 +4,26 @@
       routerLink="/home"
       class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
     >
-      ←
-      <span>Înapoi la pagina principală</span>
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
     </button>
 
     <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
-      Problema 13 – Grupul Galois pentru un polinom (grad 3 sau 4)
+      {{ 'problem13.title' | t }}
     </h1>
 
     <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
-      Determinăm grupul Galois (peste ℚ) pentru un polinom de grad 3 sau 4, folosind criterii
-      clasice: rădăcini raționale, discriminant și (pentru grad 4) cubica rezolventă.
+      {{ 'problem13.subtitle' | t }}
     </p>
 
     <!-- Presets -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-2">Exemple predefinite</h2>
-      <p class="text-app-muted text-m mb-3">Alege rapid un polinom pentru test.</p>
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem13.presetsTitle' | t }}
+      </h2>
+      <p class="text-app-muted text-m mb-3">
+        {{ 'problem13.presetsHint' | t }}
+      </p>
 
       <div class="flex flex-wrap gap-3">
         @for (preset of presets; track $index) {
@@ -29,7 +32,7 @@
             class="btn-secondary text-s md:text-m"
             (click)="onApplyPreset(preset)"
           >
-            {{ preset.label }}
+            {{ preset.labelKey | t }}
           </button>
         }
       </div>
@@ -37,11 +40,13 @@
 
     <!-- Inputs -->
     <section class="problem-card mb-6">
-      <h2 class="text-lg font-semibold mb-3">Introdu polinomul</h2>
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem13.inputTitle' | t }}</h2>
 
       <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
         <div>
-          <label class="block text-m text-app-muted mb-1">Grad</label>
+          <label class="block text-m text-app-muted mb-1">{{
+            'problem13.inputs.degree' | t
+          }}</label>
           <select
             class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
             [value]="degree"
@@ -53,17 +58,17 @@
         </div>
 
         <button type="button" class="btn-primary" (click)="onCompute()">
-          Calculează grupul Galois
+          {{ 'problem13.computeButton' | t }}
         </button>
       </div>
 
       @if (errorMessage) {
-        <p class="text-m text-red-400 mb-3">{{ errorMessage }}</p>
+        <p class="text-m text-red-400 mb-3">{{ errorMessage | t }}</p>
       }
 
       <div class="bg-app-surfaceAlt rounded-xl px-4 py-4 border border-app-border">
         <p class="text-app-muted text-s mb-3">
-          Introdu coeficienții în ordine descrescătoare:
+          {{ 'problem13.coeffsHint.before' | t }}
           <span class="font-mono">a_n, a_&#123;n-1&#125;, ..., a_0</span>.
         </p>
 
@@ -84,8 +89,8 @@
         </div>
 
         <p class="mt-4 text-m">
-          <span class="text-app-muted">Polinom:</span>
-          <span class="font-mono">{{ polynomialToString(coefficients) }}</span>
+          <span class="text-app-muted">{{ 'problem13.polynomialLabel' | t }}</span>
+          <span class="font-mono"> {{ polynomialToString(coefficients) }}</span>
         </p>
       </div>
     </section>
@@ -93,53 +98,54 @@
     <!-- Results -->
     @if (result) {
       <section class="problem-card">
-        <h2 class="text-lg font-semibold mb-3">Rezultate</h2>
+        <h2 class="text-lg font-semibold mb-3">{{ 'problem13.resultsTitle' | t }}</h2>
 
         <div class="grid gap-4 md:grid-cols-2 mb-6">
           <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
             <p class="mb-2">
-              Grup Galois:
+              {{ 'problem13.summary.group' | t }}
               <span class="text-green-300 font-semibold">{{ result.group }}</span>
             </p>
 
             <p class="mb-1">
-              Discriminant:
+              {{ 'problem13.summary.discriminant' | t }}
               <span class="font-mono">{{ formatBigInt(result.discriminant) }}</span>
             </p>
 
             <p class="mb-1">
-              Discriminant pătrat perfect:
+              {{ 'problem13.summary.discriminantSquare' | t }}
               @if (result.discriminantIsPerfectSquare === true) {
-                <span class="text-green-300 font-semibold">da</span>
+                <span class="text-green-300 font-semibold">{{ 'common.yes' | t }}</span>
               } @else if (result.discriminantIsPerfectSquare === false) {
-                <span class="text-red-300 font-semibold">nu</span>
+                <span class="text-red-300 font-semibold">{{ 'common.no' | t }}</span>
               } @else {
-                <span class="text-app-muted">—</span>
+                <span class="text-app-muted">{{ 'problem13.summary.na' | t }}—</span>
               }
             </p>
 
             <p class="mb-1">
-              Rădăcini raționale:
+              {{ 'problem13.summary.rationalRoots' | t }}
               @if (result.hasRationalRoot) {
                 <span class="font-mono">{{ formatRoots(result.rationalRoots) }}</span>
               } @else {
-                <span class="text-app-muted">nu au fost găsite</span>
+                <span class="text-app-muted">{{ 'problem13.summary.noneFound' | t }}</span>
               }
             </p>
 
             @if (result.degree === 4 && result.resolventCubic) {
               <p class="mt-3 text-app-muted text-s">
-                Cubica rezolventă (coeficienți întregi după eliminarea numitorilor):
+                {{ 'problem13.summary.resolventIntro' | t }}
+
                 <span class="font-mono">[{{ result.resolventCubic.join(', ') }}]</span>
               </p>
               <p class="mt-1">
-                Rădăcini raționale ale rezolventei:
+                {{ 'problem13.summary.resolventRoots' | t }}
                 @if (result.resolventHasRationalRoot) {
                   <span class="font-mono">{{
                     formatRoots(result.resolventRationalRoots ?? [])
                   }}</span>
                 } @else {
-                  <span class="text-app-muted">nu au fost găsite</span>
+                  <span class="text-app-muted">{{ 'problem13.summary.noneFound' | t }}</span>
                 }
               </p>
             }
@@ -148,10 +154,12 @@
           <div
             class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
           >
-            <h3 class="font-semibold mb-2 text-app-text">Explicație (pași)</h3>
+            <h3 class="font-semibold mb-2 text-app-text">
+              {{ 'problem13.explanationTitle' | t }}
+            </h3>
             <ul class="list-disc pl-5">
               @for (line of result.explanation; track $index) {
-                <li class="mb-2">{{ line }}</li>
+                <li class="mb-2">{{ line.key | t: line.params }}</li>
               }
             </ul>
           </div>
@@ -161,13 +169,10 @@
           class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-s text-app-muted"
         >
           <p class="mb-2">
-            Notă: pentru gradul 3, clasificarea (A3/S3) este standard pentru polinoame ireductibile
-            peste ℚ.
+            {{ 'problem13.notes.p1' | t }}
           </p>
           <p>
-            Pentru gradul 4, folosim discriminantul și cubica rezolventă (decizie uzuală în
-            cursuri). Dacă polinomul este reducibil, clasificarea completă depinde de tipul de
-            factorizare.
+            {{ 'problem13.notes.p2' | t }}
           </p>
         </div>
       </section>
