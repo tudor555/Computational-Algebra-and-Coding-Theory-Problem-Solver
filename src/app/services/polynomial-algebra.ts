@@ -15,6 +15,11 @@ export type GaloisGroupName =
   | 'S4'
   | 'Unknown';
 
+export interface LocalizedExplanationLine {
+  key: string;
+  params?: Record<string, string | number>;
+}
+
 export interface GaloisComputationResult {
   degree: 3 | 4;
   coefficients: bigint[]; // [a_n, ..., a_0]
@@ -34,7 +39,7 @@ export interface GaloisComputationResult {
   resolventRationalRoots?: { numerator: bigint; denominator: bigint }[];
 
   group: GaloisGroupName;
-  explanation: string[];
+  explanation: LocalizedExplanationLine[];
 }
 
 @Injectable({
@@ -64,9 +69,7 @@ export class PolynomialAlgebra {
         discriminant: null,
         discriminantIsPerfectSquare: null,
         group: 'Unknown',
-        explanation: [
-          'Leading coefficient is 0, so the polynomial is not of the requested degree.',
-        ],
+        explanation: [{ key: 'problem13.explanations.leadingCoefficientZero' }],
       };
     }
 
@@ -80,20 +83,21 @@ export class PolynomialAlgebra {
     const discriminantIsSquare =
       discriminant === null ? null : this.isPerfectSquareBigInt(this.abs(discriminant));
 
-    const explanation: string[] = [];
+    const explanation: LocalizedExplanationLine[] = [];
+    const pushExplanation = (key: string, params?: Record<string, string | number>): void => {
+      explanation.push(params ? { key, params } : { key });
+    };
 
     if (degree === 3) {
       // Cubic classification
       if (hasRationalRoot) {
-        explanation.push('The polynomial has a rational root, so it is reducible over Q.');
+        pushExplanation('problem13.explanations.cubic.hasRationalRootReducible');
 
         // For UI simplicity: if it factors as linear * quadratic:
         // Galois group over Q is C2 if the quadratic is irreducible; else trivial
         // We do a basic “does it have 3 rational roots?” check.
         if (rationalRoots.length >= 3) {
-          explanation.push(
-            'It splits completely into linear factors over Q -> splitting field is Q -> trivial group.',
-          );
+          pushExplanation('problem13.explanations.cubic.splitsCompletelyTrivial');
           return {
             degree,
             coefficients: big,
@@ -108,9 +112,7 @@ export class PolynomialAlgebra {
           };
         }
 
-        explanation.push(
-          'Typical case: linear factor times an irreducible quadratic -> splitting field adds one quadratic root -> group C2.',
-        );
+        pushExplanation('problem13.explanations.cubic.linearTimesIrreducibleQuadraticC2');
         return {
           degree,
           coefficients: big,
@@ -125,9 +127,9 @@ export class PolynomialAlgebra {
         };
       }
 
-      explanation.push('No rational root -> cubic is irreducible over Q (rational root theorem).');
+      pushExplanation('problem13.explanations.cubic.noRationalRootIrreducible');
       if (discriminantIsSquare === true) {
-        explanation.push('Discriminant is a square in Z -> Galois group is A3 ≅ C3.');
+        pushExplanation('problem13.explanations.cubic.discriminantSquareA3');
         return this.finish(
           degree,
           big,
@@ -140,7 +142,7 @@ export class PolynomialAlgebra {
           explanation,
         );
       } else {
-        explanation.push('Discriminant is not a square -> Galois group is S3.');
+        pushExplanation('problem13.explanations.cubic.discriminantNotSquareS3');
         return this.finish(
           degree,
           big,
@@ -158,11 +160,9 @@ export class PolynomialAlgebra {
     // Quartic classification
     // Reducible cases:
     if (hasRationalRoot) {
-      explanation.push('The quartic has a rational root -> reducible over Q.');
+      pushExplanation('problem13.explanations.quartic.hasRationalRootReducible');
       // We keep the statement educational: reducible quartics vary; we give a safe output.
-      explanation.push(
-        'Reducible quartic: Galois group depends on factorization (linear/quadratic factors). This implementation focuses on irreducible quartics for S4/A4/D4/V4/C4 classification.',
-      );
+      pushExplanation('problem13.explanations.quartic.reducibleDependsOnFactorization');
       return {
         degree,
         coefficients: big,
@@ -177,17 +177,15 @@ export class PolynomialAlgebra {
       };
     }
 
-    explanation.push(
-      'No rational root found. We proceed with the standard irreducible-quartic classification approach (discriminant + resolvent cubic).',
-    );
+    pushExplanation('problem13.explanations.quartic.noRationalRootProceedIrreducibleCase');
 
     const resolvent = this.buildQuarticResolventCubicInteger(big);
     const resolventRoots = this.findRationalRoots(resolvent);
     const resolventHasRoot = resolventRoots.length > 0;
 
-    explanation.push(
-      `Resolvent cubic has ${resolventRoots.length} rational root(s) (counting distinct roots found by rational-root test).`,
-    );
+    pushExplanation('problem13.explanations.quartic.resolventRationalRootCount', {
+      count: resolventRoots.length,
+    });
 
     // Decision tree (common undergrad version):
     // If resolvent irreducible:
@@ -197,7 +195,7 @@ export class PolynomialAlgebra {
     //   Δ square -> V4 or C4 (we distinguish heuristically via whether resolvent splits fully)
     if (!resolventHasRoot) {
       if (discriminantIsSquare === true) {
-        explanation.push('Resolvent cubic irreducible and discriminant square -> Galois group A4.');
+        pushExplanation('problem13.explanations.quartic.resolventIrreducibleDiscSquareA4');
         return {
           degree,
           coefficients: big,
@@ -214,9 +212,7 @@ export class PolynomialAlgebra {
           explanation,
         };
       } else {
-        explanation.push(
-          'Resolvent cubic irreducible and discriminant not a square -> Galois group S4.',
-        );
+        pushExplanation('problem13.explanations.quartic.resolventIrreducibleDiscNotSquareS4');
         return {
           degree,
           coefficients: big,
@@ -237,9 +233,7 @@ export class PolynomialAlgebra {
 
     // resolvent has at least one rational root
     if (discriminantIsSquare !== true) {
-      explanation.push(
-        'Resolvent has a rational root and discriminant is not a square -> Galois group D4.',
-      );
+      pushExplanation('problem13.explanations.quartic.resolventHasRootDiscNotSquareD4');
       return {
         degree,
         coefficients: big,
@@ -260,9 +254,7 @@ export class PolynomialAlgebra {
     // discriminant square + resolvent has rational root -> V4 or C4
     // Heuristic: if resolvent has 3 rational roots -> V4, else C4.
     if (resolventRoots.length >= 3) {
-      explanation.push(
-        'Discriminant square and resolvent splits (3 rational roots) -> Galois group V4 (Klein).',
-      );
+      pushExplanation('problem13.explanations.quartic.discSquareResolventSplitsV4');
       return {
         degree,
         coefficients: big,
@@ -280,9 +272,7 @@ export class PolynomialAlgebra {
       };
     }
 
-    explanation.push(
-      'Discriminant square and resolvent has a rational root but does not split completely -> typical outcome C4.',
-    );
+    pushExplanation('problem13.explanations.quartic.discSquareResolventHasRootNotSplitC4');
     return {
       degree,
       coefficients: big,
@@ -551,7 +541,7 @@ export class PolynomialAlgebra {
     discriminant: bigint | null,
     discriminantIsPerfectSquare: boolean | null,
     group: GaloisGroupName,
-    explanation: string[],
+    explanation: LocalizedExplanationLine[],
   ): GaloisComputationResult {
     return {
       degree,
