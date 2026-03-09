@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
 import {
   ContinuedFractionResult,
   ExtendedEuclidResult,
@@ -9,15 +11,15 @@ import {
 
 interface EuclidPreset {
   id: string;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   a: number;
   b: number;
 }
 
 @Component({
   selector: 'app-problem14-euclid-continued-fraction',
-  imports: [RouterModule],
+  imports: [RouterModule, LucideAngularModule, TranslatePipe],
   templateUrl: './problem14-euclid-continued-fraction.html',
   styleUrl: './problem14-euclid-continued-fraction.scss',
 })
@@ -34,22 +36,22 @@ export class Problem14EuclidContinuedFraction {
   presets: EuclidPreset[] = [
     {
       id: '30-18',
-      label: 'a = 30, b = 18',
-      description: 'Exemplu clasic: cmmdc(30, 18) = 6.',
+      labelKey: 'problem14.presets.30-18.label',
+      descriptionKey: 'problem14.presets.30-18.description',
       a: 30,
       b: 18,
     },
     {
       id: '21-13',
-      label: 'a = 21, b = 13',
-      description: 'Raport apropiat de secțiunea de aur.',
+      labelKey: 'problem14.presets.21-13.label',
+      descriptionKey: 'problem14.presets.21-13.description',
       a: 21,
       b: 13,
     },
     {
       id: '48-20',
-      label: 'a = 48, b = 20',
-      description: 'Exemplu cu cmmdc(48, 20) = 4.',
+      labelKey: 'problem14.presets.48-20.label',
+      descriptionKey: 'problem14.presets.48-20.description',
       a: 48,
       b: 20,
     },
@@ -93,13 +95,12 @@ export class Problem14EuclidContinuedFraction {
     const b = this.inputB;
 
     if (!Number.isInteger(a) || !Number.isInteger(b) || a < 0 || b < 0) {
-      this.errorMessage = 'a și b trebuie să fie numere naturale (întregi nenegative).';
+      this.errorMessage = 'problem14.errors.naturalNumbers';
       return;
     }
 
     if (a === 0 && b === 0) {
-      this.errorMessage =
-        'Cel puțin unul dintre numere trebuie să fie nenul pentru a calcula cmmdc.';
+      this.errorMessage = 'problem14.errors.bothZero';
       return;
     }
 
@@ -113,11 +114,7 @@ export class Problem14EuclidContinuedFraction {
         this.continuedFractionResult = null;
       }
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      } else {
-        this.errorMessage = 'A apărut o eroare neașteptată în timpul calculului.';
-      }
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
     }
   }
 
