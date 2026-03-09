@@ -897,5 +897,72 @@
         "description": "Has special structure; try classification via the resolvent."
       }
     }
+  },
+  "problem14": {
+    "title": "Problem 14 – Euclid’s algorithm, linear combination, and continued fraction",
+    "subtitle": "Using Euclid’s algorithm, compute gcd (d) for two given natural numbers (a, b), write a linear combination of (a, b, d), and display the continued fraction of a/b. Enter values for a and b below or use a preset example.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a pair (a, b) to see how Euclid’s algorithm, the Bézout linear combination, and the continued fraction of a/b work.",
+    "inputTitle": "Enter values for a and b",
+    "inputs": {
+      "aLabel": "Value of a",
+      "bLabel": "Value of b",
+      "fractionHint": "For the continued fraction of a/b, b must be nonzero."
+    },
+    "computeButton": "Compute",
+    "resultsTitle": "Results for Euclid’s algorithm and the continued fraction",
+    "explain": {
+      "p1": "Euclid’s algorithm computes gcd(a, b) via successive divisions: a = q₀·b + r₀, then b = q₁·r₀ + r₁, and so on, until the remainder becomes zero.",
+      "p2": "The extended Euclidean algorithm finds integers x and y such that a·x + b·y = d, where d = gcd(a, b) (Bézout’s identity).",
+      "p3": "The continued fraction of a/b is built from the quotients in the successive divisions and is written as [q₀; q₁, q₂, …]."
+    },
+    "gcd": {
+      "title": "gcd(a, b) using Euclid’s algorithm",
+      "valueLabel": "gcd(a, b) =",
+      "stepsTitle": "Algorithm steps:",
+      "table": {
+        "step": "Step",
+        "division": "Division",
+        "q": "q",
+        "r": "r"
+      }
+    },
+    "extended": {
+      "title": "Linear combination a·x + b·y = d (extended Euclid)",
+      "gcdLabel": "d = gcd(a, b) =",
+      "linearComboLabel": "One linear combination is:",
+      "stepsTitle": "Steps (s, t, remainders):",
+      "table": {
+        "step": "Step",
+        "q": "q",
+        "remainders": "remainders",
+        "s": "s",
+        "t": "t"
+      }
+    },
+    "continued": {
+      "title": "Continued fraction of a/b",
+      "valueLabel": "a/b =",
+      "expansionLabel": "Continued fraction expansion:",
+      "coeffsLabel": "The list of coefficients is:"
+    },
+    "errors": {
+      "naturalNumbers": "a and b must be natural numbers (nonnegative integers).",
+      "bothZero": "At least one of the numbers must be nonzero to compute the gcd."
+    },
+    "presets": {
+      "30-18": {
+        "label": "a = 30, b = 18",
+        "description": "Classic example: gcd(30, 18) = 6."
+      },
+      "21-13": {
+        "label": "a = 21, b = 13",
+        "description": "Ratio close to the golden ratio."
+      },
+      "48-20": {
+        "label": "a = 48, b = 20",
+        "description": "Example with gcd(48, 20) = 4."
+      }
+    }
   }
 }

@@ -897,5 +897,72 @@
         "description": "Are structură specială; încearcă clasificarea prin rezolventă."
       }
     }
+  },
+  "problem14": {
+    "title": "Problema 14 – Algoritmul lui Euclid, combinație liniară și fracție continuă",
+    "subtitle": "Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b), scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b. Introdu mai jos valorile pentru a și b sau folosește un exemplu predefinit.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o pereche (a, b) pentru a vedea cum funcționează algoritmul lui Euclid, combinația liniară și fracția continuă asociată lui a/b.",
+    "inputTitle": "Introdu valorile pentru a și b",
+    "inputs": {
+      "aLabel": "Valoarea lui a",
+      "bLabel": "Valoarea lui b",
+      "fractionHint": "Pentru fracția continuă a/b, b trebuie să fie nenul."
+    },
+    "computeButton": "Calculează",
+    "resultsTitle": "Rezultatele algoritmului lui Euclid și ale fracției continue",
+    "explain": {
+      "p1": "Algoritmul lui Euclid calculează cmmdc(a, b) prin împărțiri succesive: a = q₀·b + r₀, apoi b = q₁·r₀ + r₁ ș.a.m.d., până când restul devine zero.",
+      "p2": "Varianta extinsă a algoritmului lui Euclid determină coeficienți întregi x și y astfel încât a·x + b·y = d, unde d = cmmdc(a, b) (identitatea lui Bézout).",
+      "p3": "Fracția continuă asociată lui a/b se obține din coeficienții de la împărțirile succesive și se notează de forma [q₀; q₁, q₂, …]."
+    },
+    "gcd": {
+      "title": "cmmdc(a, b) prin algoritmul lui Euclid",
+      "valueLabel": "cmmdc(a, b) =",
+      "stepsTitle": "Pașii algoritmului:",
+      "table": {
+        "step": "Pas",
+        "division": "Împărțire",
+        "q": "q",
+        "r": "r"
+      }
+    },
+    "extended": {
+      "title": "Combinație liniară a·x + b·y = d (algoritmul lui Euclid extins)",
+      "gcdLabel": "d = cmmdc(a, b) =",
+      "linearComboLabel": "O combinație liniară este:",
+      "stepsTitle": "Pași (s, t, resturi):",
+      "table": {
+        "step": "Pas",
+        "q": "q",
+        "remainders": "resturi",
+        "s": "s",
+        "t": "t"
+      }
+    },
+    "continued": {
+      "title": "Fracția continuă asociată lui a/b",
+      "valueLabel": "a/b =",
+      "expansionLabel": "Dezvoltarea în fracție continuă:",
+      "coeffsLabel": "Lista coeficienților este:"
+    },
+    "errors": {
+      "naturalNumbers": "a și b trebuie să fie numere naturale (întregi nenegative).",
+      "bothZero": "Cel puțin unul dintre numere trebuie să fie nenul pentru a calcula cmmdc."
+    },
+    "presets": {
+      "30-18": {
+        "label": "a = 30, b = 18",
+        "description": "Exemplu clasic: cmmdc(30, 18) = 6."
+      },
+      "21-13": {
+        "label": "a = 21, b = 13",
+        "description": "Raport apropiat de secțiunea de aur."
+      },
+      "48-20": {
+        "label": "a = 48, b = 20",
+        "description": "Exemplu cu cmmdc(48, 20) = 4."
+      }
+    }
   }
 }
