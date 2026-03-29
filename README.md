@@ -1,5 +1,9 @@
 # ComputationalAlgebraAndCodingTheoryProblemSolver
 
+## 🔗 Live Demo: 
+
+[Computational Algebra and Coding Theory](https://computational-algebra-coding-theory.netlify.app)
+
 An interactive web application for solving and exploring problems from Computational Algebra, Number Theory, Linear Algebra, and Coding Theory.
 
 The platform provides step-by-step computations, predefined examples, and editable inputs so users can experiment with algorithms and better understand the mathematical procedures behind them.
