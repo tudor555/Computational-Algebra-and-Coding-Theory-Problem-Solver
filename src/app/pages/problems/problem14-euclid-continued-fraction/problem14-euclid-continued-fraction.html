@@ -1,0 +1,255 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">{{ 'problem14.title' | t }}</h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem14.subtitle' | t }}
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">{{ 'problem14.presetsTitle' | t }}</h2>
+      <p class="text-app-muted text-m mb-3">{{ 'problem14.presetsHint' | t }}</p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">
+        {{ 'problem14.inputTitle' | t }}
+      </h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-m text-app-muted mb-1"
+            >{{ 'problem14.inputs.aLabel' | t }}
+          </label>
+          <input
+            type="number"
+            min="0"
+            [value]="inputA"
+            (input)="onInputAChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-m text-app-muted mb-1"
+            >{{ 'problem14.inputs.bLabel' | t }}
+          </label>
+          <input
+            type="number"
+            min="0"
+            [value]="inputB"
+            (input)="onInputBChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+        <p class="text-s text-app-muted mt-1">
+          {{ 'problem14.inputs.fractionHint' | t }}
+        </p>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          {{ 'problem14.computeButton' | t }}
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+    </section>
+
+    <!-- Results -->
+    @if (gcdResult || extendedResult || continuedFractionResult) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem14.resultsTitle' | t }}
+        </h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem14.explain.p1' | t }}
+          </p>
+          <p class="mb-2">
+            {{ 'problem14.explain.p2' | t }}
+          </p>
+          <p>
+            {{ 'problem14.explain.p3' | t }}
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- GCD and steps -->
+          @if (gcdResult) {
+            <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+              <h3 class="font-semibold mb-2">
+                {{ 'problem14.gcd.title' | t }}
+              </h3>
+
+              <p class="mb-1">
+                a = <span class="font-mono">{{ gcdResult.a }}</span
+                >, b = <span class="font-mono">{{ gcdResult.b }}</span>
+              </p>
+              <p class="mb-2">
+                {{ 'problem14.gcd.valueLabel' | t }}
+                <span class="font-mono">{{ gcdResult.gcd }}</span>
+              </p>
+
+              <h4 class="font-semibold mb-2">
+                {{ 'problem14.gcd.stepsTitle' | t }}
+              </h4>
+              <div class="overflow-auto max-h-64">
+                <table class="min-w-full text-s border-collapse">
+                  <thead class="text-app-muted">
+                    <tr>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.gcd.table.step' | t }}</th>
+                      <th class="text-left pr-3 pb-1">
+                        {{ 'problem14.gcd.table.division' | t }}
+                      </th>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.gcd.table.q' | t }}</th>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.gcd.table.r' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (step of gcdResult.steps; track $index; let i = $index) {
+                      <tr>
+                        <td class="pr-3 py-0.5 align-top">
+                          {{ i + 1 }}
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          {{ step.dividend }} = {{ step.divisor }} · {{ step.quotient }} +
+                          {{ step.remainder }}
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          {{ step.quotient }}
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          {{ step.remainder }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+
+          <!-- Extended Euclid and linear combination -->
+          @if (extendedResult) {
+            <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+              <h3 class="font-semibold mb-2">
+                {{ 'problem14.extended.title' | t }}
+              </h3>
+
+              <p class="mb-1">
+                {{ 'problem14.extended.gcdLabel' | t }}
+
+                <span class="font-mono">{{ extendedResult.gcd }}</span>
+              </p>
+              <p class="mb-2">
+                {{ 'problem14.extended.linearComboLabel' | t }}
+              </p>
+              <p class="font-mono mb-3">
+                {{ formatLinearCombination(extendedResult) }}
+              </p>
+
+              <h4 class="font-semibold mb-2">
+                {{ 'problem14.extended.stepsTitle' | t }}
+              </h4>
+              <div class="overflow-auto max-h-64">
+                <table class="min-w-full text-s border-collapse">
+                  <thead class="text-app-muted">
+                    <tr>
+                      <th class="text-left pr-3 pb-1">
+                        {{ 'problem14.extended.table.step' | t }}
+                      </th>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.extended.table.q' | t }}</th>
+                      <th class="text-left pr-3 pb-1">
+                        {{ 'problem14.extended.table.remainders' | t }}
+                      </th>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.extended.table.s' | t }}</th>
+                      <th class="text-left pr-3 pb-1">{{ 'problem14.extended.table.t' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (step of extendedResult.steps; track $index; let i = $index) {
+                      <tr>
+                        <td class="pr-3 py-0.5 align-top">
+                          {{ i + 1 }}
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          {{ step.quotient }}
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          ({{ step.remainderPrevious }}, {{ step.remainderCurrent }})
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          ({{ step.coefficientSPrevious }}, {{ step.coefficientSCurrent }})
+                        </td>
+                        <td class="pr-3 py-0.5 align-top font-mono">
+                          ({{ step.coefficientTPrevious }}, {{ step.coefficientTCurrent }})
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Continued fraction -->
+        @if (continuedFractionResult) {
+          <div class="mt-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem14.continued.title' | t }}
+            </h3>
+            <p class="mb-1">
+              {{ 'problem14.continued.valueLabel' | t }}
+
+              <span class="font-mono">
+                {{ continuedFractionResult.numerator }}/{{ continuedFractionResult.denominator }}
+              </span>
+            </p>
+            <p class="mb-2">
+              {{ 'problem14.continued.expansionLabel' | t }}
+            </p>
+            <p class="font-mono mb-1">
+              {{ formatContinuedFraction(continuedFractionResult) }}
+            </p>
+            <p class="text-s text-app-muted">
+              {{ 'problem14.continued.coeffsLabel' | t }}
+              [{{ continuedFractionResult.quotients.join(', ') }}].
+            </p>
+          </div>
+        }
+      </section>
+    }
+  </div>
+</div>

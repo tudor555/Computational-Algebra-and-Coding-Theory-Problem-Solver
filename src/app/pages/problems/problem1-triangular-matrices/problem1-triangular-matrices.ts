@@ -1,0 +1,220 @@
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { LucideAngularModule } from 'lucide-angular';
+import { TranslatePipe } from '../../../pipes/translate';
+import { Matrix, MatrixAlgebra, TriangularType } from '../../../services/matrix-algebra';
+
+interface TriangularPreset {
+  id: string;
+  labelKey: string;
+  descriptionKey: string;
+  size: number;
+  matrixA: Matrix;
+  matrixB: Matrix;
+}
+
+interface TriangularAnalysisResult {
+  size: number;
+
+  matrixAType: TriangularType;
+  matrixBType: TriangularType;
+
+  inverseExists: boolean;
+  inverseMatrixA: Matrix | null;
+  inverseMatrixAType: TriangularType | null;
+
+  productMatrix: Matrix | null;
+  productMatrixType: TriangularType | null;
+}
+
+@Component({
+  selector: 'app-problem1-triangular-matrices',
+  imports: [RouterModule, CommonModule, LucideAngularModule, TranslatePipe],
+  templateUrl: './problem1-triangular-matrices.html',
+  styleUrl: './problem1-triangular-matrices.scss',
+})
+export class Problem1TriangularMatrices {
+  size = 3;
+
+  matrixA: Matrix = [];
+  matrixB: Matrix = [];
+
+  errorMessage: string | null = null;
+  analysisResult: TriangularAnalysisResult | null = null;
+
+  presets: TriangularPreset[] = [
+    {
+      id: 'upper-3x3',
+      labelKey: 'problem1.presets.upper3x3.label',
+      descriptionKey: 'problem1.presets.upper3x3.description',
+      size: 3,
+      matrixA: [
+        [2, 1, -1],
+        [0, 3, 4],
+        [0, 0, 5],
+      ],
+      matrixB: [
+        [1, -2, 0],
+        [0, 4, 1],
+        [0, 0, 2],
+      ],
+    },
+    {
+      id: 'lower-3x3',
+      labelKey: 'problem1.presets.lower3x3.label',
+      descriptionKey: 'problem1.presets.lower3x3.description',
+      size: 3,
+      matrixA: [
+        [1, 0, 0],
+        [2, 3, 0],
+        [-1, 4, 2],
+      ],
+      matrixB: [
+        [2, 0, 0],
+        [1, 1, 0],
+        [3, -2, 1],
+      ],
+    },
+    {
+      id: 'non-triangular',
+      labelKey: 'problem1.presets.nonTriangular.label',
+      descriptionKey: 'problem1.presets.nonTriangular.description',
+      size: 3,
+      matrixA: [
+        [1, 2, 0],
+        [3, 4, 5],
+        [0, 6, 7],
+      ],
+      matrixB: [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+      ],
+    },
+  ];
+
+  constructor(private matrixAlgebraService: MatrixAlgebra) {
+    this.initializeMatrices();
+  }
+
+  // Initialize both A and B as zero matrices of current size
+  initializeMatrices(): void {
+    this.matrixA = Array.from({ length: this.size }, () => Array(this.size).fill(0));
+    this.matrixB = Array.from({ length: this.size }, () => Array(this.size).fill(0));
+
+    this.errorMessage = null;
+    this.analysisResult = null;
+  }
+
+  // Handle matrix size changes
+  onSizeChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+
+    if (!Number.isInteger(value) || value < 1 || value > 6) {
+      this.errorMessage = 'problem1.errors.sizeRange';
+      return;
+    }
+
+    this.size = value;
+    this.initializeMatrices();
+  }
+
+  // Handle user input in matrix A
+  onCellChangeA(rowIndex: number, columnIndex: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+
+    this.matrixA[rowIndex][columnIndex] = Number.isNaN(value) ? 0 : value;
+  }
+
+  // Handle user input in matrix B
+  onCellChangeB(rowIndex: number, columnIndex: number, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+
+    this.matrixB[rowIndex][columnIndex] = Number.isNaN(value) ? 0 : value;
+  }
+
+  // Apply a predefined preset for matrices A and B
+  onApplyPreset(preset: TriangularPreset): void {
+    this.size = preset.size;
+
+    this.matrixA = preset.matrixA.map((row) => [...row]);
+    this.matrixB = preset.matrixB.map((row) => [...row]);
+
+    this.errorMessage = null;
+    this.analysisResult = null;
+  }
+
+  // Compute inverse(A) and the product A·B, then classify their triangular properties
+  onAnalyze(): void {
+    this.errorMessage = null;
+    this.analysisResult = null;
+
+    try {
+      const typeA = this.matrixAlgebraService.classifyTriangular(this.matrixA);
+      const typeB = this.matrixAlgebraService.classifyTriangular(this.matrixB);
+
+      // Inverse of A using existing Gauss–Jordan logic from the service
+      let inverseMatrixA: Matrix | null = null;
+      let inverseExists = false;
+      let inverseType: TriangularType | null = null;
+
+      // We reuse the same method that computes rank and inverse (used also in Problem 5).
+      const rankAndInverseResult = this.matrixAlgebraService.computeRankAndInverse(this.matrixA);
+
+      if (
+        rankAndInverseResult.isSquare &&
+        rankAndInverseResult.hasInverse &&
+        rankAndInverseResult.inverse
+      ) {
+        inverseExists = true;
+        inverseMatrixA = rankAndInverseResult.inverse.map((row) => [...row]);
+        inverseType = this.matrixAlgebraService.classifyTriangular(inverseMatrixA);
+      }
+
+      // Compute the product C = A · B
+      let productMatrix: Matrix | null = null;
+      let productType: TriangularType | null = null;
+
+      try {
+        productMatrix = this.matrixAlgebraService.multiplyMatrices(this.matrixA, this.matrixB);
+        productType = this.matrixAlgebraService.classifyTriangular(productMatrix);
+      } catch (multiplicationError) {
+        // If multiplication fails due to incompatible sizes, leave product as null
+        productMatrix = null;
+        productType = null;
+      }
+
+      this.analysisResult = {
+        size: this.size,
+        matrixAType: typeA,
+        matrixBType: typeB,
+        inverseExists,
+        inverseMatrixA,
+        inverseMatrixAType: inverseType,
+        productMatrix,
+        productMatrixType: productType,
+      };
+    } catch (error: unknown) {
+      this.errorMessage = error instanceof Error ? error.message : 'errors.unexpectedComputation';
+    }
+  }
+
+  // Map a triangular type to a human-readable label in Romanian
+  getTriangularLabelKey(type: TriangularType | null): string {
+    switch (type) {
+      case 'upper':
+        return 'problem1.triangular.upper';
+      case 'lower':
+        return 'problem1.triangular.lower';
+      case 'both':
+        return 'problem1.triangular.both';
+      case 'none':
+      default:
+        return 'problem1.triangular.none';
+    }
+  }
+}

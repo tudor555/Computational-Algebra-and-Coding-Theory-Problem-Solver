@@ -1,0 +1,968 @@
+{
+  "nav": {
+    "home": "Home",
+    "problems": "Problems",
+    "language": "EN",
+    "repo": "GitHub",
+    "problemsHint": "Jump directly to a problem"
+  },
+  "footer": {
+    "title": "Computational Algebra Problem Solver",
+    "tagline": "© {{year}} · Turning matrices into obedience since v1.0",
+    "home": "Home",
+    "github": "GitHub"
+  },
+  "home": {
+    "title": "Computational Algebra Problem Solver",
+    "subtitle": "Choose one of the problems below to explore linear algebra, number theory, coding theory, and eigenvalues. Clean interface, clear explanations, accurate computations.",
+    "sections": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "problemTitle": "Problem {{number}}",
+    "openProblem": "Open problem {{number}}",
+    "problems": {
+      "problem1": {
+        "title": "Triangular matrices",
+        "description": "Verify whether the inverse of a triangular matrix is also triangular. Verify whether the product of two triangular matrices is also triangular."
+      },
+      "problem2": {
+        "title": "Decomposition into symmetric and skew-symmetric matrices",
+        "description": "Show that any matrix can be written uniquely as the sum of a symmetric matrix and a skew-symmetric matrix."
+      },
+      "problem3": {
+        "title": "Hermitian matrix and its inverse",
+        "description": "Check whether a matrix is Hermitian. If it is, check whether its inverse is also Hermitian."
+      },
+      "problem4": {
+        "title": "Solve a 4×4 linear system using Gauss",
+        "description": "Solve a linear system with 4 equations and 4 unknowns using Gaussian method."
+      },
+      "problem5": {
+        "title": "Rank and inverse using Gauss method",
+        "description": "Compute the rank of a matrix using Gaussian elimination and, if possible, compute its inverse using the Gauss–Jordan method."
+      },
+      "problem6": {
+        "title": "Order and idempotent element in (ℤₙ, ·)",
+        "description": "Given (ℤₙ, ·), compute the order of an element and check whether it is idempotent modulo n."
+      },
+      "problem7": {
+        "title": "Matrix order in (M₂(ℝ), ·) and idempotency",
+        "description": "Compute the order of a 2×2 matrix under multiplication (if it exists) and check whether it is idempotent."
+      },
+      "problem8": {
+        "title": "Code parameters (n, M, d, s, t, ρ)",
+        "description": "For a code in (Fq)^n, compute the main parameters: n, M, d, s, t, and the covering radius ρ."
+      },
+      "problem9": {
+        "title": "Check if a code is linear in (Fq)^n",
+        "description": "Check whether a given code is linear (closed under addition and scalar multiplication modulo q)."
+      },
+      "problem10": {
+        "title": "List all codewords from a generator matrix",
+        "description": "Display all codewords of a code given its generator matrix G (modulo q)."
+      },
+      "problem11": {
+        "title": "Codeword validation using parity-check matrix",
+        "description": "Read a parity-check matrix and a set of words. Display the ones that are codewords (zero syndrome)."
+      },
+      "problem12": {
+        "title": "Characteristic polynomial and eigenvalues (2×2, 3×3)",
+        "description": "Compute the characteristic polynomial and the eigenvalues of a 2×2 or 3×3 matrix, displaying both the polynomial and its roots."
+      },
+      "problem13": {
+        "title": "Galois group for a degree 3 or 4 polynomial",
+        "description": "Determine the Galois group of a degree 3 or 4 polynomial using the discriminant and the resolvent."
+      },
+      "problem14": {
+        "title": "Euclidean algorithm, linear combination, and continued fraction",
+        "description": "Using Euclid’s algorithm, compute gcd(d) for two natural numbers (a,b), write a linear combination of (a,b,d), and display the continued fraction of a/b."
+      }
+    }
+  },
+  "backToHome": "Back to Home Page",
+  "common": {
+    "yes": "yes",
+    "no": "no",
+    "reset": "Reset"
+  },
+  "errors": {
+    "unexpectedComputation": "An unexpected error occurred during computation."
+  },
+  "problem1": {
+    "title": "Problem 1 – Triangular matrices",
+    "subtitle": "Check whether the inverse of a triangular matrix is also triangular. Check whether the product of two triangular matrices is also triangular. Enter two square matrices A and B below, or use the presets.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a pair of matrices to see how the inverse and product behave for triangular matrices.",
+    "inputTitle": "Enter matrices A and B",
+    "sizeLabel": "Matrix size (n × n)",
+    "sizeHint": "Matrices A and B are square and have the same size.",
+    "analyzeButton": "Check inverse and product",
+    "matrixA": "Matrix A",
+    "matrixB": "Matrix B",
+    "resultsTitle": "Results for triangular matrix checks",
+    "explain1": "A matrix is upper triangular if all entries below the main diagonal are zero, and lower triangular if all entries above the main diagonal are zero.",
+    "explain2": "The inverse of an invertible triangular matrix is triangular of the same type. The product of two triangular matrices of the same type (upper or lower) is also triangular of the same type.",
+    "summaryA": "Matrix A",
+    "summaryB": "Matrix B and the product A·B",
+    "type": "Type",
+    "inverse": "Inverse",
+    "existsAndIs": "exists and is {{type}}.",
+    "doesNotExistNotInvertible": "does not exist (the matrix is not invertible).",
+    "typeOfB": "Type of B",
+    "productType": "Type of the product C = A · B",
+    "productNotComputed": "could not be computed (incompatible sizes).",
+    "inverseMatrixTitle": "Inverse of matrix A",
+    "productMatrixTitle": "Product C = A · B",
+    "errors": {
+      "sizeRange": "Matrix size must be an integer between 1 and 6."
+    },
+    "triangular": {
+      "none": "non-triangular",
+      "upper": "upper triangular",
+      "lower": "lower triangular",
+      "both": "diagonal (both upper and lower triangular)"
+    },
+    "presets": {
+      "upper3x3": {
+        "label": "Two 3×3 upper triangular matrices",
+        "description": "Example where the inverse and product remain upper triangular."
+      },
+      "lower3x3": {
+        "label": "Two 3×3 lower triangular matrices",
+        "description": "The product and inverse (if it exists) remain lower triangular."
+      },
+      "nonTriangular": {
+        "label": "A non-triangular matrix",
+        "description": "Example where matrix A is not triangular."
+      }
+    }
+  },
+  "problem2": {
+    "title": "Problem 2 – Decomposition into symmetric and skew-symmetric matrices",
+    "subtitle": "Show that any matrix can be written uniquely as the sum of a symmetric matrix and a skew-symmetric matrix. Enter a square matrix below or choose a preset, and the app will compute its components.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose one of the matrices below to see how the decomposition works. You can then edit the values manually.",
+    "inputTitle": "Enter the matrix",
+    "sizeLabel": "Matrix size (n × n)",
+    "sizeHint": "For clarity, the limit is 6 × 6.",
+    "decomposeButton": "Compute decomposition",
+    "resultTitle": "Result: A = S + K",
+    "explainIntro": "The decomposition is obtained using the standard formulas from linear algebra:",
+    "explainSimmetric": "The symmetric component S is computed as:",
+    "explainSkewSimmetric": "The skew-symmetric component K is computed as:",
+    "note": "Note: any square matrix can be written uniquely as the sum of a symmetric and a skew-symmetric matrix, because:",
+    "labels": {
+      "symmetric": "Symmetric matrix S",
+      "skew": "Skew-symmetric matrix K",
+      "original": "Original matrix A"
+    },
+    "errors": {
+      "sizeRange": "Matrix size must be an integer between 1 and 6.",
+      "presetNotSquare": "The preset matrix is not square."
+    },
+    "presets": {
+      "simple2x2Matrix": {
+        "label": "Simple 2×2 matrix",
+        "description": "Small example, easy to verify by hand."
+      },
+      "mixed3x3Matrix": {
+        "label": "Mixed 3×3 matrix",
+        "description": "Positive and negative values."
+      },
+      "symmetric3x3Matrix": {
+        "label": "Symmetric 3×3 matrix",
+        "description": "Already symmetric; the skew-symmetric part will be zero."
+      }
+    }
+  },
+  "problem3": {
+    "title": "Problem 3 – Hermitian matrix and its inverse",
+    "subtitle": {
+      "before": "Check whether a matrix is Hermitian. For real entries, a matrix is Hermitian if it is symmetric:",
+      "after": "If it is Hermitian and invertible, check whether its inverse is also Hermitian."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to test (invertible Hermitian / singular Hermitian / non-Hermitian).",
+    "inputTitle": "Enter the matrix",
+    "rowsLabel": "Number of rows",
+    "columnsLabel": "Number of columns",
+    "checkButton": "Check",
+    "resultsTitle": "Results",
+    "explain": {
+      "p1": {
+        "before": "Definition: a matrix is Hermitian if",
+        "middle": "(equal to its conjugate transpose). For real-valued matrices, this becomes simply"
+      },
+      "p2": {
+        "before": "If",
+        "middle": "is Hermitian and invertible, then",
+        "after": "is Hermitian as well, because"
+      }
+    },
+    "status": {
+      "squareYes": "The matrix is square.",
+      "squareNo": "The matrix is not square.",
+      "hermitianYes": "The matrix is Hermitian (for real entries).",
+      "hermitianNo": "The matrix is NOT Hermitian.",
+      "hermitianOnlySquare": "Hermitianity is checked only for square matrices."
+    },
+    "inverseTitle": "Inverse and the Hermitian property",
+    "inverse": {
+      "exists": "The matrix is invertible. The inverse is shown below:",
+      "isHermitianYes": "The inverse is Hermitian.",
+      "isHermitianNo": "The inverse is NOT Hermitian.",
+      "singular": "The matrix is Hermitian, but it is not invertible (singular).",
+      "onlyIf": "The inverse and this check are computed only if the matrix is square and Hermitian."
+    },
+    "errors": {
+      "rowRange": "Number of rows must be an integer between 1 and 8.",
+      "colRange": "Number of columns must be an integer between 1 and 8."
+    },
+    "presets": {
+      "realInversableHermitianMatrix": {
+        "label": "Invertible Hermitian (real) matrix",
+        "description": "Real symmetric example with an inverse."
+      },
+      "realSingularHermitianMatrix": {
+        "label": "Singular Hermitian (real) matrix",
+        "description": "Symmetric, but determinant zero → no inverse."
+      },
+      "notHermitianMatrix": {
+        "label": "Not Hermitian",
+        "description": "Example that is not symmetric (for real inputs)."
+      },
+      "2x2InvertibleHermitianMatrix": {
+        "label": "Invertible 2×2 Hermitian (real) matrix",
+        "description": "Small example for quick verification."
+      }
+    }
+  },
+  "problem4": {
+    "title": "Problem 4 – 4×4 linear system using Gauss method",
+    "subtitle": {
+      "before": "Solve a linear system of 4 equations with 4 unknowns using Gaussian elimination (on the augmented matrix",
+      "after": "Depending on the ranks, the system can have a unique solution, infinitely many solutions, or no solution."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a 4×4 system (unique solution / no solution / infinitely many solutions).",
+    "inputTitle": "Enter the system",
+    "computeButton": "Apply Gauss method",
+    "resetButton": "Reset",
+    "resultsTitle": "Gauss method results",
+    "explain": {
+      "p1": {
+        "before": "We build the augmented matrix",
+        "after": "and apply elementary row operations (swap rows, multiply by a non-zero scalar, add a multiple of one row to another) to reach reduced row echelon form (Gauss–Jordan)."
+      },
+      "p2": {
+        "before": "If",
+        "middle1": ", the system is inconsistent (no solution). If",
+        "middle2": ", the solution is unique. If",
+        "after": ", there are infinitely many solutions."
+      }
+    },
+    "status": {
+      "noSolution": "No solution (inconsistent system).",
+      "uniqueSolution": "Unique solution.",
+      "infiniteSolutions": "Infinitely many solutions."
+    },
+    "solutionTitle": "Solution",
+    "solution": {
+      "noSolution": {
+        "before": "The system is inconsistent: an equation of the form appears",
+        "after": "with"
+      },
+      "uniqueHint": "From the reduced row echelon form we read the unknowns directly:",
+      "infiniteHint": "Consistent system, but the rank is smaller than the number of unknowns → free variables exist, so there are infinitely many solutions."
+    },
+    "rank": {
+      "rankA": "rank(A)",
+      "rankAug": "rank([A|b])"
+    },
+    "augmentedTitle": "Reduced form of the augmented matrix [A | b]",
+    "augmentedNote": {
+      "before": "The last column corresponds to",
+      "after": "The separator",
+      "end": "is only visual."
+    },
+    "presets": {
+      "uniqueSolution": {
+        "label": "Unique solution",
+        "description": "Consistent system with a unique solution."
+      },
+      "noSolution": {
+        "label": "No solution",
+        "description": "Inconsistent system (augmented rank increases)."
+      },
+      "infiniteSolutions": {
+        "label": "Infinitely many solutions",
+        "description": "Consistent system, but with free variables."
+      }
+    }
+  },
+  "problem5": {
+    "title": "Problem 5 – Rank and inverse using Gauss method",
+    "subtitle": {
+      "before": "Compute the rank of a matrix using Gaussian elimination and, if the matrix is square and invertible, compute its inverse using the Gauss–Jordan method on the augmented matrix"
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to test the rank, the echelon form, or the inverse.",
+    "inputTitle": "Enter the matrix",
+    "rowsLabel": "Number of rows",
+    "columnsLabel": "Number of columns",
+    "computeButton": "Apply Gauss method",
+    "resultsTitle": "Gauss method results",
+    "explain": {
+      "p1": {
+        "before": "Gaussian elimination transforms the matrix",
+        "after": "into an echelon form using elementary row operations. The rank is the number of non-zero rows in the echelon form."
+      },
+      "p2": {
+        "before": "To compute the inverse of a square matrix, we build the augmented matrix",
+        "middle": "and apply Gauss–Jordan until we obtain",
+        "after": "if it exists."
+      },
+      "p3": "If the matrix is not square or its determinant is zero, the inverse does not exist and the matrix is singular."
+    },
+    "summary": {
+      "rank": "The rank of matrix A is:",
+      "size": "Size:",
+      "squareYes": "The matrix is square.",
+      "squareNo": "The matrix is not square, so a classical inverse is not defined."
+    },
+    "inverseTitle": "Inverse of matrix A",
+    "inverse": {
+      "exists": "The matrix is invertible. Below is the inverse",
+      "singular": "The matrix is square but not invertible (singular).",
+      "notDefined": "Since the matrix is not square, the inverse is not defined."
+    },
+    "echelonTitle": "Echelon form of A(result of Gauss method)",
+    "echelonNote": "Non-zero rows in the echelon form correspond to linearly independent rows, and their number equals the rank.",
+    "errors": {
+      "rowsRange": "The number of rows must be an integer between 1 and 8.",
+      "columnsRange": "The number of columns must be an integer between 1 and 8."
+    },
+    "presets": {
+      "easy3x3Matrix": {
+        "label": "Simple 3×3 matrix",
+        "description": "Easy example for checking the rank."
+      },
+      "inverse3x3Matrix": {
+        "label": "Invertible 3×3 matrix",
+        "description": "Non-zero determinant, good for testing the inverse."
+      },
+      "invertible2x2Matrix": {
+        "label": "Invertible 2×2 matrix",
+        "description": "Small example that is surely invertible."
+      },
+      "singular2x2Matrix": {
+        "label": "Singular 2×2 matrix",
+        "description": "Zero determinant → no inverse."
+      },
+      "rectangular4x3Matrix": {
+        "label": "Rectangular 4×3 matrix",
+        "description": "Good for testing the rank and echelon form."
+      }
+    }
+  },
+  "problem6": {
+    "title": "Problem 6 – Order and idempotent element in (ℤₙ, ·)",
+    "subtitle": {
+      "before": "Given the multiplicative group (ℤₙ, ·) of residues modulo",
+      "middle1": ", compute the order of an element",
+      "middle2": "and check whether it is idempotent"
+    },
+    "inputTitle": "Enter the data: modulus n and element a",
+    "modulusLabel": { "before": "Modulus" },
+    "modulusHint": "n ≥ 2. Use not-too-large values to clearly see the steps.",
+    "elementLabel": { "before": "Element" },
+    "elementHint": "a can be any integer; computations are done modulo n.",
+    "computeButton": "Compute order and check idempotent",
+    "resultsTitle": "Results for a in (ℤₙ, ·)",
+    "explain": {
+      "p1": {
+        "before": "The order of an element",
+        "afterA": "in (ℤₙ, ·) is the smallest positive integer",
+        "afterK": "such that"
+      },
+      "p2": {
+        "before": "The element",
+        "middle1": "is idempotent modulo",
+        "middle2": "if:",
+        "after": "that is"
+      },
+      "p3": {
+        "before": "To compute the order, we multiply:",
+        "middle": "modulo",
+        "after": "until we obtain",
+        "end": "if that happens."
+      }
+    },
+    "info": {
+      "normalized": "The normalized value of a modulo n:",
+      "gcd": "gcd(a, n) ="
+    },
+    "unit": {
+      "isUnit": "The element a is a unit in (ℤₙ, ·), so its order is well-defined.",
+      "notUnit": "The element a is not a unit in (ℤₙ, ·), so its order in the group is not defined."
+    },
+    "orderTitle": "Order and idempotent check",
+    "order": {
+      "defined": {
+        "before": "The order of",
+        "after": "in (ℤₙ, ·) is:"
+      },
+      "notFound": "No order was found within the computed step limit (n may be too large).",
+      "notUnit": {
+        "before": "Since",
+        "after": "is not a unit, it has no order in (ℤₙ, ·)."
+      }
+    },
+    "idempotent": {
+      "yes": { "before": "The element", "after": "is idempotent: a² ≡ a (mod n)." },
+      "no": { "before": "The element", "after": "is not idempotent: a² ≢ a (mod n)." }
+    },
+    "stepsTitle": "Computed steps for powers of a modulo n",
+    "table": {
+      "k": "k",
+      "value": "aᵏ (mod n)"
+    },
+    "stepsNote": "Look for the first exponent k where the value becomes 1 — that is the order of a, if it exists.",
+    "errors": {
+      "modulusMin": "The modulus n must be an integer at least 2.",
+      "elementInteger": "The element a must be an integer."
+    }
+  },
+  "problem7": {
+    "title": "Problem 7 – Order of a matrix in (M₂(ℝ), ·) and idempotent",
+    "subtitle": "Given a matrix A ∈ M₂(ℝ). Determine the order of A under multiplication (the smallest k ≥ 1 with A^k = I, if it exists) and check whether it is idempotent (A² = A).",
+    "presetsTitle": "Presets",
+    "presetsHint": "Examples with finite order (I, −I, rotation) and examples without finite order (scaling, projection).",
+    "inputTitle": "Enter the 2×2 matrix",
+    "maxPowerLabel": "Max power",
+    "toleranceLabel": "Tolerance",
+    "computeButton": "Compute",
+    "resultsTitle": "Results",
+    "explainP1": "The order of a matrix (in the group sense) is the smallest k ≥ 1 such that A^k = I. For many real matrices, such a k does not exist (infinite order).",
+    "explainP2": "A matrix is idempotent if A² = A.",
+    "idempotentLabel": "Idempotent:",
+    "orderLabel": "Order:",
+    "orderFound": "k = {{k}}",
+    "orderNotFound": "not found up to k = {{k}}",
+    "toleranceNote": "Comparison uses tolerance {{tol}}.",
+    "notFoundIntro": "If the order is not found within the chosen limit, two typical cases are:",
+    "notFoundB1": "the matrix has infinite order (no k with A^k = I)",
+    "notFoundB2": "the order exists, but it is larger than the selected limit",
+    "foundWithinLimit": "For this example, a k with A^k = I was found within the selected limit.",
+    "preview": {
+      "title": "First powers (preview)",
+      "table": {
+        "power": "Power",
+        "matrix": "Matrix"
+      },
+      "note": "The preview shows up to the first 10 powers. For large powers, values may grow quickly and numerical errors may appear."
+    },
+    "errors": {
+      "maxPowerRange": "Max power must be an integer between 1 and 500.",
+      "tolerancePositive": "Tolerance must be a positive number (e.g. 1e-10)."
+    },
+    "presets": {
+      "identity": {
+        "label": "Identity (order 1)",
+        "description": "I has order 1 and is idempotent."
+      },
+      "minus-identity": {
+        "label": "−I (order 2)",
+        "description": "(-I)^2 = I."
+      },
+      "rotation90": {
+        "label": "90° rotation (order 4)",
+        "description": "Rotation matrix: R^4 = I."
+      },
+      "projection-idempotent": {
+        "label": "Projection (idempotent)",
+        "description": "P^2 = P, but it generally does not have finite order."
+      },
+      "scale-2": {
+        "label": "Scaling (no finite order)",
+        "description": "2I does not reach I for n>0."
+      }
+    }
+  },
+  "problem8": {
+    "title": "Problem 8 – Code parameters (n, M, d, s, t, ρ)",
+    "subtitle": "Given a code C ⊆ (Zq)^n. We display the parameters: n (length), M (number of words), d (minimum distance), t (error-correcting capability), ρ (covering radius), and s (redundancy, for linear codes).",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a small code to test.",
+    "inputTitle": "Enter the code",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "wordCount": "Number of words",
+      "wordLength": "Word length (n)"
+    },
+    "computeButton": "Compute parameters",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Entries are normalized modulo",
+      "after": "and duplicates are automatically removed."
+    },
+    "resultsTitle": "Code parameters",
+    "explain": {
+      "p1": "n = the length of a word, M = the number of distinct words.",
+      "p2": "d = the minimum Hamming distance between two distinct codewords. t = ⌊(d−1)/2⌋.",
+      "p3": "ρ = the maximum, over all vectors, of the minimum distance to the code (covering radius). For large q^n, computing ρ is too expensive and is omitted."
+    },
+    "values": {
+      "dUndefined": "undefined (M < 2)",
+      "tUndefined": "undefined",
+      "rhoTooCostly": "too expensive to compute (large q^n)"
+    },
+    "linearity": {
+      "title": "Linearity and parameter s",
+      "isLinear": "The code is linear.",
+      "notLinear": "The code is NOT linear.",
+      "notePower": "For a linear code, typically M = q^k.",
+      "noteS": "(s = n − k)",
+      "linearButNoK": "The code appears linear, but M is not an exact power of q, so k and s cannot be reliably inferred from these data.",
+      "nonLinearS": "The parameter s (redundancy n−k) is standardly defined for linear codes."
+    },
+    "uniqueWords": {
+      "title": "Distinct codewords",
+      "table": {
+        "index": "#",
+        "word": "Word"
+      },
+      "note": "The list is normalized modulo q and contains no duplicates."
+    },
+    "errors": {
+      "modulusRange": "Modulus must be an integer between 2 and 13.",
+      "wordCountRange": "The number of words must be an integer between 1 and 64.",
+      "wordLengthRange": "Word length must be an integer between 1 and 12."
+    },
+    "presets": {
+      "z2-linear-4words": {
+        "label": "Linear code (Z₂), n=3",
+        "description": "Small example for parameters; M=4."
+      },
+      "z2-nonlinear": {
+        "label": "Nonlinear code (Z₂), n=3",
+        "description": "A set of words that does not form a linear code."
+      },
+      "z3-small": {
+        "label": "Code in Z₃, n=2",
+        "description": "Small example in (Z₃)^2."
+      }
+    }
+  },
+  "problem9": {
+    "title": "Problem 9 – Check if a code is linear",
+    "subtitle": "A code C ⊆ (Zₘ)ⁿ is linear if it contains the zero word and is closed under addition and scalar multiplication (mod m).",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly pick a set of words to test.",
+    "inputTitle": "Enter the code",
+    "inputs": {
+      "modulus": "Modulus (m)",
+      "wordCount": "Number of words",
+      "wordLength": "Word length (n)"
+    },
+    "computeButton": "Check linearity",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Note: entries are automatically reduced modulo",
+      "after": "."
+    },
+    "resultsTitle": "Result",
+    "conditions": {
+      "intro": "Checked conditions:",
+      "textBefore": "0 ∈ C, a+b ∈ C for all a,b ∈ C, and α·a ∈ C for any scalar α."
+    },
+    "status": {
+      "isLinear": "The code is linear.",
+      "notLinear": "The code is NOT linear."
+    },
+    "checks": {
+      "zeroWord": "Contains the zero word:",
+      "addition": "Closed under addition:",
+      "scalarMult": "Closed under scalar multiplication:"
+    },
+    "counterexample": {
+      "title": "Counterexample (if any)",
+      "notClosedAddition": "Not closed under addition:",
+      "sumNotInCode": "The sum is not in the code.",
+      "notClosedScalar": "Not closed under scalar multiplication:",
+      "productNotInCode": "The product is not in the code.",
+      "missingZero": "The code does not contain the zero word, so it cannot be linear.",
+      "noneFound": "No simple counterexample was found (or the code is linear)."
+    },
+    "errors": {
+      "modulusRange": "Modulus must be an integer between 2 and 13.",
+      "modulusMin": "Modulus must be at least 2.",
+      "wordCountRange": "Number of words must be an integer between 1 and 32.",
+      "wordLengthRange": "Word length must be an integer between 1 and 12.",
+      "inconsistentLengths": "All words must have the same length.",
+      "unexpectedCheck": "An unexpected error occurred during the check."
+    },
+    "presets": {
+      "linear-z2": {
+        "label": "Linear code (Z₂)",
+        "description": "Classic example: a subspace of (Z₂)^3."
+      },
+      "not-linear-missing-zero": {
+        "label": "Not linear (missing 0)",
+        "description": "Does not contain the zero word."
+      },
+      "not-linear-not-closed": {
+        "label": "Not linear (not closed under +)",
+        "description": "Contains 0, but is not closed under addition."
+      },
+      "linear-z3": {
+        "label": "Linear code (Z₃)",
+        "description": "Small example in (Z₃)^2."
+      }
+    }
+  },
+  "problem10": {
+    "title": "Problem 10 – List all codewords (from the generator matrix)",
+    "subtitle": {
+      "before": "Given a generator matrix",
+      "middle1": "of size",
+      "middle2": "the code is:",
+      "after": "We list all codewords generated by"
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly pick a generator matrix.",
+    "inputTitle": "Enter the generator matrix",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "rows": "Rows (k)",
+      "cols": "Columns (n)"
+    },
+    "computeButton": "Generate codewords",
+    "note": {
+      "before": "Warning: the number of codewords is",
+      "after": "For large values, generation may become slow."
+    },
+    "resultsTitle": "Results",
+    "summary": {
+      "dimensions": "Dimensions:",
+      "expectedCount": "Expected number of codewords:",
+      "shownCount": "Displayed count (after removing duplicates):",
+      "duplicatesNote": "Note: duplicates were found (the matrix may not have rank k, or we may be working over Zq where q is not a field)."
+    },
+    "explain": {
+      "p1": {
+        "before": "Each codeword is obtained as",
+        "middle1": "where",
+        "middle2": "is a vector of length"
+      },
+      "p2": {
+        "before": "For",
+        "after": "this iterates over all binary combinations of"
+      }
+    },
+    "codewords": {
+      "title": "Codewords",
+      "table": {
+        "index": "#",
+        "word": "Word"
+      },
+      "note": {
+        "before": "Codewords are displayed in the order of messages",
+        "after": "(lexicographically in base q)."
+      }
+    },
+    "errors": {
+      "modulusRange": "Modulus must be an integer between 2 and 13.",
+      "rowsRange": "Number of rows (k) must be an integer between 1 and 6.",
+      "colsRange": "Number of columns (n) must be an integer between 1 and 12.",
+      "tooMany": "Too many codewords to generate (q^k is very large). Reduce k or the modulus.",
+      "unexpected": "An unexpected error occurred during generation."
+    },
+    "presets": {
+      "z2-2x4": {
+        "label": "Z₂: G (2×4)",
+        "description": "Small example: 2 information bits, length 4."
+      },
+      "z2-3x5": {
+        "label": "Z₂: G (3×5)",
+        "description": "A bit larger, still quick to generate."
+      },
+      "z3-2x3": {
+        "label": "Z₃: G (2×3)",
+        "description": "Example over Z₃."
+      }
+    }
+  },
+  "problem11": {
+    "title": "Problem 11 – Validate codewords using a parity-check matrix",
+    "subtitle": {
+      "before": "We read the parity-check matrix",
+      "middle1": "of a code and a set of words of length",
+      "middle2": "For each word",
+      "middle3": "we compute the syndrome",
+      "middle4": "(modulo",
+      "after": "). Words with zero syndrome are codewords."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a parity-check matrix and a set of words to demonstrate the feature. You can then edit values manually.",
+    "inputTitle": "Enter the parity-check matrix H and the words",
+    "inputs": {
+      "modulusLabel": "Modulus q",
+      "modulusHint": "Typically, binary codes use q = 2.",
+      "rowsLabel": "Number of rows of H",
+      "columnsLabel": "Number of columns of H (word length)",
+      "wordCountLabel": "Number of words to validate"
+    },
+    "matrix": {
+      "title": "Parity-check matrix H",
+      "dimension": "size {{rows}} × {{cols}}"
+    },
+    "words": {
+      "title": "Words to validate",
+      "lengthNote": "each of length {{n}}",
+      "vLabel": "v{{index}} ="
+    },
+    "validateButton": "Compute syndromes and validate words",
+    "resultsTitle": "Parity-check validation results",
+    "explain": {
+      "p1": "For each word v, we compute the syndrome s = H · vᵀ (mod q). If s = 0, then v is a codeword.",
+      "p2": "The parity-check matrix H encodes all linear equations that a valid codeword must satisfy.",
+      "p3": "A nonzero syndrome indicates errors or that the vector is not in the code."
+    },
+    "summary": {
+      "validTitle": "Codewords (zero syndrome)",
+      "invalidTitle": "Not codewords (nonzero syndrome)",
+      "noneValid": "None of the entered words is a codeword.",
+      "allValid": "All entered words are codewords."
+    },
+    "syndromes": {
+      "title": "Syndromes for each word",
+      "table": {
+        "word": "Word",
+        "syndrome": "Syndrome s = H · vᵀ",
+        "isCodeword": "Is it a codeword?"
+      },
+      "yes": "Yes (zero syndrome)",
+      "no": "No (nonzero syndrome)"
+    },
+    "errors": {
+      "modulusRange": "Modulus q must be an integer between 2 and 10.",
+      "rowsRange": "Number of parity-check rows must be between 1 and 8.",
+      "colsRange": "Number of columns must be an integer between 2 and 12.",
+      "wordCountRange": "Number of words must be an integer between 1 and 12.",
+      "unexpected": "An unexpected error occurred during computation."
+    },
+    "presets": {
+      "binary-single-parity": {
+        "label": "Binary single-parity code",
+        "description": "1×3 parity-check matrix, simple single-parity code."
+      },
+      "binary-hamming-7-4": {
+        "label": "Binary Hamming (7,4) code",
+        "description": "Classic parity-check matrix for the Hamming (7,4) code."
+      },
+      "ternary-example": {
+        "label": "Ternary code (q = 3)",
+        "description": "Simple example over ℤ₃ (mod 3)."
+      }
+    }
+  },
+  "problem12": {
+    "title": "Problem 12 – Characteristic polynomial and eigenvalues (2×2, 3×3)",
+    "subtitle": {
+      "before": "For a square matrix",
+      "middle1": "of size 2 or 3, compute the characteristic polynomial",
+      "middle2": "and the eigenvalues (the roots of this polynomial). Below you can choose the matrix size and enter the coefficients."
+    },
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a matrix to demonstrate the feature. You can edit the values afterwards.",
+    "inputTitle": "Enter the matrix and choose the size",
+    "inputs": {
+      "sizeLabel": "Matrix size",
+      "size2": "2 × 2",
+      "size3": "3 × 3",
+      "sizeHint": "This problem only covers matrices of size 2 or 3."
+    },
+    "computeButton": "Compute the polynomial and eigenvalues",
+    "resultsTitle": "Results for matrix A",
+    "explain": {
+      "p1": "The characteristic polynomial of a matrix A is p(λ) = det(λI − A). The eigenvalues are the roots of this polynomial.",
+      "p2": "For 2×2 matrices, the characteristic polynomial has the form: p(λ) = λ² − tr(A) λ + det(A).",
+      "p3": "For 3×3 matrices, the characteristic polynomial is cubic, and real eigenvalues are obtained numerically as real roots of this cubic."
+    },
+    "polynomial": {
+      "sizeLabel": "Size:",
+      "title": "Characteristic polynomial:"
+    },
+    "eigen": {
+      "title": "Eigenvalues (real)",
+      "found": "The matrix has the following real eigenvalues (approximated):",
+      "none": "No real eigenvalues (real roots) were found for the characteristic polynomial."
+    },
+    "errors": {
+      "presetInvalidSize": "The preset has an invalid size.",
+      "sizeMustBe2or3": "Matrix size must be 2 or 3."
+    },
+    "presets": {
+      "diagonal-2x2": {
+        "label": "Diagonal 2×2",
+        "description": "Eigenvalues are the diagonal entries."
+      },
+      "general-2x2": {
+        "label": "General 2×2",
+        "description": "Example with two distinct real eigenvalues."
+      },
+      "rotation-2x2": {
+        "label": "2D rotation matrix",
+        "description": "Has no real eigenvalues."
+      },
+      "upper-3x3": {
+        "label": "Upper triangular 3×3",
+        "description": "Eigenvalues are the diagonal entries."
+      }
+    }
+  },
+  "problem13": {
+    "title": "Problem 13 – Galois group of a polynomial (degree 3 or 4)",
+    "subtitle": "We determine the Galois group (over ℚ) for a degree 3 or 4 polynomial using classical criteria: rational roots, discriminant, and (for degree 4) the resolvent cubic.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a polynomial to test.",
+    "inputTitle": "Enter the polynomial",
+    "inputs": {
+      "degree": "Degree"
+    },
+    "computeButton": "Compute the Galois group",
+    "coeffsHint": {
+      "before": "Enter the coefficients in descending order:"
+    },
+    "polynomialLabel": "Polynomial:",
+    "resultsTitle": "Results",
+    "summary": {
+      "group": "Galois group:",
+      "discriminant": "Discriminant:",
+      "discriminantSquare": "Discriminant is a perfect square:",
+      "rationalRoots": "Rational roots:",
+      "noneFound": "none found",
+      "na": "—",
+      "resolventIntro": "Resolvent cubic (integer coefficients after clearing denominators):",
+      "resolventRoots": "Rational roots of the resolvent:"
+    },
+    "explanationTitle": "Explanation (steps)",
+    "explanations": {
+      "leadingCoefficientZero": "Leading coefficient is 0, so the polynomial is not of the requested degree.",
+      "cubic": {
+        "hasRationalRootReducible": "The polynomial has a rational root, so it is reducible over Q.",
+        "splitsCompletelyTrivial": "It splits completely into linear factors over Q, so the splitting field is Q and the Galois group is trivial.",
+        "linearTimesIrreducibleQuadraticC2": "Typical case: linear factor times an irreducible quadratic, so the splitting field adds one quadratic root and the Galois group is C2.",
+        "noRationalRootIrreducible": "No rational root, so the cubic is irreducible over Q (rational root theorem).",
+        "discriminantSquareA3": "The discriminant is a square in Z, so the Galois group is A3 ≅ C3.",
+        "discriminantNotSquareS3": "The discriminant is not a square, so the Galois group is S3."
+      },
+      "quartic": {
+        "hasRationalRootReducible": "The quartic has a rational root, so it is reducible over Q.",
+        "reducibleDependsOnFactorization": "For reducible quartics, the Galois group depends on the exact factorization (linear/quadratic factors). This implementation focuses on irreducible quartics for S4/A4/D4/V4/C4 classification.",
+        "noRationalRootProceedIrreducibleCase": "No rational root found. We proceed with the standard irreducible-quartic classification approach (discriminant + resolvent cubic).",
+        "resolventRationalRootCount": "Resolvent cubic has {{count}} rational root(s) (counting distinct roots found by the rational-root test).",
+        "resolventIrreducibleDiscSquareA4": "Resolvent cubic irreducible and discriminant square, so the Galois group is A4.",
+        "resolventIrreducibleDiscNotSquareS4": "Resolvent cubic irreducible and discriminant not a square, so the Galois group is S4.",
+        "resolventHasRootDiscNotSquareD4": "Resolvent has a rational root and discriminant is not a square, so the Galois group is D4.",
+        "discSquareResolventSplitsV4": "Discriminant square and resolvent splits (3 rational roots), so the Galois group is V4 (Klein).",
+        "discSquareResolventHasRootNotSplitC4": "Discriminant square and resolvent has a rational root but does not split completely, so the typical outcome is C4."
+      }
+    },
+    "notes": {
+      "p1": "Note: for degree 3, the (A3/S3) classification is standard for irreducible polynomials over ℚ.",
+      "p2": "For degree 4, we use the discriminant and the resolvent cubic (a common course-level decision rule). If the polynomial is reducible, the full classification depends on the factorization type."
+    },
+    "errors": {
+      "unexpected": "An unexpected error occurred during computation."
+    },
+    "presets": {
+      "cubic_s3": {
+        "label": "Cubic: x³ − 2",
+        "description": "Irreducible cubic, discriminant not a square → S3."
+      },
+      "cubic_a3": {
+        "label": "Cubic: x³ − 3x − 1",
+        "description": "Often has a square discriminant → A3 (C3) in many examples."
+      },
+      "quartic_s4": {
+        "label": "Quartic: x⁴ − 2",
+        "description": "Typical irreducible quartic → often S4."
+      },
+      "quartic_dihedral": {
+        "label": "Quartic: x⁴ − 5x² + 6",
+        "description": "Has special structure; try classification via the resolvent."
+      }
+    }
+  },
+  "problem14": {
+    "title": "Problem 14 – Euclid’s algorithm, linear combination, and continued fraction",
+    "subtitle": "Using Euclid’s algorithm, compute gcd (d) for two given natural numbers (a, b), write a linear combination of (a, b, d), and display the continued fraction of a/b. Enter values for a and b below or use a preset example.",
+    "presetsTitle": "Presets",
+    "presetsHint": "Quickly choose a pair (a, b) to see how Euclid’s algorithm, the Bézout linear combination, and the continued fraction of a/b work.",
+    "inputTitle": "Enter values for a and b",
+    "inputs": {
+      "aLabel": "Value of a",
+      "bLabel": "Value of b",
+      "fractionHint": "For the continued fraction of a/b, b must be nonzero."
+    },
+    "computeButton": "Compute",
+    "resultsTitle": "Results for Euclid’s algorithm and the continued fraction",
+    "explain": {
+      "p1": "Euclid’s algorithm computes gcd(a, b) via successive divisions: a = q₀·b + r₀, then b = q₁·r₀ + r₁, and so on, until the remainder becomes zero.",
+      "p2": "The extended Euclidean algorithm finds integers x and y such that a·x + b·y = d, where d = gcd(a, b) (Bézout’s identity).",
+      "p3": "The continued fraction of a/b is built from the quotients in the successive divisions and is written as [q₀; q₁, q₂, …]."
+    },
+    "gcd": {
+      "title": "gcd(a, b) using Euclid’s algorithm",
+      "valueLabel": "gcd(a, b) =",
+      "stepsTitle": "Algorithm steps:",
+      "table": {
+        "step": "Step",
+        "division": "Division",
+        "q": "q",
+        "r": "r"
+      }
+    },
+    "extended": {
+      "title": "Linear combination a·x + b·y = d (extended Euclid)",
+      "gcdLabel": "d = gcd(a, b) =",
+      "linearComboLabel": "One linear combination is:",
+      "stepsTitle": "Steps (s, t, remainders):",
+      "table": {
+        "step": "Step",
+        "q": "q",
+        "remainders": "remainders",
+        "s": "s",
+        "t": "t"
+      }
+    },
+    "continued": {
+      "title": "Continued fraction of a/b",
+      "valueLabel": "a/b =",
+      "expansionLabel": "Continued fraction expansion:",
+      "coeffsLabel": "The list of coefficients is:"
+    },
+    "errors": {
+      "naturalNumbers": "a and b must be natural numbers (nonnegative integers).",
+      "bothZero": "At least one of the numbers must be nonzero to compute the gcd."
+    },
+    "presets": {
+      "30-18": {
+        "label": "a = 30, b = 18",
+        "description": "Classic example: gcd(30, 18) = 6."
+      },
+      "21-13": {
+        "label": "a = 21, b = 13",
+        "description": "Ratio close to the golden ratio."
+      },
+      "48-20": {
+        "label": "a = 48, b = 20",
+        "description": "Example with gcd(48, 20) = 4."
+      }
+    }
+  }
+}
