@@ -1,0 +1,212 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">{{ 'problem3.title' | t }}</h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem3.subtitle.before' | t }} <span class="font-mono">A = Aᵀ.</span>
+      {{ 'problem3.subtitle.after' | t }}
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">{{ 'problem3.presetsTitle' | t }}</h2>
+
+      <p class="text-app-muted text-m mb-3">{{ 'problem3.presetsHint' | t }}</p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem3.inputTitle' | t }}</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Row count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">{{ 'problem3.rowsLabel' | t }} </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="rowCount"
+            (input)="onRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Column count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">{{ 'problem3.columnsLabel' | t }} </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="columnCount"
+            (input)="onColumnCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          {{ 'problem3.checkButton' | t }}
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrix[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">{{ 'problem3.resultsTitle' | t }}</h2>
+
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem3.explain.p1.before' | t }}
+            <span class="font-mono">A = A * </span>{{ 'problem3.explain.p1.middle' | t }}
+            <span class="font-mono">A = Aᵀ</span>.
+          </p>
+          <p>
+            {{ 'problem3.explain.p2.before' | t }} <span class="font-mono">A</span
+            >{{ 'problem3.explain.p2.middle' | t }} <span class="font-mono">A⁻¹</span
+            >{{ 'problem3.explain.p2.after' | t }}
+            <span class="font-mono">(A⁻¹)* = (A*)⁻¹ = A⁻¹</span>.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-2">
+              @if (result.isSquare) {
+                <span class="text-green-300 font-semibold"
+                  >{{ 'problem3.status.squareYes' | t }}
+                </span>
+              } @else {
+                <span class="text-red-300 font-semibold">{{ 'problem3.status.squareNo' | t }}</span>
+              }
+            </p>
+
+            <p>
+              @if (result.isSquare && result.isHermitian) {
+                <span class="text-green-300 font-semibold"
+                  >{{ 'problem3.status.hermitianYes' | t }}
+                </span>
+              } @else if (result.isSquare && !result.isHermitian) {
+                <span class="text-red-300 font-semibold"
+                  >{{ 'problem3.status.hermitianNo' | t }}
+                </span>
+              } @else {
+                <span class="text-app-muted">{{ 'problem3.status.hermitianOnlySquare' | t }} </span>
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem3.inverseTitle' | t }}
+            </h3>
+
+            @if (result.isSquare && result.isHermitian) {
+              @if (result.hasInverse && result.inverse) {
+                <p class="mb-3 text-app-muted">
+                  {{ 'problem3.inverse.exists' | t }}
+
+                  <span class="font-mono">A⁻¹</span>.
+                </p>
+
+                <p class="mb-3">
+                  @if (result.inverseIsHermitian) {
+                    <span class="text-green-300 font-semibold"
+                      >{{ 'problem3.inverse.isHermitianYes' | t }}
+                    </span>
+                  } @else {
+                    <span class="text-red-300 font-semibold"
+                      >{{ 'problem3.inverse.isHermitianNo' | t }}
+                    </span>
+                  }
+                </p>
+
+                <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+                  <table class="border-collapse">
+                    <tbody>
+                      @for (row of result.inverse; track $index) {
+                        <tr>
+                          @for (value of row; track $index) {
+                            <td class="px-3 py-1 text-right text-m">
+                              {{ value | number: '1.3-3' }}
+                            </td>
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              } @else {
+                <p class="text-amber-300 font-semibold">
+                  {{ 'problem3.inverse.singular' | t }}
+                </p>
+              }
+            } @else {
+              <p class="text-app-muted">
+                {{ 'problem3.inverse.onlyIf' | t }}
+              </p>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</div>

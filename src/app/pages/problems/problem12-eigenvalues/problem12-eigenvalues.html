@@ -1,0 +1,168 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      {{ 'problem12.title' | t }}
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem12.subtitle.before' | t }}
+      <span class="font-mono">A</span> {{ 'problem12.subtitle.middle1' | t }}
+      <span class="font-mono">p(λ) = det(λI − A)</span>
+      {{ 'problem12.subtitle.middle2' | t }}
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem12.presetsTitle' | t }}
+      </h2>
+
+      <p class="text-app-muted text-m mb-3">
+        {{ 'problem12.presetsHint' | t }}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">
+        {{ 'problem12.inputTitle' | t }}
+      </h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Size selector -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            {{ 'problem12.inputs.sizeLabel' | t }}
+          </label>
+          <select
+            [ngModel]="size"
+            (ngModelChange)="onSizeChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          >
+            <option [ngValue]="2">{{ 'problem12.inputs.size2' | t }}</option>
+            <option [ngValue]="3">{{ 'problem12.inputs.size3' | t }}</option>
+          </select>
+          <p class="text-s text-app-muted mt-1">
+            {{ 'problem12.inputs.sizeHint' | t }}
+          </p>
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          {{ 'problem12.computeButton' | t }}
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrix[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem12.resultsTitle' | t }}
+        </h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem12.explain.p1' | t }}
+          </p>
+          <p class="mb-2">
+            {{ 'problem12.explain.p2' | t }}
+          </p>
+          <p>
+            {{ 'problem12.explain.p3' | t }}
+          </p>
+        </div>
+
+        <!-- Polynomial display -->
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m mb-6">
+          <p class="mb-1">
+            {{ 'problem12.polynomial.sizeLabel' | t }}
+
+            <span class="font-mono"> {{ result.size }} × {{ result.size }} </span>
+          </p>
+          <p class="mb-1">{{ 'problem12.polynomial.title' | t }}</p>
+          <p class="font-mono text-base">p(λ) = {{ result.formattedPolynomial }}</p>
+        </div>
+
+        <!-- Eigenvalues -->
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-2">
+            {{ 'problem12.eigen.title' | t }}
+          </h3>
+
+          @if (result.hasRealEigenvalues && result.eigenvalues.length > 0) {
+            <p class="mb-2">
+              {{ 'problem12.eigen.found' | t }}
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              @for (lambda of result.eigenvalues; track $index) {
+                <li class="font-mono">λ ≈ {{ lambda | number: '1.4-4' }}</li>
+              }
+            </ul>
+          } @else {
+            <p class="text-app-muted">
+              {{ 'problem12.eigen.none' | t }}
+            </p>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

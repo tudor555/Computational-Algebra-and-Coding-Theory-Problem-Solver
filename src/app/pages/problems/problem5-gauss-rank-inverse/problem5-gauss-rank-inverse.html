@@ -1,0 +1,223 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">{{ 'problem5.title' | t }}</h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem5.subtitle.before' | t }}
+      <span class="font-mono">[A | I]</span>.
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">{{ 'problem5.presetsTitle' | t }}</h2>
+
+      <p class="text-app-muted text-m mb-3">{{ 'problem5.presetsHint' | t }}</p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem5.inputTitle' | t }}</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <!-- Row count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">{{ 'problem5.rowsLabel' | t }} </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="rowCount"
+            (input)="onRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Column count -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">{{ 'problem5.columnsLabel' | t }} </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="columnCount"
+            (input)="onColumnCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          {{ 'problem5.computeButton' | t }}
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+
+      <!-- Matrix input grid -->
+      <div
+        class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+      >
+        <span class="text-app-muted text-m mr-1">A =</span>
+        <div class="inline-block">
+          <table class="border-collapse">
+            <tbody>
+              @for (row of matrix; track $index; let i = $index) {
+                <tr>
+                  @for (value of row; track $index; let j = $index) {
+                    <td class="p-1">
+                      <input
+                        type="number"
+                        class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                        [value]="matrix[i][j]"
+                        (input)="onCellChange(i, j, $event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (computationResult) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem5.resultsTitle' | t }}
+        </h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem5.explain.p1.before' | t }}
+            <span class="font-mono">A</span> {{ 'problem5.explain.p1.after' | t }}
+          </p>
+          <p class="mb-2">
+            {{ 'problem5.explain.p2.before' | t }}
+            <span class="font-mono">[A | I]</span> {{ 'problem5.explain.p2.middle' | t }}
+            <span class="font-mono">[I | A⁻¹]</span>, {{ 'problem5.explain.p2.after' | t }}
+          </p>
+          <p>
+            {{ 'problem5.explain.p3' | t }}
+          </p>
+        </div>
+
+        <!-- Rank and square/invertible info -->
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-1">
+              {{ 'problem5.summary.rank' | t }}
+              <span class="font-mono">rang(A) = {{ computationResult.rank }}</span>
+            </p>
+            <p class="mb-1">
+              {{ 'problem5.summary.size' | t }}
+              <span class="font-mono"> {{ rowCount }} × {{ columnCount }} </span>
+            </p>
+            <p class="mt-1">
+              @if (computationResult.isSquare) {
+                <span>{{ 'problem5.summary.squareYes' | t }}</span>
+              } @else {
+                <span>{{ 'problem5.summary.squareNo' | t }} </span>
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">{{ 'problem5.inverseTitle' | t }}</h3>
+
+            @if (
+              computationResult.isSquare &&
+              computationResult.hasInverse &&
+              computationResult.inverse
+            ) {
+              <p class="mb-3">
+                {{ 'problem5.inverse.exists' | t }}
+                <span class="font-mono">A⁻¹</span>.
+              </p>
+
+              <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+                <table class="border-collapse">
+                  <tbody>
+                    @for (row of computationResult.inverse; track $index) {
+                      <tr>
+                        @for (value of row; track $index) {
+                          <td class="px-3 py-1 text-right text-m">
+                            {{ value | number: '1.2-2' }}
+                          </td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else if (computationResult.isSquare && !computationResult.hasInverse) {
+              <p class="text-red-300">
+                {{ 'problem5.inverse.singular' | t }}
+              </p>
+            } @else {
+              <p class="text-app-muted">
+                {{ 'problem5.inverse.notDefined' | t }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Row echelon form -->
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-3">
+            {{ 'problem5.echelonTitle' | t }}
+          </h3>
+
+          <div class="inline-block bg-app-bg rounded-xl p-3 border border-app-border">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of computationResult.rowEchelonForm; track $index) {
+                  <tr>
+                    @for (value of row; track $index) {
+                      <td class="px-3 py-1 text-right text-m">
+                        {{ value | number: '1.2-2' }}
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="mt-3 text-s text-app-muted">
+            {{ 'problem5.echelonNote' | t }}
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</div>

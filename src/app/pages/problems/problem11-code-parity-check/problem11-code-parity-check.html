@@ -1,0 +1,321 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      {{ 'problem11.title' | t }}
+    </h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem11.subtitle.before' | t }}
+      <span class="font-mono">H</span> {{ 'problem11.subtitle.middle1' | t }}
+      <span class="font-mono">n</span>.
+      {{ 'problem11.subtitle.middle2' | t }}
+      <span class="font-mono">v</span> {{ 'problem11.subtitle.middle3' | t }}
+      <span class="font-mono">s = H · vᵀ</span> {{ 'problem11.subtitle.middle4' | t }}
+      <span class="font-mono">q</span> {{ 'problem11.subtitle.after' | t }}
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem11.presetsTitle' | t }}
+      </h2>
+
+      <p class="text-app-muted text-m mb-3">
+        {{ 'problem11.presetsHint' | t }}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-s md:text-m"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">
+        {{ 'problem11.inputTitle' | t }}
+      </h2>
+
+      <!-- Basic parameters -->
+      <div class="grid gap-4 md:grid-cols-3 mb-4">
+        <!-- Modulus q -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            {{ 'problem11.inputs.modulusLabel' | t }}
+          </label>
+          <input
+            type="number"
+            min="2"
+            max="10"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-24 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">
+            {{ 'problem11.inputs.modulusHint' | t }}
+          </p>
+        </div>
+
+        <!-- Rows of H -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"
+            >{{ 'problem11.inputs.rowsLabel' | t }}
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="8"
+            [value]="parityRowCount"
+            (input)="onParityRowCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <!-- Columns of H / length of words -->
+        <div>
+          <label class="block text-m text-app-muted mb-1"
+            >{{ 'problem11.inputs.columnsLabel' | t }}
+          </label>
+          <input
+            type="number"
+            min="2"
+            max="12"
+            [value]="parityColumnCount"
+            (input)="onParityColumnCountChange($event)"
+            class="w-32 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+      </div>
+
+      <!-- Number of words -->
+      <div class="mb-4">
+        <label class="block text-m text-app-muted mb-1"
+          >{{ 'problem11.inputs.wordCountLabel' | t }}
+        </label>
+        <input
+          type="number"
+          min="1"
+          max="12"
+          [value]="wordCount"
+          (input)="onWordCountChange($event)"
+          class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+        />
+      </div>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mb-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+
+      <!-- Parity-check matrix input -->
+      <div class="mb-6">
+        <h3 class="text-m font-semibold mb-2">
+          {{ 'problem11.matrix.title' | t }} ({{
+            'problem11.matrix.dimension' | t: { rows: parityRowCount, cols: parityColumnCount }
+          }})
+        </h3>
+
+        <div
+          class="inline-flex items-center gap-2 bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border"
+        >
+          <span class="text-app-muted text-m mr-1">H =</span>
+          <div class="inline-block">
+            <table class="border-collapse">
+              <tbody>
+                @for (row of parityCheckMatrix; track $index; let i = $index) {
+                  <tr>
+                    @for (value of row; track $index; let j = $index) {
+                      <td class="p-1">
+                        <input
+                          type="number"
+                          class="w-14 md:w-16 rounded-md bg-app-bg border border-app-border px-2 py-1 m text-center focus:outline-none focus:ring-1 focus:ring-app-primary"
+                          [value]="parityCheckMatrix[i][j]"
+                          (input)="onParityCellChange(i, j, $event)"
+                        />
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Words input -->
+      <div class="mb-4">
+        <h3 class="text-m font-semibold mb-2">
+          {{ 'problem11.words.title' | t }} ({{
+            'problem11.words.lengthNote' | t: { n: parityColumnCount }
+          }})
+        </h3>
+
+        <div class="space-y-2">
+          @for (word of words; track $index; let wordIndex = $index) {
+            <div class="flex items-center gap-2">
+              <span class="text-s text-app-muted w-12"
+                >{{ 'problem11.words.vLabel' | t: { index: wordIndex + 1 } }}
+              </span>
+              <div class="inline-block">
+                <table class="border-collapse">
+                  <tbody>
+                    <tr>
+                      @for (symbol of word; track $index; let symbolIndex = $index) {
+                        <td class="p-1">
+                          <input
+                            type="number"
+                            class="w-12 md:w-14 rounded-md bg-app-bg border border-app-border px-2 py-1 text-m text-center focus:outline-none focus:ring-1 focus:ring-app-primary"
+                            [value]="words[wordIndex][symbolIndex]"
+                            (input)="onWordCellChange(wordIndex, symbolIndex, $event)"
+                          />
+                        </td>
+                      }
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary mt-2" (click)="onValidate()">
+        {{ 'problem11.validateButton' | t }}
+      </button>
+    </section>
+
+    <!-- Results -->
+    @if (validationResult) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem11.resultsTitle' | t }}
+        </h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem11.explain.p1' | t }}
+          </p>
+          <p class="mb-2">
+            {{ 'problem11.explain.p2' | t }}
+          </p>
+          <p>
+            {{ 'problem11.explain.p3' | t }}
+          </p>
+        </div>
+
+        <!-- Summary of valid / invalid words -->
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem11.summary.validTitle' | t }}
+            </h3>
+
+            @if (validationResult.validWords.length > 0) {
+              <ul class="list-disc pl-5 space-y-1">
+                @for (word of validationResult.validWords; track $index) {
+                  <li class="font-mono">
+                    {{ word.join(' ') }}
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="text-app-muted">
+                {{ 'problem11.summary.noneValid' | t }}
+              </p>
+            }
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem11.summary.invalidTitle' | t }}
+            </h3>
+
+            @if (validationResult.invalidWords.length > 0) {
+              <ul class="list-disc pl-5 space-y-1">
+                @for (word of validationResult.invalidWords; track $index) {
+                  <li class="font-mono">
+                    {{ word.join(' ') }}
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="text-app-muted">
+                {{ 'problem11.summary.allValid' | t }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Table of syndromes -->
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+          <h3 class="font-semibold mb-3">
+            {{ 'problem11.syndromes.title' | t }}
+          </h3>
+
+          <div class="overflow-auto">
+            <table class="min-w-full border-collapse text-s md:text-m">
+              <thead>
+                <tr class="border-b border-app-border">
+                  <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                    {{ 'problem11.syndromes.table.word' | t }}
+                  </th>
+                  <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                    {{ 'problem11.syndromes.table.syndrome' | t }}
+                  </th>
+                  <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                    {{ 'problem11.syndromes.table.isCodeword' | t }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (word of validationResult.words; track $index; let i = $index) {
+                  <tr class="border-b border-app-border/40 last:border-b-0">
+                    <td class="py-1 pr-4 font-mono">
+                      {{ word.join(' ') }}
+                    </td>
+                    <td class="py-1 pr-4 font-mono">
+                      {{ validationResult.syndromes[i].join(' ') }}
+                    </td>
+                    <td class="py-1 pr-4">
+                      @if (isZeroSyndrome(validationResult.syndromes[i])) {
+                        <span class="text-emerald-300 text-s md:text-m"
+                          >{{ 'problem11.syndromes.yes' | t }}
+                        </span>
+                      } @else {
+                        <span class="text-red-300 text-s md:text-m"
+                          >{{ 'problem11.syndromes.no' | t }}
+                        </span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+</div>

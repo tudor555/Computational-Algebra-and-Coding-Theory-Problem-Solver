@@ -1,0 +1,968 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "problems": "Probleme",
+    "language": "RO",
+    "repo": "GitHub",
+    "problemsHint": "Navighează direct către o problemă"
+  },
+  "footer": {
+    "title": "Computational Algebra Problem Solver",
+    "tagline": "© {{year}} · Turning matrices into obedience since v1.0",
+    "home": "Acasă",
+    "github": "GitHub"
+  },
+  "home": {
+    "title": "Computational Algebra Problem Solver",
+    "subtitle": "Alege una dintre problemele de mai jos pentru a explora algoritmi de algebră liniară, teoria numerelor, teoria codurilor și valori proprii. Interfață curată, explicații clare, calcule exacte.",
+    "sections": {
+      "easy": "Ușor",
+      "medium": "Mediu",
+      "hard": "Greu"
+    },
+    "problemTitle": "Problema {{number}}",
+    "openProblem": "Deschide problema {{number}}",
+    "problems": {
+      "problem1": {
+        "title": "Matrice triunghiulare",
+        "description": "Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă produsul a două matrici triunghiulare este tot matrice triunghiulară."
+      },
+      "problem2": {
+        "title": "Decompoziție în matrice simetrică și antisimetrică",
+        "description": "Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o matrice antisimetrică."
+      },
+      "problem3": {
+        "title": "Matrice Hermitică și inversa ei",
+        "description": "Verificați dacă o matrice este Hermitică. In caz afirmativ verificați dacă inversa acesteia este tot Hermitică."
+      },
+      "problem4": {
+        "title": "Sistem liniar 4×4 prin metoda lui Gauss",
+        "description": "Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind metoda lui Gauss."
+      },
+      "problem5": {
+        "title": "Rang și inversă prin metoda lui Gauss",
+        "description": "Calculați rangul unei matrici prin metoda lui Gauss și, dacă este posibil, inversa acesteia prin metoda Gauss–Jordan."
+      },
+      "problem6": {
+        "title": "Ordin și idempotent în (ℤₙ, ·)",
+        "description": "Fiind dat (ℤₙ, ·), calculați ordinul unui element și verificați dacă este idempotent în raport cu înmulțirea modulo n."
+      },
+      "problem7": {
+        "title": "Ordinul unei matrici în (M₂(ℝ), ·) și idempotent",
+        "description": "Calculați ordinul unei matrici 2×2 în raport cu înmulțirea (dacă există) și verificați dacă este idempotentă."
+      },
+      "problem8": {
+        "title": "Parametrii unui cod (n, M, d, s, t, ρ)",
+        "description": "Pentru un cod din (Fq)^n, calculați parametrii principali: n, M, d, s, t și raza de acoperire ρ."
+      },
+      "problem9": {
+        "title": "Verificare cod liniar în (Fq)^n",
+        "description": "Verificați dacă un cod dat este liniar (închis la adunare și înmulțire cu scalari modulo q)."
+      },
+      "problem10": {
+        "title": "Toate cuvintele unui cod din matricea generatoare",
+        "description": "Afișați toate cuvintele unui cod pentru care se cunoaște matricea generatoare G (modulo q)."
+      },
+      "problem11": {
+        "title": "Verificare cuvinte de cod cu matricea de control",
+        "description": "Se citește matricea de control a unui cod și o mulțime de cuvinte. Afișați-le pe cele care sunt cuvinte ale codului (sindrom nul)."
+      },
+      "problem12": {
+        "title": "Polinom caracteristic și valori proprii (2×2, 3×3)",
+        "description": "Calculați polinomul caracteristic și valorile proprii asociate unei matrici de ordinul 2 sau 3, afișând atât polinomul, cât și rădăcinile sale."
+      },
+      "problem13": {
+        "title": "Grupul Galois pentru polinom de grad 3 sau 4",
+        "description": "Determinați grupul Galois asociat unui polinom de gradul 3 sau 4 folosind discriminantul și rezolventa."
+      },
+      "problem14": {
+        "title": "Algoritmul lui Euclid, combinație liniară și fracție continuă",
+        "description": "Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b), scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b."
+      }
+    }
+  },
+  "backToHome": "Înapoi la pagina principală",
+  "common": {
+    "yes": "da",
+    "no": "nu",
+    "reset": "Resetează"
+  },
+  "errors": {
+    "unexpectedComputation": "A apărut o eroare neașteptată în timpul calculului."
+  },
+  "problem1": {
+    "title": "Problema 1 – Matrice triunghiulare",
+    "subtitle": "Verificați dacă inversa unei matrici triunghiulare este tot triunghiulară. Verificați dacă produsul a două matrici triunghiulare este tot matrice triunghiulară. Introdu mai jos două matrici pătratice A și B sau folosește exemplele predefinite.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid o pereche de matrici pentru a observa cum se comportă inversa și produsul în cazul matricilor triunghiulare.",
+    "inputTitle": "Introdu matricile A și B",
+    "sizeLabel": "Dimensiunea matricilor (n × n)",
+    "sizeHint": "Matricile A și B sunt pătratice și au aceeași dimensiune.",
+    "analyzeButton": "Verifică inversa și produsul",
+    "matrixA": "Matricea A",
+    "matrixB": "Matricea B",
+    "resultsTitle": "Rezultatele verificării matricilor triunghiulare",
+    "explain1": "O matrice se numește triunghiulară superioară dacă toate elementele de sub diagonala principală sunt zero, respectiv triunghiulară inferioară dacă toate elementele de deasupra diagonalei principale sunt zero.",
+    "explain2": "Inversa unei matrici triunghiulare inversabile este tot o matrice triunghiulară de același tip. Produsul a două matrici triunghiulare de același tip (superioare sau inferioare) este la rândul lui triunghiular de același tip.",
+    "summaryA": "Matricea A",
+    "summaryB": "Matricea B și produsul A·B",
+    "type": "Tip",
+    "inverse": "Inversă",
+    "existsAndIs": "există și este {{type}}.",
+    "doesNotExistNotInvertible": "nu există (matricea nu este inversabilă).",
+    "typeOfB": "Tipul lui B",
+    "productType": "Tipul produsului C = A · B",
+    "productNotComputed": "nu a putut fi calculat (dimensiuni incompatibile).",
+    "inverseMatrixTitle": "Inversa matricii A",
+    "productMatrixTitle": "Produsul C = A · B",
+    "errors": {
+      "sizeRange": "Dimensiunea matricii trebuie să fie un întreg între 1 și 6."
+    },
+    "triangular": {
+      "none": "netriunghiulară",
+      "upper": "triunghiulară superioară",
+      "lower": "triunghiulară inferioară",
+      "both": "diagonală (triunghiulară superioară și inferioară)"
+    },
+    "presets": {
+      "upper3x3": {
+        "label": "Două matrici 3×3 triunghiulare superioare",
+        "description": "Exemplu în care inversa și produsul rămân triunghiulare superioare."
+      },
+      "lower3x3": {
+        "label": "Două matrici 3×3 triunghiulare inferioare",
+        "description": "Produsul și inversa (dacă există) rămân triunghiulare inferioare."
+      },
+      "nonTriangular": {
+        "label": "Matrice care nu este triunghiulară",
+        "description": "Exemplu în care matricea A nu este triunghiulară."
+      }
+    }
+  },
+  "problem2": {
+    "title": "Problema 2 – Decompoziție în matrice simetrică și antisimetrică",
+    "subtitle": "Arătați că orice matrice se poate scrie în mod unic ca sumă dintre o matrice simetrică și o matrice antisimetrică. Mai jos poți introduce o matrice pătratică sau poți alege un exemplu predefinit, iar aplicația va calcula componentele ei.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid una dintre matricile de mai jos pentru a vedea cum funcționează decompoziția. Poți apoi modifica valorile manual.",
+    "inputTitle": "Introdu matricea",
+    "sizeLabel": "Dimensiunea matricii (n × n)",
+    "sizeHint": "Pentru claritate, limita este 6 × 6.",
+    "decomposeButton": "Calculează decompoziția",
+    "resultTitle": "Rezultat: A = S + K",
+    "explainIntro": "Decompoziția se obține folosind formulele standard din algebra liniară:",
+    "explainSimmetric": "Componenta simetrică S se calculează ca:",
+    "explainSkewSimmetric": "Componenta antisimetrică K se calculează ca:",
+    "note": "Observație: orice matrice pătratică se poate scrie în mod unic ca sumă între o matrice simetrică și una antisimetrică, deoarece:",
+    "labels": {
+      "symmetric": "Matricea simetrică S",
+      "skew": "Matricea antisimetrică K",
+      "original": "Matricea inițială A"
+    },
+    "errors": {
+      "sizeRange": "Dimensiunea matricii trebuie să fie un număr întreg între 1 și 6.",
+      "presetNotSquare": "Matricea predefinită nu este pătratică."
+    },
+    "presets": {
+      "simple2x2Matrix": {
+        "label": "Matrice 2×2 simplă",
+        "description": "Exemplu mic, ușor de verificat manual."
+      },
+      "mixed3x3Matrix": {
+        "label": "Matrice 3×3 mixtă",
+        "description": "Valori pozitive și negative."
+      },
+      "symmetric3x3Matrix": {
+        "label": "Matrice 3×3 simetrică",
+        "description": "Deja simetrică, componenta antisimetrică va fi zero."
+      }
+    }
+  },
+  "problem3": {
+    "title": "Problema 3 – Matrice Hermitică și inversa ei",
+    "subtitle": {
+      "before": "Verificați dacă o matrice este Hermitică. Pentru intrări reale, o matrice este Hermitică dacă este simetrică:",
+      "after": "Dacă este Hermitică și inversabilă, verificați dacă inversa este tot Hermitică."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru testare (Hermitică inversabilă / Hermitică singulară / ne-Hermitică).",
+    "inputTitle": "Introdu matricea",
+    "rowsLabel": "Numărul de linii",
+    "columnsLabel": "Numărul de coloane",
+    "checkButton": "Verifică",
+    "resultsTitle": "Rezultate",
+    "explain": {
+      "p1": {
+        "before": "Definiție: o matrice este Hermitică dacă",
+        "middle": "(egală cu transpusa conjugată). Pentru matrice cu intrări reale, aceasta devine simplu"
+      },
+      "p2": {
+        "before": "Dacă",
+        "middle": "este Hermitică și inversabilă, atunci și",
+        "after": "este Hermitică deoarece"
+      }
+    },
+    "status": {
+      "squareYes": "Matricea este pătratică.",
+      "squareNo": "Matricea nu este pătratică.",
+      "hermitianYes": "Matricea este Hermitică (pentru intrări reale).",
+      "hermitianNo": "Matricea NU este Hermitică.",
+      "hermitianOnlySquare": "Hermitianitatea se verifică doar pentru matrice pătratice."
+    },
+    "inverseTitle": "Inversa și proprietatea Hermitică",
+    "inverse": {
+      "exists": "Matricea este inversabilă. Mai jos este inversa",
+      "isHermitianYes": "Inversa este Hermitică.",
+      "isHermitianNo": "Inversa NU este Hermitică.",
+      "singular": "Matricea este Hermitică, dar nu este inversabilă (singulară).",
+      "onlyIf": "Calculul inversei și verificarea proprietății se fac doar dacă matricea este pătratică și Hermitică."
+    },
+    "errors": {
+      "rowRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
+      "colRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8."
+    },
+    "presets": {
+      "realInversableHermitianMatrix": {
+        "label": "Matrice Hermitică (reală) inversabilă",
+        "description": "Exemplu simetric real, cu inversă."
+      },
+      "realSingularHermitianMatrix": {
+        "label": "Matrice Hermitică (reală) singulară",
+        "description": "Simetrică, dar determinant zero → fără inversă."
+      },
+      "notHermitianMatrix": {
+        "label": "Nu este Hermitică",
+        "description": "Exemplu care nu este simetric (pentru intrări reale)."
+      },
+      "2x2InvertibleHermitianMatrix": {
+        "label": "2×2 Hermitică (reală) inversabilă",
+        "description": "Exemplu mic, bun pentru verificare rapidă."
+      }
+    }
+  },
+  "problem4": {
+    "title": "Problema 4 – Sistem liniar 4×4 prin metoda lui Gauss",
+    "subtitle": {
+      "before": "Rezolvați un sistem liniar de 4 ecuații cu 4 necunoscute folosind eliminarea Gauss (pe matricea augmentată",
+      "after": "În funcție de ranguri, sistemul poate avea soluție unică, infinit de soluții sau nici o soluție."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un sistem 4×4 (soluție unică / fără soluție / infinit de soluții).",
+    "inputTitle": "Introdu sistemul",
+    "computeButton": "Aplică metoda lui Gauss",
+    "resetButton": "Resetează",
+    "resultsTitle": "Rezultatele metodei lui Gauss",
+    "explain": {
+      "p1": {
+        "before": "Construim matricea augmentată",
+        "after": "și aplicăm operații elementare pe linii (schimb de linii, înmulțire cu scalar nenul, adunarea unui multiplu al unei linii la alta) pentru a ajunge la o formă escalonată redusă (Gauss–Jordan)."
+      },
+      "p2": {
+        "before": "Dacă",
+        "middle1": ", sistemul este inconsistent (fără soluție). Dacă",
+        "middle2": ", soluția este unică. Dacă",
+        "after": ", există infinit de soluții."
+      }
+    },
+    "status": {
+      "noSolution": "Sistem fără soluție (inconsistent).",
+      "uniqueSolution": "Sistem cu soluție unică.",
+      "infiniteSolutions": "Sistem cu infinit de soluții."
+    },
+    "solutionTitle": "Soluția",
+    "solution": {
+      "noSolution": {
+        "before": "Sistemul este inconsistent: apare o ecuație de forma",
+        "after": "cu"
+      },
+      "uniqueHint": "Din forma escalonată redusă citim direct valorile necunoscutelor:",
+      "infiniteHint": "Sistem consistent, dar rangul este mai mic decât numărul de necunoscute → există variabile libere, deci infinit de soluții."
+    },
+    "rank": {
+      "rankA": "rang(A)",
+      "rankAug": "rang([A|b])"
+    },
+    "augmentedTitle": "Forma obținută pentru matricea augmentată [A | b]",
+    "augmentedNote": {
+      "before": "Ultima coloană corespunde lui",
+      "after": "Separatorul",
+      "end": "este doar vizual."
+    },
+    "presets": {
+      "uniqueSolution": {
+        "label": "Soluție unică",
+        "description": "Sistem consistent cu soluție unică."
+      },
+      "noSolution": {
+        "label": "Fără soluție",
+        "description": "Sistem inconsistent (rangul augmentatei crește)."
+      },
+      "infiniteSolutions": {
+        "label": "Infinit de soluții",
+        "description": "Sistem consistent, dar cu variabile libere."
+      }
+    }
+  },
+  "problem5": {
+    "title": "Problema 5 – Rang și inversă prin metoda lui Gauss",
+    "subtitle": {
+      "before": "Calculați rangul unei matrici prin metoda lui Gauss și, dacă matricea este pătratică și inversabilă, determinați inversa acesteia folosind metoda Gauss–Jordan pe matricea augmentată"
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru testarea rangului, formei escalonate sau a inversei.",
+    "inputTitle": "Introdu matricea",
+    "rowsLabel": "Numărul de linii",
+    "columnsLabel": "Numărul de coloane",
+    "computeButton": "Aplică metoda lui Gauss",
+    "resultsTitle": "Rezultatele metodei lui Gauss",
+    "explain": {
+      "p1": {
+        "before": "Metoda lui Gauss transformă matricea",
+        "after": "într-o formă escalonată prin operații elementare pe linii. Rangul este numărul de linii nenule din forma escalonată."
+      },
+      "p2": {
+        "before": "Pentru a calcula inversa unei matrici pătratice, construim matricea augmentată",
+        "middle": "și aplicăm metoda Gauss–Jordan până obținem",
+        "after": "dacă aceasta există."
+      },
+      "p3": "Dacă matricea nu este pătratică sau determinatul este zero, inversa nu există și se spune că matricea este singulară."
+    },
+    "summary": {
+      "rank": "Rangul matricei A este:",
+      "size": "Dimensiune:",
+      "squareYes": "Matricea este pătratică.",
+      "squareNo": "Matricea nu este pătratică, deci nu poate avea inversă clasică."
+    },
+    "inverseTitle": "Inversa matricei A",
+    "inverse": {
+      "exists": "Matricea este inversabilă. Mai jos este afișată inversa",
+      "singular": "Matricea este pătratică dar nu este inversabilă (este singulară).",
+      "notDefined": "Deoarece matricea nu este pătratică, inversa nu este definită."
+    },
+    "echelonTitle": "Forma escalonată a lui A(rezultatul metodei lui Gauss)",
+    "echelonNote": "Liniile nenule din forma escalonată corespund liniilor independente liniar, iar numărul lor este exact rangul matricei.",
+    "errors": {
+      "rowsRange": "Numărul de linii trebuie să fie un întreg între 1 și 8.",
+      "columnsRange": "Numărul de coloane trebuie să fie un întreg între 1 și 8."
+    },
+    "presets": {
+      "easy3x3Matrix": {
+        "label": "Matrice 3×3 simplă",
+        "description": "Exemplu ușor pentru verificarea rangului."
+      },
+      "inverse3x3Matrix": {
+        "label": "Matrice 3×3 inversabilă",
+        "description": "Determinant nenul, bună pentru testarea inversei."
+      },
+      "invertible2x2Matrix": {
+        "label": "Matrice 2×2 inversabilă",
+        "description": "Exemplu mic, inversabil sigur."
+      },
+      "singular2x2Matrix": {
+        "label": "Matrice 2×2 singulară",
+        "description": "Determinant zero → fără inversă."
+      },
+      "rectangular4x3Matrix": {
+        "label": "Matrice 4×3 rectangulară",
+        "description": "Bună pentru testarea rangului și forma escalonată."
+      }
+    }
+  },
+  "problem6": {
+    "title": "Problema 6 – Ordin și idempotent în (ℤₙ, ·)",
+    "subtitle": {
+      "before": "Fiind dat grupul (ℤₙ, ·) al resturilor modulo",
+      "middle1": "în raport cu înmulțirea, se cere să se calculeze ordinul unui element",
+      "middle2": "și să se verifice dacă acesta este idempotent"
+    },
+    "inputTitle": "Introdu datele: modulul n și elementul a",
+    "modulusLabel": { "before": "Modulul" },
+    "modulusHint": "n ≥ 2. Recomandat valori nu foarte mari pentru a vedea pașii.",
+    "elementLabel": { "before": "Elementul" },
+    "elementHint": "a poate fi orice întreg; se va lucra modulo n.",
+    "computeButton": "Calculează ordinul și verifică idempotent",
+    "resultsTitle": "Rezultate pentru a în (ℤₙ, ·)",
+    "explain": {
+      "p1": {
+        "before": "Ordinul unui element",
+        "afterA": "în grupul (ℤₙ, ·) este cel mai mic număr natural nenul",
+        "afterK": "astfel încât"
+      },
+      "p2": {
+        "before": "Elementul",
+        "middle1": "este idempotent modulo",
+        "middle2": "dacă:",
+        "after": "adică"
+      },
+      "p3": {
+        "before": "Pentru a calcula ordinul, înmulțim pe rând:",
+        "middle": "modulo",
+        "after": "până obținem",
+        "end": "dacă acest lucru se întâmplă."
+      }
+    },
+    "info": {
+      "normalized": "Valoarea normalizată a lui a modulo n:",
+      "gcd": "gcd(a, n) ="
+    },
+    "unit": {
+      "isUnit": "Elementul a este inversabil în (ℤₙ, ·), deci are ordin bine definit.",
+      "notUnit": "Elementul a nu este inversabil în (ℤₙ, ·), deci ordinul său în grup nu este definit."
+    },
+    "orderTitle": "Ordinul și idempotentul",
+    "order": {
+      "defined": {
+        "before": "Ordinul lui",
+        "after": "în (ℤₙ, ·) este:"
+      },
+      "notFound": "Nu a fost găsit un ordin în limita pașilor calculați (probabil n este prea mare).",
+      "notUnit": {
+        "before": "Deoarece",
+        "after": "nu este unitate, nu are ordin în grupul (ℤₙ, ·)."
+      }
+    },
+    "idempotent": {
+      "yes": { "before": "Elementul", "after": "este idempotent: a² ≡ a (mod n)." },
+      "no": { "before": "Elementul", "after": "nu este idempotent: a² ≢ a (mod n)." }
+    },
+    "stepsTitle": "Pașii calculați pentru puterile lui a modulo n",
+    "table": {
+      "k": "k",
+      "value": "aᵏ (mod n)"
+    },
+    "stepsNote": "Observă la ce exponent k se obține pentru prima dată valoarea 1 – acesta este ordinul lui a, dacă există.",
+    "errors": {
+      "modulusMin": "Modulul n trebuie să fie un număr întreg cel puțin 2.",
+      "elementInteger": "Elementul a trebuie să fie un număr întreg."
+    }
+  },
+  "problem7": {
+    "title": "Problema 7 – Ordinul unei matrici în (M₂(ℝ), ·) și idempotent",
+    "subtitle": "Se dă o matrice A ∈ M₂(ℝ). Determinați ordinul lui A în raport cu înmulțirea (cel mai mic k ≥ 1 cu A^k = I, dacă există) și verificați dacă este idempotentă (A² = A).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Exemple cu ordin finit (I, -I, rotație) și exemple fără ordin finit (scalare, proiecție).",
+    "inputTitle": "Introdu matricea 2×2",
+    "maxPowerLabel": "Max power",
+    "toleranceLabel": "Toleranță",
+    "computeButton": "Calculează",
+    "resultsTitle": "Rezultate",
+    "explainP1": "Ordinul unei matrici (în sens de grup) este cel mai mic k ≥ 1 pentru care A^k = I. Pentru multe matrici reale, un astfel de k nu există (ordin infinit).",
+    "explainP2": "O matrice este idempotentă dacă A² = A.",
+    "idempotentLabel": "Idempotent:",
+    "orderLabel": "Ordin:",
+    "orderFound": "k = {{k}}",
+    "orderNotFound": "nu a fost găsit până la k = {{k}}",
+    "toleranceNote": "Comparația folosește toleranța {{tol}}.",
+    "notFoundIntro": "Dacă ordinul nu este găsit în limita aleasă, există două situații tipice:",
+    "notFoundB1": "matricea are ordin infinit (nu există k cu A^k = I)",
+    "notFoundB2": "ordinul există, dar este mai mare decât limita selectată",
+    "foundWithinLimit": "Pentru acest exemplu, s-a găsit un k cu A^k = I în limita selectată.",
+    "preview": {
+      "title": "Primele puteri (preview)",
+      "table": {
+        "power": "Putere",
+        "matrix": "Matrice"
+      },
+      "note": "Preview-ul arată până la primele 10 puteri. Pentru puteri mari, valorile pot crește rapid și pot apărea erori numerice."
+    },
+    "errors": {
+      "maxPowerRange": "Max power trebuie să fie un întreg între 1 și 500.",
+      "tolerancePositive": "Toleranța trebuie să fie un număr pozitiv (ex: 1e-10)."
+    },
+    "presets": {
+      "identity": {
+        "label": "Identitatea (ordin 1)",
+        "description": "I are ordin 1 și este idempotentă."
+      },
+      "minus-identity": {
+        "label": "-I (ordin 2)",
+        "description": "(-I)^2 = I."
+      },
+      "rotation90": {
+        "label": "Rotație 90° (ordin 4)",
+        "description": "Matrice de rotație: R^4 = I."
+      },
+      "projection-idempotent": {
+        "label": "Proiecție (idempotentă)",
+        "description": "P^2 = P, dar nu are ordin finit (în general)."
+      },
+      "scale-2": {
+        "label": "Scalare (fără ordin finit)",
+        "description": "2I nu ajunge la I pentru n>0."
+      }
+    }
+  },
+  "problem8": {
+    "title": "Problema 8 – Parametrii unui cod (n, M, d, s, t, ρ)",
+    "subtitle": "Se dă un cod C ⊆ (Zq)^n. Afișăm parametrii: n (lungime), M (număr de cuvinte), d (distanță minimă), t (corecție erori), ρ (raza de acoperire), și s (redundanță, pentru coduri liniare).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un cod mic pentru test.",
+    "inputTitle": "Introdu codul",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "wordCount": "Număr de cuvinte",
+      "wordLength": "Lungime cuvânt (n)"
+    },
+    "computeButton": "Calculează parametrii",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Intrările sunt normalizate modulo",
+      "after": "și duplicatele sunt eliminate automat."
+    },
+    "resultsTitle": "Parametrii codului",
+    "explain": {
+      "p1": "n = lungimea unui cuvânt, M = numărul de cuvinte distincte.",
+      "p2": "d = distanța minimă Hamming dintre două cuvinte distincte. t = ⌊(d−1)/2⌋.",
+      "p3": "ρ = cea mai mare distanță minimă de la un vector arbitrar la cod (raza de acoperire). Pentru valori mari ale lui q^n, calculul lui ρ este prea costisitor și este omis."
+    },
+    "values": {
+      "dUndefined": "nedefinit (M < 2)",
+      "tUndefined": "nedefinit",
+      "rhoTooCostly": "prea costisitor de calculat (q^n mare)"
+    },
+    "linearity": {
+      "title": "Linearitate și parametrul s",
+      "isLinear": "Codul este liniar.",
+      "notLinear": "Codul NU este liniar.",
+      "notePower": "Pentru un cod liniar, de obicei M = q^k.",
+      "noteS": "(s = n − k)",
+      "linearButNoK": "Codul pare liniar, dar M nu este o putere exactă a lui q, deci k și s nu pot fi deduse sigur din aceste date.",
+      "nonLinearS": "Parametrul s (redundanță n−k) are sens în mod standard pentru coduri liniare."
+    },
+    "uniqueWords": {
+      "title": "Cuvintele distincte ale codului",
+      "table": {
+        "index": "#",
+        "word": "Cuvânt"
+      },
+      "note": "Lista este normalizată modulo q și fără duplicate."
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 64.",
+      "wordLengthRange": "Lungimea cuvintelor trebuie să fie un întreg între 1 și 12."
+    },
+    "presets": {
+      "z2-linear-4words": {
+        "label": "Cod liniar (Z₂), n=3",
+        "description": "Exemplu mic pentru parametri; M=4."
+      },
+      "z2-nonlinear": {
+        "label": "Cod neliniar (Z₂), n=3",
+        "description": "Set de cuvinte care nu formează cod liniar."
+      },
+      "z3-small": {
+        "label": "Cod în Z₃, n=2",
+        "description": "Exemplu mic în (Z₃)^2."
+      }
+    }
+  },
+  "problem9": {
+    "title": "Problema 9 – Verifică dacă un cod este liniar",
+    "subtitle": "Un cod C ⊆ (Zₘ)ⁿ este liniar dacă: conține cuvântul zero și este închis la adunare și înmulțire cu scalari (mod m).",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un set de cuvinte pentru test.",
+    "inputTitle": "Introdu codul",
+    "inputs": {
+      "modulus": "Modulus (m)",
+      "wordCount": "Număr de cuvinte",
+      "wordLength": "Lungime cuvânt (n)"
+    },
+    "computeButton": "Verifică linearitatea",
+    "wordLabel": "w{{index}}",
+    "inputNote": {
+      "before": "Notă: intrările sunt reduse automat modulo",
+      "after": "."
+    },
+    "resultsTitle": "Rezultat",
+    "conditions": {
+      "intro": "Condiții verificate:",
+      "textBefore": "0 ∈ C, a+b ∈ C pentru orice a,b ∈ C, și α·a ∈ C pentru orice scalar α."
+    },
+    "status": {
+      "isLinear": "Codul este liniar.",
+      "notLinear": "Codul NU este liniar."
+    },
+    "checks": {
+      "zeroWord": "Conține cuvântul zero:",
+      "addition": "Închis la adunare:",
+      "scalarMult": "Închis la înmulțire cu scalari:"
+    },
+    "counterexample": {
+      "title": "Contraexemplu (dacă există)",
+      "notClosedAddition": "Nu este închis la adunare:",
+      "sumNotInCode": "Suma nu se regăsește în cod.",
+      "notClosedScalar": "Nu este închis la înmulțire cu scalari:",
+      "productNotInCode": "Produsul nu se regăsește în cod.",
+      "missingZero": "Codul nu conține cuvântul zero, deci nu poate fi liniar.",
+      "noneFound": "Nu s-a găsit un contraexemplu simplu (sau codul este liniar)."
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "modulusMin": "Modulus trebuie să fie cel puțin 2.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 32.",
+      "wordLengthRange": "Lungimea cuvintelor trebuie să fie un întreg între 1 și 12.",
+      "inconsistentLengths": "Toate cuvintele trebuie să aibă aceeași lungime.",
+      "unexpectedCheck": "A apărut o eroare neașteptată în timpul verificării."
+    },
+    "presets": {
+      "linear-z2": {
+        "label": "Cod liniar (Z₂)",
+        "description": "Exemplu clasic: subspațiu în (Z₂)^3."
+      },
+      "not-linear-missing-zero": {
+        "label": "Nu e liniar (lipsește 0)",
+        "description": "Nu conține cuvântul zero."
+      },
+      "not-linear-not-closed": {
+        "label": "Nu e liniar (nu e închis la +)",
+        "description": "Conține 0, dar nu este închis la adunare."
+      },
+      "linear-z3": {
+        "label": "Cod liniar (Z₃)",
+        "description": "Exemplu mic în (Z₃)^2."
+      }
+    }
+  },
+  "problem10": {
+    "title": "Problema 10 – Afișează toate cuvintele codului (din matricea generatoare)",
+    "subtitle": {
+      "before": "Pentru o matrice generatoare",
+      "middle1": "de dimensiune",
+      "middle2": "codul este:",
+      "after": "Afișăm toate cuvintele codului generate de"
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice generatoare.",
+    "inputTitle": "Introdu matricea generatoare",
+    "inputs": {
+      "modulus": "Modulus (q)",
+      "rows": "Linii (k)",
+      "cols": "Coloane (n)"
+    },
+    "computeButton": "Generează cuvintele codului",
+    "note": {
+      "before": "Atenție: numărul de cuvinte este",
+      "after": "Pentru valori mari, generarea poate deveni lentă."
+    },
+    "resultsTitle": "Rezultate",
+    "summary": {
+      "dimensions": "Dimensiuni:",
+      "expectedCount": "Număr așteptat de cuvinte:",
+      "shownCount": "Număr afișat (după eliminarea duplicatelor):",
+      "duplicatesNote": "Observație: au existat duplicate (matricea poate să nu aibă rangul k sau lucrăm peste Zq ne-corp)."
+    },
+    "explain": {
+      "p1": {
+        "before": "Fiecare cuvânt se obține ca",
+        "middle1": "unde",
+        "middle2": "este un vector de lungime"
+      },
+      "p2": {
+        "before": "Pentru",
+        "after": "această generare parcurge toate combinațiile binare ale lui"
+      }
+    },
+    "codewords": {
+      "title": "Cuvintele codului",
+      "table": {
+        "index": "#",
+        "word": "Cuvânt"
+      },
+      "note": {
+        "before": "Cuvintele sunt afișate în ordinea mesajelor",
+        "after": "(lexicografic în baza q)."
+      }
+    },
+    "errors": {
+      "modulusRange": "Modulus trebuie să fie un întreg între 2 și 13.",
+      "rowsRange": "Numărul de linii (k) trebuie să fie un întreg între 1 și 6.",
+      "colsRange": "Numărul de coloane (n) trebuie să fie un întreg între 1 și 12.",
+      "tooMany": "Prea multe cuvinte de generat (q^k este foarte mare). Reduceți k sau modulus.",
+      "unexpected": "A apărut o eroare neașteptată în timpul generării."
+    },
+    "presets": {
+      "z2-2x4": {
+        "label": "Z₂: G (2×4)",
+        "description": "Exemplu mic: 2 biți informație, lungime 4."
+      },
+      "z2-3x5": {
+        "label": "Z₂: G (3×5)",
+        "description": "Puțin mai mare, încă rapid de generat."
+      },
+      "z3-2x3": {
+        "label": "Z₃: G (2×3)",
+        "description": "Exemplu peste Z₃."
+      }
+    }
+  },
+  "problem11": {
+    "title": "Problema 11 – Verificare cuvinte de cod cu matricea de control",
+    "subtitle": {
+      "before": "Se citește matricea de control",
+      "middle1": "a unui cod și o mulțime de cuvinte de lungime",
+      "middle2": "Pentru fiecare cuvânt",
+      "middle3": "se calculează sindromul",
+      "middle4": "(modulo",
+      "after": "). Cuvintele pentru care sindromul este nul sunt cuvinte de cod."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Poți alege rapid o matrice de control și un set de cuvinte pentru a demonstra funcționalitatea. Poți apoi modifica manual valorile.",
+    "inputTitle": "Introdu matricea de control H și cuvintele",
+    "inputs": {
+      "modulusLabel": "Modulul q",
+      "modulusHint": "În mod uzual pentru coduri binare se folosește q = 2.",
+      "rowsLabel": "Numărul de linii ale lui H",
+      "columnsLabel": "Numărul de coloane ale lui H (lungimea cuvintelor)",
+      "wordCountLabel": "Numărul de cuvinte de verificat"
+    },
+    "matrix": {
+      "title": "Matricea de control H",
+      "dimension": "dimensiune {{rows}} × {{cols}}"
+    },
+    "words": {
+      "title": "Cuvintele de verificat",
+      "lengthNote": "fiecare de lungime {{n}}",
+      "vLabel": "v{{index}} ="
+    },
+    "validateButton": "Calculează sindroamele și validează cuvintele",
+    "resultsTitle": "Rezultatele verificării cu matricea de control",
+    "explain": {
+      "p1": "Pentru fiecare cuvânt v, calculăm sindromul s = H · vᵀ (modulo q). Dacă s = 0, atunci v este cuvânt de cod.",
+      "p2": "Matricea de control H caracterizează toate ecuațiile liniare pe care trebuie să le satisfacă un cuvânt valid.",
+      "p3": "Sindromul nenul indică faptul că au apărut erori sau că vectorul nu aparține codului."
+    },
+    "summary": {
+      "validTitle": "Cuvinte de cod (sindrom nul)",
+      "invalidTitle": "Cuvinte care nu sunt de cod (sindrom nenul)",
+      "noneValid": "Niciunul dintre cuvintele introduse nu este cuvânt de cod.",
+      "allValid": "Toate cuvintele introduse sunt cuvinte de cod."
+    },
+    "syndromes": {
+      "title": "Sindroamele asociate fiecărui cuvânt",
+      "table": {
+        "word": "Cuvânt",
+        "syndrome": "Sindrom s = H · vᵀ",
+        "isCodeword": "Este cuvânt de cod?"
+      },
+      "yes": "Da (sindrom nul)",
+      "no": "Nu (sindrom nenul)"
+    },
+    "errors": {
+      "modulusRange": "Modulul q trebuie să fie un întreg între 2 și 10.",
+      "rowsRange": "Numărul de linii ale matricii de control trebuie să fie între 1 și 8.",
+      "colsRange": "Numărul de coloane trebuie să fie un întreg între 2 și 12.",
+      "wordCountRange": "Numărul de cuvinte trebuie să fie un întreg între 1 și 12.",
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "binary-single-parity": {
+        "label": "Cod binar cu sumă de paritate",
+        "description": "Matrice de control 1×3, cod simplu cu sumă de paritate."
+      },
+      "binary-hamming-7-4": {
+        "label": "Cod Hamming (7, 4) binar",
+        "description": "Matrice de control clasică pentru codul Hamming (7,4)."
+      },
+      "ternary-example": {
+        "label": "Cod ternar (q = 3)",
+        "description": "Exemplu simplu peste ℤ₃ (modulo 3)."
+      }
+    }
+  },
+  "problem12": {
+    "title": "Problema 12 – Polinom caracteristic și valori proprii (2×2, 3×3)",
+    "subtitle": {
+      "before": "Pentru o matrice pătratică",
+      "middle1": "de ordin 2 sau 3, se cere să se determine polinomul caracteristic",
+      "middle2": "și valorile proprii (rădăcinile acestui polinom). Mai jos poți alege dimensiunea matricei și introduce coeficienții."
+    },
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o matrice pentru a demonstra funcționalitatea. Poți modifica valorile ulterior.",
+    "inputTitle": "Introdu matricea și alege dimensiunea",
+    "inputs": {
+      "sizeLabel": "Dimensiunea matricei",
+      "size2": "2 × 2",
+      "size3": "3 × 3",
+      "sizeHint": "Problema se referă doar la matrici de ordinul 2 sau 3."
+    },
+    "computeButton": "Calculează polinomul și valorile proprii",
+    "resultsTitle": "Rezultatele pentru matricea A",
+    "explain": {
+      "p1": "Polinomul caracteristic al unei matrici A este p(λ) = det(λI − A). Valorile proprii sunt rădăcinile acestui polinom.",
+      "p2": "Pentru matrici 2×2, polinomul caracteristic are forma: p(λ) = λ² − tr(A) λ + det(A).",
+      "p3": "Pentru matrici 3×3, polinomul caracteristic este un polinom cubic, iar valorile proprii reale se obțin numeric ca rădăcini reale ale acestei cubicii."
+    },
+    "polynomial": {
+      "sizeLabel": "Dimensiune:",
+      "title": "Polinomul caracteristic:"
+    },
+    "eigen": {
+      "title": "Valorile proprii (reale)",
+      "found": "Matricea are următoarele valori proprii reale (aproximate):",
+      "none": "Nu au fost găsite valori proprii reale (rădăcini reale) pentru polinomul caracteristic."
+    },
+    "errors": {
+      "presetInvalidSize": "Presetul are o dimensiune invalidă.",
+      "sizeMustBe2or3": "Dimensiunea matricii trebuie să fie 2 sau 3."
+    },
+    "presets": {
+      "diagonal-2x2": {
+        "label": "Diagonală 2×2",
+        "description": "Valorile proprii sunt direct elementele diagonale."
+      },
+      "general-2x2": {
+        "label": "Generală 2×2",
+        "description": "Exemplu cu două valori proprii reale distincte."
+      },
+      "rotation-2x2": {
+        "label": "Matrice de rotație 2D",
+        "description": "Nu are valori proprii reale."
+      },
+      "upper-3x3": {
+        "label": "Triunghiulară 3×3",
+        "description": "Valorile proprii sunt elementele diagonale."
+      }
+    }
+  },
+  "problem13": {
+    "title": "Problema 13 – Grupul Galois pentru un polinom (grad 3 sau 4)",
+    "subtitle": "Determinăm grupul Galois (peste ℚ) pentru un polinom de grad 3 sau 4, folosind criterii clasice: rădăcini raționale, discriminant și (pentru grad 4) cubica rezolventă.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid un polinom pentru test.",
+    "inputTitle": "Introdu polinomul",
+    "inputs": {
+      "degree": "Grad"
+    },
+    "computeButton": "Calculează grupul Galois",
+    "coeffsHint": {
+      "before": "Introdu coeficienții în ordine descrescătoare:"
+    },
+    "polynomialLabel": "Polinom:",
+    "resultsTitle": "Rezultate",
+    "summary": {
+      "group": "Grup Galois:",
+      "discriminant": "Discriminant:",
+      "discriminantSquare": "Discriminant pătrat perfect:",
+      "rationalRoots": "Rădăcini raționale:",
+      "noneFound": "nu au fost găsite",
+      "na": "—",
+      "resolventIntro": "Cubica rezolventă (coeficienți întregi după eliminarea numitorilor):",
+      "resolventRoots": "Rădăcini raționale ale rezolventei:"
+    },
+    "explanationTitle": "Explicație (pași)",
+    "explanations": {
+      "leadingCoefficientZero": "Coeficientul dominant este 0, deci polinomul nu are gradul cerut.",
+      "cubic": {
+        "hasRationalRootReducible": "Polinomul are o rădăcină rațională, deci este reducibil peste Q.",
+        "splitsCompletelyTrivial": "Se descompune complet în factori liniari peste Q, deci corpul de descompunere este Q și grupul Galois este trivial.",
+        "linearTimesIrreducibleQuadraticC2": "Caz tipic: factor liniar înmulțit cu un pătratic ireductibil, deci corpul de descompunere adaugă o rădăcină pătratică și grupul Galois este C2.",
+        "noRationalRootIrreducible": "Nu există rădăcină rațională, deci cubica este ireductibilă peste Q (teorema rădăcinilor raționale).",
+        "discriminantSquareA3": "Discriminantul este pătrat perfect în Z, deci grupul Galois este A3 ≅ C3.",
+        "discriminantNotSquareS3": "Discriminantul nu este pătrat perfect, deci grupul Galois este S3."
+      },
+      "quartic": {
+        "hasRationalRootReducible": "Cuartica are o rădăcină rațională, deci este reducibilă peste Q.",
+        "reducibleDependsOnFactorization": "Pentru cuartice reducibile, grupul Galois depinde de factorizarea exactă (factori liniari/pătratici). Această implementare se concentrează pe cuartice ireductibile pentru clasificarea S4/A4/D4/V4/C4.",
+        "noRationalRootProceedIrreducibleCase": "Nu a fost găsită nicio rădăcină rațională. Continuăm cu abordarea standard pentru cuartice ireductibile (discriminant + cubică rezolventă).",
+        "resolventRationalRootCount": "Cubica rezolventă are {{count}} rădăcini raționale (numărând rădăcinile distincte găsite prin testul rădăcinilor raționale).",
+        "resolventIrreducibleDiscSquareA4": "Cubica rezolventă este ireductibilă și discriminantul este pătrat perfect, deci grupul Galois este A4.",
+        "resolventIrreducibleDiscNotSquareS4": "Cubica rezolventă este ireductibilă și discriminantul nu este pătrat perfect, deci grupul Galois este S4.",
+        "resolventHasRootDiscNotSquareD4": "Rezolventa are o rădăcină rațională iar discriminantul nu este pătrat perfect, deci grupul Galois este D4.",
+        "discSquareResolventSplitsV4": "Discriminant pătrat perfect și rezolventa se descompune (3 rădăcini raționale), deci grupul Galois este V4 (Klein).",
+        "discSquareResolventHasRootNotSplitC4": "Discriminant pătrat perfect și rezolventa are o rădăcină rațională, dar nu se descompune complet, deci rezultatul tipic este C4."
+      }
+    },
+    "notes": {
+      "p1": "Notă: pentru gradul 3, clasificarea (A3/S3) este standard pentru polinoame ireductibile peste ℚ.",
+      "p2": "Pentru gradul 4, folosim discriminantul și cubica rezolventă (decizie uzuală în cursuri). Dacă polinomul este reducibil, clasificarea completă depinde de tipul de factorizare."
+    },
+    "errors": {
+      "unexpected": "A apărut o eroare neașteptată în timpul calculului."
+    },
+    "presets": {
+      "cubic_s3": {
+        "label": "Cubic: x³ − 2",
+        "description": "Cubic ireductibil, discriminant nepătrat → S3."
+      },
+      "cubic_a3": {
+        "label": "Cubic: x³ − 3x − 1",
+        "description": "Deseori discriminant pătrat → A3 (C3) în multe exemple."
+      },
+      "quartic_s4": {
+        "label": "Cuartic: x⁴ − 2",
+        "description": "Cuartic ireductibil tipic → adesea S4."
+      },
+      "quartic_dihedral": {
+        "label": "Cuartic: x⁴ − 5x² + 6",
+        "description": "Are structură specială; încearcă clasificarea prin rezolventă."
+      }
+    }
+  },
+  "problem14": {
+    "title": "Problema 14 – Algoritmul lui Euclid, combinație liniară și fracție continuă",
+    "subtitle": "Folosind algoritmul lui Euclid calculați cmmdc (d) pentru două numere naturale date (a,b), scrieți o combinație liniară a celor trei (a,b,d), afișați fracția continuă asociată lui a/b. Introdu mai jos valorile pentru a și b sau folosește un exemplu predefinit.",
+    "presetsTitle": "Exemple predefinite",
+    "presetsHint": "Alege rapid o pereche (a, b) pentru a vedea cum funcționează algoritmul lui Euclid, combinația liniară și fracția continuă asociată lui a/b.",
+    "inputTitle": "Introdu valorile pentru a și b",
+    "inputs": {
+      "aLabel": "Valoarea lui a",
+      "bLabel": "Valoarea lui b",
+      "fractionHint": "Pentru fracția continuă a/b, b trebuie să fie nenul."
+    },
+    "computeButton": "Calculează",
+    "resultsTitle": "Rezultatele algoritmului lui Euclid și ale fracției continue",
+    "explain": {
+      "p1": "Algoritmul lui Euclid calculează cmmdc(a, b) prin împărțiri succesive: a = q₀·b + r₀, apoi b = q₁·r₀ + r₁ ș.a.m.d., până când restul devine zero.",
+      "p2": "Varianta extinsă a algoritmului lui Euclid determină coeficienți întregi x și y astfel încât a·x + b·y = d, unde d = cmmdc(a, b) (identitatea lui Bézout).",
+      "p3": "Fracția continuă asociată lui a/b se obține din coeficienții de la împărțirile succesive și se notează de forma [q₀; q₁, q₂, …]."
+    },
+    "gcd": {
+      "title": "cmmdc(a, b) prin algoritmul lui Euclid",
+      "valueLabel": "cmmdc(a, b) =",
+      "stepsTitle": "Pașii algoritmului:",
+      "table": {
+        "step": "Pas",
+        "division": "Împărțire",
+        "q": "q",
+        "r": "r"
+      }
+    },
+    "extended": {
+      "title": "Combinație liniară a·x + b·y = d (algoritmul lui Euclid extins)",
+      "gcdLabel": "d = cmmdc(a, b) =",
+      "linearComboLabel": "O combinație liniară este:",
+      "stepsTitle": "Pași (s, t, resturi):",
+      "table": {
+        "step": "Pas",
+        "q": "q",
+        "remainders": "resturi",
+        "s": "s",
+        "t": "t"
+      }
+    },
+    "continued": {
+      "title": "Fracția continuă asociată lui a/b",
+      "valueLabel": "a/b =",
+      "expansionLabel": "Dezvoltarea în fracție continuă:",
+      "coeffsLabel": "Lista coeficienților este:"
+    },
+    "errors": {
+      "naturalNumbers": "a și b trebuie să fie numere naturale (întregi nenegative).",
+      "bothZero": "Cel puțin unul dintre numere trebuie să fie nenul pentru a calcula cmmdc."
+    },
+    "presets": {
+      "30-18": {
+        "label": "a = 30, b = 18",
+        "description": "Exemplu clasic: cmmdc(30, 18) = 6."
+      },
+      "21-13": {
+        "label": "a = 21, b = 13",
+        "description": "Raport apropiat de secțiunea de aur."
+      },
+      "48-20": {
+        "label": "a = 48, b = 20",
+        "description": "Exemplu cu cmmdc(48, 20) = 4."
+      }
+    }
+  }
+}

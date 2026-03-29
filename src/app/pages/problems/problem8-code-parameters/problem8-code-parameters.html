@@ -1,0 +1,261 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">
+      {{ 'problem8.title' | t }}
+    </h1>
+
+    <p class="text-app-muted text-base md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem8.subtitle' | t }}
+    </p>
+
+    <!-- Presets -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-2">
+        {{ 'problem8.presetsTitle' | t }}
+      </h2>
+      <p class="text-app-muted text-base mb-3">
+        {{ 'problem8.presetsHint' | t }}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        @for (preset of presets; track $index) {
+          <button
+            type="button"
+            class="btn-secondary text-sm md:text-base"
+            (click)="onApplyPreset(preset)"
+          >
+            {{ preset.labelKey | t }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem8.inputTitle' | t }}</h2>
+
+      <div class="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+        <div>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.modulus' | t
+          }}</label>
+          <input
+            type="number"
+            min="2"
+            max="13"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.wordCount' | t
+          }}</label>
+          <input
+            type="number"
+            min="1"
+            max="64"
+            [value]="wordCount"
+            (input)="onWordCountChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <div>
+          <label class="block text-base text-app-muted mb-1">{{
+            'problem8.inputs.wordLength' | t
+          }}</label>
+          <input
+            type="number"
+            min="1"
+            max="12"
+            [value]="wordLength"
+            (input)="onWordLengthChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+        </div>
+
+        <button type="button" class="btn-primary" (click)="onCompute()">
+          {{ 'problem8.computeButton' | t }}
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="text-base text-red-400 mb-3">{{ errorMessage | t }}</p>
+      }
+
+      <div class="bg-app-surfaceAlt rounded-xl px-4 py-3 border border-app-border overflow-x-auto">
+        <table class="border-collapse">
+          <tbody>
+            @for (word of words; track $index; let i = $index) {
+              <tr>
+                <td class="pr-3 text-app-muted font-mono text-base">
+                  {{ 'problem8.wordLabel' | t: { index: i + 1 } }}
+                </td>
+
+                @for (entry of word; track $index; let j = $index) {
+                  <td class="p-1">
+                    <input
+                      type="number"
+                      class="w-16 md:w-20 rounded-md bg-app-bg border border-app-border px-2 py-1 text-base text-right focus:outline-none focus:ring-1 focus:ring-app-primary"
+                      [value]="words[i][j]"
+                      (input)="onCellChange(i, j, $event)"
+                    />
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <p class="mt-3 text-sm text-app-muted">
+          {{ 'problem8.inputNote.before' | t }}
+          <span class="font-mono">{{ modulus }}</span> {{ 'problem8.inputNote.after' | t }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Results -->
+    @if (result) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem8.resultsTitle' | t }}
+        </h2>
+
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem8.explain.p1' | t }}
+          </p>
+          <p class="mb-2">
+            {{ 'problem8.explain.p2' | t }}
+          </p>
+          <p>
+            {{ 'problem8.explain.p3' | t }}
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+            <p class="mb-1">
+              <span class="font-semibold">n</span> =
+              <span class="font-mono">{{ result.length }}</span>
+            </p>
+            <p class="mb-1">
+              <span class="font-semibold">M</span> =
+              <span class="font-mono">{{ result.wordCount }}</span>
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">d</span> =
+              @if (result.minimumDistance !== null) {
+                <span class="font-mono">{{ result.minimumDistance }}</span>
+              } @else {
+                <span class="text-app-muted">{{ 'problem8.values.dUndefined' | t }}</span>
+              }
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">t</span> =
+              @if (result.errorCorrectingCapability !== null) {
+                <span class="font-mono">{{ result.errorCorrectingCapability }}</span>
+              } @else {
+                <span class="text-app-muted">{{ 'problem8.values.tUndefined' | t }}</span>
+              }
+            </p>
+
+            <p class="mb-1">
+              <span class="font-semibold">ρ</span> =
+              @if (result.coveringRadiusComputed && result.coveringRadius !== null) {
+                <span class="font-mono">{{ result.coveringRadius }}</span>
+              } @else {
+                <span class="text-app-muted">{{ 'problem8.values.rhoTooCostly' | t }}</span>
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem8.linearity.title' | t }}
+            </h3>
+
+            <p class="mb-2">
+              @if (result.isLinear) {
+                <span class="text-green-300 font-semibold">{{
+                  'problem8.linearity.isLinear' | t
+                }}</span>
+              } @else {
+                <span class="text-red-300 font-semibold">{{
+                  'problem8.linearity.notLinear' | t
+                }}</span>
+              }
+            </p>
+
+            @if (result.isLinear && result.dimensionK !== null && result.redundancyS !== null) {
+              <p class="text-app-muted mb-2">
+                {{ 'problem8.linearity.notePower' | t }}
+              </p>
+              <p>
+                <span class="font-semibold">k</span> =
+                <span class="font-mono">{{ result.dimensionK }}</span
+                >, <span class="font-semibold">s</span> =
+                <span class="font-mono">{{ result.redundancyS }}</span>
+                <span class="text-app-muted">{{ 'problem8.linearity.noteS' | t }}</span>
+              </p>
+            } @else if (result.isLinear) {
+              <p class="text-app-muted">
+                {{ 'problem8.linearity.linearButNoK' | t }}
+              </p>
+            } @else {
+              <p class="text-app-muted">
+                {{ 'problem8.linearity.nonLinearS' | t }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-base">
+          <h3 class="font-semibold mb-3">
+            {{ 'problem8.uniqueWords.title' | t }}
+          </h3>
+
+          <div class="bg-app-bg border border-app-border rounded-xl p-3 overflow-x-auto max-w-full">
+            <table class="border-collapse w-full">
+              <thead>
+                <tr class="text-app-muted">
+                  <th class="text-left px-2 py-2">{{ 'problem8.uniqueWords.table.index' | t }}</th>
+                  <th class="text-left px-2 py-2">
+                    {{ 'problem8.uniqueWords.table.word' | t }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cw of result.uniqueWords; track $index; let idx = $index) {
+                  <tr class="border-t border-app-border">
+                    <td class="px-2 py-2 text-app-muted">{{ idx + 1 }}</td>
+                    <td class="px-2 py-2 font-mono">{{ formatVector(cw) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p class="mt-3 text-sm text-app-muted">
+            {{ 'problem8.uniqueWords.note' | t }}
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="min-h-screen bg-app-bg text-app-text pt-10 px-4">
+  <div class="max-w-5xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/home"
+      class="btn-secondary mb-8 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-app-surface transition"
+    >
+      <lucide-icon name="arrow-left" class="w-4 h-4"></lucide-icon>
+      <span>{{ 'backToHome' | t }}</span>
+    </button>
+
+    <!-- Title & description -->
+    <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">{{ 'problem6.title' | t }}</h1>
+
+    <p class="text-app-muted text-m md:text-base max-w-3xl mx-auto text-center mb-10">
+      {{ 'problem6.subtitle.before' | t }} <span class="font-mono">n</span>
+      {{ 'problem6.subtitle.middle1' | t }} <span class="font-mono">a</span>
+      {{ 'problem6.subtitle.middle2' | t }} (<span class="font-mono">a² ≡ a (mod n)</span>).
+    </p>
+
+    <!-- Input card -->
+    <section class="problem-card mb-6">
+      <h2 class="text-lg font-semibold mb-3">{{ 'problem6.inputTitle' | t }}</h2>
+
+      <div class="flex flex-col md:flex-row gap-4 mb-4">
+        <!-- Modulus input -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            {{ 'problem6.modulusLabel.before' | t }} <span class="font-mono">n</span>
+          </label>
+          <input
+            type="number"
+            min="2"
+            [value]="modulus"
+            (input)="onModulusChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">
+            {{ 'problem6.modulusHint' | t }}
+          </p>
+        </div>
+
+        <!-- Element input -->
+        <div>
+          <label class="block text-m text-app-muted mb-1">
+            {{ 'problem6.elementLabel.before' | t }} <span class="font-mono">a</span>
+          </label>
+          <input
+            type="number"
+            [value]="element"
+            (input)="onElementChange($event)"
+            class="w-28 rounded-lg bg-app-surfaceAlt border border-app-border px-3 py-2 text-m focus:outline-none focus:ring-2 focus:ring-app-primary"
+          />
+          <p class="text-s text-app-muted mt-1">
+            {{ 'problem6.elementHint' | t }}
+          </p>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" (click)="onCompute()">
+        {{ 'problem6.computeButton' | t }}
+      </button>
+
+      <!-- Error message -->
+      @if (errorMessage) {
+        <p class="text-m text-red-400 mt-3">
+          {{ errorMessage | t }}
+        </p>
+      }
+    </section>
+
+    <!-- Results -->
+    @if (computationResult) {
+      <section class="problem-card">
+        <h2 class="text-lg font-semibold mb-3">
+          {{ 'problem6.resultsTitle' | t }}
+        </h2>
+
+        <!-- Explanation block -->
+        <div
+          class="mb-6 bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m text-app-muted"
+        >
+          <p class="mb-2">
+            {{ 'problem6.explain.p1.before' | t }}
+            <span class="font-mono">a</span> {{ 'problem6.explain.p1.afterA' | t }}
+            <span class="font-mono">k</span> {{ 'problem6.explain.p1.afterK' | t }}
+            <span class="font-mono">aᵏ ≡ 1 (mod n)</span>.
+          </p>
+
+          <p class="mb-2">
+            {{ 'problem6.explain.p2.before' | t }} <span class="font-mono">a</span>
+            {{ 'problem6.explain.p2.middle1' | t }} <span class="font-mono">n</span>
+            {{ 'problem6.explain.p2.middle2' | t }} <span class="font-mono">a² ≡ a (mod n)</span>
+            {{ 'problem6.explain.p2.after' | t }} , <span class="font-mono">a · a ≡ a</span>.
+          </p>
+
+          <p class="mt-2">
+            {{ 'problem6.explain.p3.before' | t }}
+
+            <span class="font-mono">a, a², a³, ...</span>{{ 'problem6.explain.p3.middle' | t }}
+            <span class="font-mono">n</span> {{ 'problem6.explain.p3.after' | t }}
+            <span class="font-mono">1</span>, {{ 'problem6.explain.p3.end' | t }}
+          </p>
+        </div>
+
+        <!-- Basic info about gcd and unit status -->
+        <div class="grid gap-4 md:grid-cols-2 mb-6">
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <p class="mb-1">
+              <span class="font-mono">n = {{ computationResult.modulus }}</span
+              >,
+              <span class="font-mono">a = {{ computationResult.element }}</span>
+            </p>
+            <p class="mb-1">
+              {{ 'problem6.info.normalized' | t }}
+
+              <span class="font-mono"> ā = {{ computationResult.normalizedElement }} </span>
+            </p>
+            <p class="mb-1">
+              <span class="font-mono"
+                >{{ 'problem6.info.gcd' | t }} {{ computationResult.gcdWithModulus }}
+              </span>
+            </p>
+            <p class="mt-1">
+              @if (computationResult.isUnit) {
+                <span>{{ 'problem6.unit.isUnit' | t }} </span>
+              } @else {
+                <span>{{ 'problem6.unit.notUnit' | t }} </span>
+              }
+            </p>
+          </div>
+
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-2">
+              {{ 'problem6.orderTitle' | t }}
+            </h3>
+
+            @if (computationResult.isUnit && computationResult.order !== null) {
+              <p class="mb-1">
+                {{ 'problem6.order.defined.before' | t }}
+                <span class="font-mono">a</span> {{ 'problem6.order.defined.after' | t }}
+                <span class="font-mono">ord(a) = {{ computationResult.order }}</span
+                >.
+              </p>
+            } @else if (computationResult.isUnit && computationResult.order === null) {
+              <p class="mb-1">
+                {{ 'problem6.order.notFound' | t }}
+              </p>
+            } @else {
+              <p class="mb-1">
+                {{ 'problem6.order.notUnit.before' | t }} <span class="font-mono">a</span>
+                {{ 'problem6.order.notUnit.after' | t }}
+              </p>
+            }
+            @if (isIdempotentResult === true) {
+              <p class="mt-2 text-emerald-300">
+                {{ 'problem6.idempotent.yes.before' | t }} <span class="font-mono">a</span>
+                {{ 'problem6.idempotent.yes.after' | t }}
+              </p>
+            } @else if (isIdempotentResult === false) {
+              <p class="mt-2 text-red-300">
+                {{ 'problem6.idempotent.no.before' | t }} <span class="font-mono">a</span>
+                {{ 'problem6.idempotent.no.after' | t }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Table of powers a^k mod n -->
+        @if (computationResult.steps.length > 0) {
+          <div class="bg-app-surfaceAlt border border-app-border rounded-xl p-4 text-m">
+            <h3 class="font-semibold mb-3">
+              {{ 'problem6.stepsTitle' | t }}
+            </h3>
+
+            <div class="overflow-auto">
+              <table class="min-w-full border-collapse text-s md:text-m">
+                <thead>
+                  <tr class="border-b border-app-border">
+                    <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                      {{ 'problem6.table.k' | t }}
+                    </th>
+                    <th class="text-left py-2 pr-4 font-semibold text-app-muted">
+                      {{ 'problem6.table.value' | t }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (step of computationResult.steps; track $index) {
+                    <tr class="border-b border-app-border/40 last:border-b-0">
+                      <td class="py-1 pr-4 font-mono">
+                        {{ step.exponent }}
+                      </td>
+                      <td class="py-1 pr-4 font-mono">
+                        {{ step.value }}
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <p class="mt-3 text-s text-app-muted">
+              {{ 'problem6.stepsNote' | t }}
+            </p>
+          </div>
+        }
+      </section>
+    }
+  </div>
+</div>

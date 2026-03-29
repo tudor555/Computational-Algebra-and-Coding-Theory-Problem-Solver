@@ -1,0 +1,34 @@
+<footer class="border-t border-app-border bg-app-bg/80 backdrop-blur">
+  <div
+    class="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+  >
+    <!-- Left: text -->
+    <div>
+      <p class="text-base font-semibold">{{ 'footer.title' | t }}</p>
+      <p class="text-sm text-app-muted">
+        {{ 'footer.tagline' | t : { year: currentYear } }}
+      </p>
+    </div>
+
+    <!-- Right: links -->
+    <div class="flex items-center gap-4">
+      <a
+        routerLink="/home"
+        class="inline-flex items-center gap-2 text-base text-app-muted hover:text-app-text transition"
+      >
+        <lucide-icon name="house" class="w-4 h-4"></lucide-icon>
+        <span>{{ 'footer.home' | t }}</span>
+      </a>
+
+      <a
+        href="https://github.com/tudor555/Computational-Algebra-and-Coding-Theory-Problem-Solver.git"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-base text-app-muted hover:text-app-text transition"
+      >
+        <lucide-icon name="github" class="w-4 h-4"></lucide-icon>
+        <span>{{ 'footer.github' | t }}</span>
+      </a>
+    </div>
+  </div>
+</footer>
